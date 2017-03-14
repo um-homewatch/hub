@@ -5,7 +5,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
 import things.exceptions.NetworkException;
-import things.lights.RestLight;
 import things.locks.RestLock;
 
 import java.net.UnknownHostException;
@@ -20,13 +19,13 @@ import static org.junit.Assert.assertThat;
  */
 public class TestDiscoverRestLock {
   @Rule
-  public WireMockRule wireMockRule = new WireMockRule(options().port(80).bindAddress("0.0.0.0"));
+  public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
   @Test
   public void discoverRestLocks() throws UnknownHostException, NetworkException {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    List<RestLock> restLockList = new DiscoveryService<>(RestLock.class).discovery();
+    List<RestLock> restLockList = new DiscoveryService<>(RestLock.class, 8080).discovery();
     assertThat(restLockList.size(), is(1));
   }
 }

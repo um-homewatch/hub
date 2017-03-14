@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
  */
 public class TestLightController {
   @Rule
-  public WireMockRule wireMockRule = new WireMockRule(options().port(100).bindAddress("0.0.0.0"));
+  public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
   // Query string to send on each test
   private static Map<String, Object> QUERY_STRING;
@@ -37,7 +37,7 @@ public class TestLightController {
   public static void setup() throws IOException, SAXException {
     QUERY_STRING = new HashMap<>();
     QUERY_STRING.put("address", "localhost");
-    QUERY_STRING.put("port", 100);
+    QUERY_STRING.put("port", 8080);
     QUERY_STRING.put("subType", "rest");
 
     JSON = new JSONObject();

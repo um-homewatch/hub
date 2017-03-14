@@ -19,13 +19,13 @@ import static org.junit.Assert.assertThat;
  */
 public class TestDiscoverRestLight {
   @Rule
-  public WireMockRule wireMockRule = new WireMockRule(options().port(80).bindAddress("0.0.0.0"));
+  public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
   @Test
   public void discoverRestLights() throws UnknownHostException, NetworkException {
     LightStubs.stubGetStatus(wireMockRule, true);
 
-    List<RestLight> restLightList = new DiscoveryService<>(RestLight.class).discovery();
+    List<RestLight> restLightList = new DiscoveryService<>(RestLight.class, 8080).discovery();
     assertThat(restLightList.size(), is(1));
   }
 }
