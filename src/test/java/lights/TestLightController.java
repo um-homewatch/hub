@@ -1,5 +1,6 @@
 package lights;
 
+import base.ControllerTest;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -24,7 +25,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by joses on 13/03/2017.
  */
-public class TestLightController {
+public class TestLightController extends ControllerTest{
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 

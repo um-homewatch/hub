@@ -3,7 +3,7 @@ package locks;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import locks.LockStubs;
+import base.ControllerTest;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by joses on 13/03/2017.
  */
-public class TestLockController {
+public class TestLockController extends ControllerTest {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
