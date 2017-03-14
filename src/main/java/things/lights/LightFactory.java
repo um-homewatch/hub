@@ -1,18 +1,16 @@
 package things.lights;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import things.exceptions.InvalidSubTypeException;
 
-/**
- * Created by joses on 08/03/2017.
- */
+import java.net.InetAddress;
+
 public class LightFactory {
-  public static Light create(InetAddress address, Integer port, String subtype) throws UnknownHostException {
-    switch (subtype){
+  public static Light create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
+    switch (subtype) {
       case "rest":
         return new RestLight(address, port);
       default:
-        return null;
+        throw new InvalidSubTypeException();
     }
   }
 }

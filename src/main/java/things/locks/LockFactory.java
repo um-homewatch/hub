@@ -1,18 +1,16 @@
 package things.locks;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import things.exceptions.InvalidSubTypeException;
 
-/**
- * Created by joses on 08/03/2017.
- */
+import java.net.InetAddress;
+
 public class LockFactory {
-  public static Lock create(InetAddress address, Integer port, String subtype) throws UnknownHostException {
+  public static Lock create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "rest":
-          return new RestLock(address, port);
+        return new RestLock(address, port);
       default:
-        return null;
+        throw new InvalidSubTypeException();
     }
   }
 }

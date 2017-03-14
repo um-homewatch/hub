@@ -1,5 +1,6 @@
 package things;
 
+import com.mashape.unirest.http.Unirest;
 import org.apache.commons.net.util.SubnetUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -10,21 +11,19 @@ import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by joses on 23/02/2017.
- */
 public class DiscoveryService<T extends HttpThing> {
-  private final ExecutorService executorService = Executors.newCachedThreadPool();
   private final CompletionService<T> completionService;
-  private final List<T> things = new ArrayList<T>();
+  private final List<T> things = new ArrayList<>();
   private final Class<T> thingType;
 
   public DiscoveryService(Class<T> thingType) {
-    this.completionService = new ExecutorCompletionService(executorService);
+    ExecutorService executorService = Executors.newCachedThreadPool();
+    this.completionService = new ExecutorCompletionService<>(executorService);
     this.thingType = thingType;
   }
 
   public List<T> discovery() {
+    Unirest.setTimeouts(1000, 1000);
     try {
       InetAddress localHost = Inet4Address.getLocalHost();
       NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localHost);
@@ -62,8 +61,7 @@ public class DiscoveryService<T extends HttpThing> {
     this.completionService.submit(() -> {
       if (thing.ping()) {
         return thing;
-      }
-      else
+      } else
         return null;
     });
   }

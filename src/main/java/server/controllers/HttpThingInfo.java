@@ -5,15 +5,12 @@ import spark.QueryParamsMap;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-/**
- * Created by joses on 13/03/2017.
- */
 public class HttpThingInfo {
   private InetAddress address;
   private Integer port;
   private String subType;
 
-  public HttpThingInfo(InetAddress address, Integer port, String subType) {
+  private HttpThingInfo(InetAddress address, Integer port, String subType) {
     this.address = address;
     this.port = port;
     this.subType = subType;
@@ -24,9 +21,9 @@ public class HttpThingInfo {
     QueryParamsMap port = query.get("port");
     QueryParamsMap subType = query.get("subType");
 
-    if (!address.hasValue() || !subType.hasValue()){
-      return null;
-    }else{
+    if (!address.hasValue() || !subType.hasValue()) {
+      throw new IllegalArgumentException();
+    } else {
       Integer portNumber = port.hasValue() ? port.integerValue() : null;
       return new HttpThingInfo(InetAddress.getByName(address.value()), port.integerValue(), subType.value());
     }

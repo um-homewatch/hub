@@ -8,9 +8,6 @@ import things.exceptions.NetworkException;
 
 import java.net.InetAddress;
 
-/**
- * Created by joses on 22/02/2017.
- */
 public class RestLight extends HttpThing implements Light {
   public RestLight(InetAddress ipAddress) {
     super(ipAddress);
@@ -22,7 +19,6 @@ public class RestLight extends HttpThing implements Light {
 
   @Override
   public boolean ping() {
-    Unirest.setTimeouts(1000, 500);
     try {
       getStatus();
     } catch (NetworkException e) {

@@ -8,9 +8,6 @@ import things.exceptions.NetworkException;
 
 import java.net.InetAddress;
 
-/**
- * Created by joses on 08/03/2017.
- */
 public class RestLock extends HttpThing implements Lock {
   public RestLock(InetAddress ipAddress) {
     super(ipAddress);
@@ -45,7 +42,6 @@ public class RestLock extends HttpThing implements Lock {
 
   @Override
   public boolean ping() {
-    Unirest.setTimeouts(500, 500);
     try {
       isLocked();
     } catch (NetworkException e) {
