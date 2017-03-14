@@ -29,7 +29,6 @@ public class DiscoveryService<T extends HttpThing> {
   }
 
   public List<T> discovery() {
-    Unirest.setTimeouts(1000, 1000);
     try {
       InetAddress localHost = Inet4Address.getLocalHost();
       NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localHost);

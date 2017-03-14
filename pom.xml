@@ -29,6 +29,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.4.1</version>
                 <configuration>
+                    <useFile>false</useFile>
                     <argLine>-Xmx2048m</argLine>
                 </configuration>
             </plugin>
@@ -41,16 +42,7 @@
             <artifactId>spark-core</artifactId>
             <version>2.4</version>
         </dependency>
-        <dependency>
-            <groupId>com.mashape.unirest</groupId>
-            <artifactId>unirest-java</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.6.4</version>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -71,6 +63,17 @@
             <artifactId>json</artifactId>
             <version>20140107</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.4</version>
+        </dependency>
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
@@ -89,15 +92,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock-standalone</artifactId>
             <version>2.5.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
