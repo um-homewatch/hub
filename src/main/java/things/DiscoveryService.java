@@ -1,6 +1,5 @@
 package things;
 
-import com.mashape.unirest.http.Unirest;
 import org.apache.commons.net.util.SubnetUtils;
 
 import java.lang.reflect.InvocationTargetException;

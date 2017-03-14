@@ -1,4 +1,4 @@
-package things.exceptions;
+package exceptions;
 
 public class InvalidSubTypeException extends Exception {
   public InvalidSubTypeException() {

@@ -21,13 +21,4 @@ public class ControllerTest {
       e.printStackTrace();
     }
   }
-
-  @AfterClass
-  public static void tearDownBaseClass() {
-    try {
-      Spark.stop();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
 }

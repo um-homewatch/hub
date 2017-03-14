@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
-import things.exceptions.NetworkException;
+import exceptions.NetworkException;
 import things.locks.RestLock;
 
 import java.net.UnknownHostException;

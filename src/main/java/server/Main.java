@@ -8,7 +8,7 @@ import server.controllers.LockController;
 import spark.Spark;
 import things.DiscoveryService;
 import things.Thing;
-import things.exceptions.InvalidSubTypeException;
+import exceptions.InvalidSubTypeException;
 import things.lights.RestLight;
 import things.locks.RestLock;
 

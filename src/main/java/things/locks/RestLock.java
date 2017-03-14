@@ -1,14 +1,18 @@
 package things.locks;
 
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.fasterxml.jackson.databind.JsonNode;
+import exceptions.NetworkException;
+import net.NetUtils;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import org.json.JSONObject;
 import things.HttpThing;
-import things.exceptions.NetworkException;
 
 import java.net.InetAddress;
 
 public class RestLock extends HttpThing implements Lock {
+  private final OkHttpClient httpClient = new OkHttpClient();
+
   public RestLock(InetAddress ipAddress) {
     super(ipAddress);
   }
@@ -19,25 +23,17 @@ public class RestLock extends HttpThing implements Lock {
 
   @Override
   public void setLock(boolean isLocked) throws NetworkException {
-    try {
-      JSONObject json = new JSONObject();
-      json.put("locked", isLocked);
-      Unirest.put(this.getUrl() + "/status").body(json).asJson();
-    } catch (UnirestException e) {
-      throw new NetworkException(e.getMessage());
-    }
+    JSONObject json = new JSONObject();
+    json.put("locked", isLocked);
+
+    NetUtils.put(HttpUrl.parse(this.getUrl() + "/status"), json);
   }
 
   @Override
   public boolean isLocked() throws NetworkException {
-    try {
-      return Unirest.get(this.getUrl() + "/status").asJson()
-              .getBody()
-              .getObject()
-              .getBoolean("locked");
-    } catch (UnirestException e) {
-      throw new NetworkException("Couldn't get locks status");
-    }
+    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status"));
+
+    return response.get("locked").asBoolean();
   }
 
   @Override

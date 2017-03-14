@@ -1,6 +1,6 @@
 package things.locks;
 
-import things.exceptions.InvalidSubTypeException;
+import exceptions.InvalidSubTypeException;
 
 import java.net.InetAddress;
 

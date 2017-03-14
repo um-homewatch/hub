@@ -3,7 +3,7 @@ package locks;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.Rule;
 import org.junit.Test;
-import things.exceptions.NetworkException;
+import exceptions.NetworkException;
 import things.locks.RestLock;
 
 import java.net.InetAddress;

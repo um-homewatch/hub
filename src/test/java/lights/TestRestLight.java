@@ -1,10 +1,9 @@
 package lights;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import lights.LightStubs;
 import org.junit.Rule;
 import org.junit.Test;
-import things.exceptions.NetworkException;
+import exceptions.NetworkException;
 import things.lights.RestLight;
 
 import java.net.InetAddress;

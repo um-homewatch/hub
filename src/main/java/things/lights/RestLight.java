@@ -1,10 +1,11 @@
 package things.lights;
 
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.fasterxml.jackson.databind.JsonNode;
+import exceptions.NetworkException;
+import net.NetUtils;
+import okhttp3.HttpUrl;
 import org.json.JSONObject;
 import things.HttpThing;
-import things.exceptions.NetworkException;
 
 import java.net.InetAddress;
 
@@ -28,24 +29,16 @@ public class RestLight extends HttpThing implements Light {
   }
 
   public void setStatus(boolean status) throws NetworkException {
-    try {
-      JSONObject json = new JSONObject();
-      json.put("power", status);
-      Unirest.put(this.getUrl() + "/status").body(json).asJson();
-    } catch (UnirestException e) {
-      throw new NetworkException(e.getMessage());
-    }
+    JSONObject json = new JSONObject();
+    json.put("power", status);
+
+    NetUtils.put(HttpUrl.parse(this.getUrl() + "/status"), json);
   }
 
   public boolean getStatus() throws NetworkException {
-    try {
-      return Unirest.get(this.getUrl() + "/status").asJson()
-              .getBody()
-              .getObject()
-              .getBoolean("power");
-    } catch (UnirestException e) {
-      throw new NetworkException("Couldn't get lights status");
-    }
+    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status"));
+
+    return response.get("power").asBoolean();
   }
 
   @Override
