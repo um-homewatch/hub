@@ -17,9 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
-  private static ObjectMapper OM = new ObjectMapper();
+  private static final ObjectMapper OM = new ObjectMapper();
 
-  public static void main(String[] args) throws IOException, SAXException, JsonProcessingException {
+  public static void main(String[] args) throws IOException, SAXException {
     Map<String, Thing> things = new HashMap<>();
 
     Spark.get("/lights/discover", (req, res) -> {

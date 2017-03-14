@@ -1,11 +1,9 @@
 package base;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.xml.sax.SAXException;
 import server.Main;
-import spark.Spark;
 
 import java.io.IOException;
 
@@ -15,9 +13,7 @@ public class ControllerTest {
   public static void setUpBaseClass() {
     try {
       Main.main(new String[1]);
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (SAXException e) {
+    } catch (IOException | SAXException e) {
       e.printStackTrace();
     }
   }

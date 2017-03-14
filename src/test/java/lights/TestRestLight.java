@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class TestRestLight {
-  private static int PORT = 8080;
+  private static final int PORT = 8080;
   
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(PORT).bindAddress("0.0.0.0"));
