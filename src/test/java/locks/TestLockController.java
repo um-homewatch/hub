@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import server.Main;
+import spark.Response;
 import things.exceptions.NetworkException;
 
 import java.io.IOException;
