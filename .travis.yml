@@ -2,3 +2,4 @@ language: java
 jdk:
   - oraclejdk8
 sudo: true
+script: sudo mvn test -B
