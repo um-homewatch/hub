@@ -15,9 +15,6 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by joses on 22/02/2017.
- */
 public class TestRestLight {
   private static int PORT = 8080;
   
