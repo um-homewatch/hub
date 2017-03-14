@@ -1,6 +1,5 @@
 package things;
 
-import com.mashape.unirest.http.Unirest;
 import org.apache.commons.net.util.SubnetUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +14,7 @@ public class DiscoveryService<T extends HttpThing> {
   private final CompletionService<T> completionService;
   private final List<T> things = new ArrayList<>();
   private final Class<T> thingType;
+  private Integer port = null;
 
   public DiscoveryService(Class<T> thingType) {
     ExecutorService executorService = Executors.newCachedThreadPool();
@@ -22,8 +22,12 @@ public class DiscoveryService<T extends HttpThing> {
     this.thingType = thingType;
   }
 
+  public DiscoveryService(Class<T> thingType, int port) {
+    this(thingType);
+    this.port = port;
+  }
+
   public List<T> discovery() {
-    Unirest.setTimeouts(1000, 1000);
     try {
       InetAddress localHost = Inet4Address.getLocalHost();
       NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localHost);
@@ -57,7 +61,11 @@ public class DiscoveryService<T extends HttpThing> {
   }
 
   private void pingAddress(String address) throws UnknownHostException, IllegalAccessException, InvocationTargetException, InstantiationException {
-    T thing = (T) thingType.getDeclaredConstructors()[0].newInstance(InetAddress.getByName(address));
+    T thing;
+    if (port == null)
+      thing = (T) thingType.getDeclaredConstructors()[0].newInstance(InetAddress.getByName(address));
+    else
+      thing = (T) thingType.getDeclaredConstructors()[1].newInstance(InetAddress.getByName(address), port);
     this.completionService.submit(() -> {
       if (thing.ping()) {
         return thing;

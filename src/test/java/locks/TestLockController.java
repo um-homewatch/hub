@@ -3,14 +3,14 @@ package locks;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import locks.LockStubs;
+import base.ControllerTest;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import server.Main;
-import things.exceptions.NetworkException;
+import exceptions.NetworkException;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -21,12 +21,9 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by joses on 13/03/2017.
- */
-public class TestLockController {
+public class TestLockController extends ControllerTest {
   @Rule
-  public WireMockRule wireMockRule = new WireMockRule(options().port(100).bindAddress("0.0.0.0"));
+  public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
   // Query string to send on each test
   private static Map<String, Object> QUERY_STRING;
@@ -37,7 +34,7 @@ public class TestLockController {
   public static void setup() throws IOException, SAXException {
     QUERY_STRING = new HashMap<>();
     QUERY_STRING.put("address", "localhost");
-    QUERY_STRING.put("port", 100);
+    QUERY_STRING.put("port", 8080);
     QUERY_STRING.put("subType", "rest");
 
     JSON = new JSONObject();

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import spark.Request;
 import spark.Response;
-import things.exceptions.InvalidSubTypeException;
-import things.exceptions.NetworkException;
+import exceptions.InvalidSubTypeException;
+import exceptions.NetworkException;
 import things.locks.Lock;
 import things.locks.LockFactory;
 
