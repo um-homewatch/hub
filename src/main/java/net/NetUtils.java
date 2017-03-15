@@ -20,7 +20,7 @@ public class NetUtils {
 
       return new JsonResponse(response);
     } catch (IOException e) {
-      throw new NetworkException("could not reach " + url);
+      throw new NetworkException(e.getMessage());
     }
   }
 
@@ -32,7 +32,7 @@ public class NetUtils {
 
       return new JsonResponse(response);
     } catch (IOException e) {
-      throw new NetworkException("could not reach " + url);
+      throw new NetworkException(e.getMessage());
     }
   }
 }
