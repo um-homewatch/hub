@@ -31,7 +31,7 @@ public class RestLock extends HttpThing implements Lock {
 
   @Override
   public boolean isLocked() throws NetworkException {
-    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status"));
+    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status")).getJson();
 
     return response.get("locked").asBoolean();
   }

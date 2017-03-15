@@ -36,7 +36,7 @@ public class RestLight extends HttpThing implements Light {
   }
 
   public boolean getStatus() throws NetworkException {
-    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status"));
+    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status")).getJson();
 
     return response.get("power").asBoolean();
   }
