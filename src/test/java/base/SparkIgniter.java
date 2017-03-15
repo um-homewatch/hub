@@ -7,12 +7,10 @@ import server.Main;
 
 import java.io.IOException;
 
-@Ignore
-public class ControllerTest {
+public class SparkIgniter {
   private static boolean STARTED = false;
 
-  @BeforeClass
-  public static void setUpBaseClass() {
+  public static void start() {
     try {
       if (!STARTED) {
         Main.main(new String[1]);
