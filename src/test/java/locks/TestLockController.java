@@ -1,19 +1,21 @@
 package locks;
 
-import base.ControllerTest;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import exceptions.NetworkException;
-import net.NetUtils;
-import okhttp3.HttpUrl;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import base.ControllerTest;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import server.Main;
+import exceptions.NetworkException;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,11 +25,18 @@ public class TestLockController extends ControllerTest {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
+  // Query string to send on each test
+  private static Map<String, Object> QUERY_STRING;
   // JsonObject to change the thing status
   private static JSONObject JSON;
 
   @BeforeClass
   public static void setup() throws IOException, SAXException {
+    QUERY_STRING = new HashMap<>();
+    QUERY_STRING.put("address", "localhost");
+    QUERY_STRING.put("port", 8080);
+    QUERY_STRING.put("subType", "rest");
+
     JSON = new JSONObject();
     JSON.put("status", false);
 
@@ -35,61 +44,54 @@ public class TestLockController extends ControllerTest {
     Main.main(new String[1]);
   }
 
-  private static HttpUrl.Builder URL_BUILDER() {
-    return new HttpUrl.Builder()
-            .scheme("http")
-            .host("localhost")
-            .port(4567)
-            .addPathSegment("locks")
-            .addQueryParameter("address", "localhost")
-            .addQueryParameter("port", Integer.toString(8080))
-            .addQueryParameter("subType", "rest");
-  }
-
   @Test
-  public void getStatus() throws UnknownHostException, NetworkException {
+  public void getStatus() throws UnknownHostException, NetworkException, UnirestException {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    boolean status = NetUtils.get(URL_BUILDER().build())
-            .getJson()
-            .get("locked")
-            .asBoolean();
+    boolean status = Unirest.get("http://localhost:4567/locks").queryString(QUERY_STRING)
+            .asJson()
+            .getBody()
+            .getObject()
+            .getBoolean("locked");
 
     assertThat(status, is(true));
   }
 
   @Test
-  public void setStatus() throws UnknownHostException, NetworkException {
+  public void setStatus() throws UnknownHostException, NetworkException, UnirestException {
     LockStubs.stubPutStatus(wireMockRule, false);
     LockStubs.stubGetStatus(wireMockRule, false);
 
-    boolean status = NetUtils.put(URL_BUILDER().build(), JSON)
-            .getJson()
-            .get("locked")
-            .asBoolean();
+    boolean status = Unirest.put("http://localhost:4567/locks").queryString(QUERY_STRING).body(JSON)
+            .asJson()
+            .getBody()
+            .getObject()
+            .getBoolean("locked");
 
     assertThat(status, is(false));
   }
 
   @Test
-  public void errorInvalidArgument() throws NetworkException {
+  public void errorInvalidArgument() throws UnirestException {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    int statusCode = NetUtils.get(URL_BUILDER().removeAllQueryParameters("address").build())
-            .getResponse()
-            .code();
+    int status = Unirest.get("http://localhost:4567/locks")
+            .asJson()
+            .getStatus();
 
-    assertThat(statusCode, is(400));
+    assertThat(status, is(400));
   }
 
   @Test
-  public void errorInvalidSubType() throws NetworkException {
+  public void errorInvalidSubType() throws UnirestException {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    int statusCode = NetUtils.put(URL_BUILDER().removeAllQueryParameters("subType").addQueryParameter("subType", "cenas").build(), JSON)
-            .getResponse()
-            .code();
+    int status = Unirest.get("http://localhost:4567/locks")
+            .queryString("address", "192.168.1.1")
+            .queryString("subType", "cenas")
+            .asJson()
+            .getStatus();
 
-    assertThat(statusCode, is(400));
+    assertThat(status, is(400));
   }
 }
