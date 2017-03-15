@@ -1,6 +1,5 @@
 package things;
 
-@SuppressWarnings("SameReturnValue")
 public interface Thing {
   boolean ping();
 

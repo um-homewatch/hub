@@ -1,7 +1,7 @@
 package things.lights;
 
-import things.Thing;
 import exceptions.NetworkException;
+import things.Thing;
 
 public interface Light extends Thing {
   void setStatus(boolean status) throws NetworkException;
@@ -9,6 +9,6 @@ public interface Light extends Thing {
   boolean getStatus() throws NetworkException;
 
   default String getType() {
-    return "lights";
+    return "light";
   }
 }

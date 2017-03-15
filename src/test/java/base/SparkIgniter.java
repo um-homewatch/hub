@@ -1,7 +1,5 @@
 package base;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.xml.sax.SAXException;
 import server.Main;
 
