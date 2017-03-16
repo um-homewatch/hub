@@ -10,7 +10,8 @@ import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DiscoveryService<T extends HttpThing> {
+@SuppressWarnings("SameParameterValue")
+public class DiscoveryService<T extends HttpThingService> {
   private final CompletionService<T> completionService;
   private final List<T> things = new ArrayList<>();
   private final Class<T> thingType;

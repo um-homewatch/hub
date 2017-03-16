@@ -6,11 +6,11 @@ import net.NetUtils;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import org.json.JSONObject;
-import things.HttpThing;
+import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestLock extends HttpThing implements Lock {
+public class RestLock extends HttpThingService implements Lock {
   private final OkHttpClient httpClient = new OkHttpClient();
 
   public RestLock(InetAddress ipAddress) {
@@ -34,6 +34,11 @@ public class RestLock extends HttpThing implements Lock {
     JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status")).getJson();
 
     return response.get("locked").asBoolean();
+  }
+
+  @Override
+  public Object get() throws NetworkException {
+    return null;
   }
 
   @Override

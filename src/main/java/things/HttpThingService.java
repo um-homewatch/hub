@@ -2,15 +2,15 @@ package things;
 
 import java.net.InetAddress;
 
-public abstract class HttpThing implements Thing {
+public abstract class HttpThingService implements ThingService {
   private InetAddress ipAddress;
   private Integer port = null;
 
-  protected HttpThing(InetAddress ipAddress) {
+  protected HttpThingService(InetAddress ipAddress) {
     this.ipAddress = ipAddress;
   }
 
-  protected HttpThing(InetAddress ipAddress, int port) {
+  protected HttpThingService(InetAddress ipAddress, int port) {
     this.ipAddress = ipAddress;
     this.port = port;
   }

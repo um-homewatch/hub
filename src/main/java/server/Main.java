@@ -2,13 +2,14 @@ package server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exceptions.InvalidSubTypeException;
 import org.xml.sax.SAXException;
 import server.controllers.LightController;
 import server.controllers.LockController;
+import server.controllers.WeatherController;
 import spark.Spark;
 import things.DiscoveryService;
-import things.Thing;
-import exceptions.InvalidSubTypeException;
+import things.ThingService;
 import things.lights.RestLight;
 import things.locks.RestLock;
 
@@ -20,7 +21,7 @@ public class Main {
   private static final ObjectMapper OM = new ObjectMapper();
 
   public static void main(String[] args) throws IOException, SAXException {
-    Map<String, Thing> things = new HashMap<>();
+    Map<String, ThingService> things = new HashMap<>();
 
     Spark.get("/lights/discover", (req, res) -> {
       DiscoveryService<RestLight> discoveryService = new DiscoveryService<>(RestLight.class);
@@ -37,6 +38,8 @@ public class Main {
 
     Spark.get("/locks", LockController::get);
     Spark.put("/locks", LockController::put);
+
+    Spark.get("/weather", WeatherController::get);
 
 
     Spark.exception(IllegalArgumentException.class, (exception, req, res) -> {
@@ -55,6 +58,11 @@ public class Main {
       res.status(500);
       res.body(exceptionToString(exception));
       exception.printStackTrace();
+    });
+
+    Spark.after((request, response) -> {
+      response.header("Content-Encoding", "gzip");
+      response.header("Content-Type", "application/json");
     });
   }
 
