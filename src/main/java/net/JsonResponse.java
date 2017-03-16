@@ -2,12 +2,13 @@ package net;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import constants.JsonUtils;
 import okhttp3.Response;
 
 import java.io.IOException;
 
 public class JsonResponse {
-  private static final ObjectMapper OM = new ObjectMapper();
+  private static final ObjectMapper OM = JsonUtils.getOM();
 
   private final JsonNode json;
   private final Response response;

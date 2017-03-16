@@ -1,6 +1,7 @@
 package server.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import constants.JsonUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
 import spark.Request;
@@ -12,7 +13,8 @@ import things.lights.LightServiceFactory;
 import java.io.IOException;
 
 public class LightController {
-  private static final ObjectMapper OM = new ObjectMapper();
+  private static final ObjectMapper OM = JsonUtils.getOM();
+
 
   public static String get(Request req, Response res) throws IOException, InvalidSubTypeException, NetworkException {
     HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());

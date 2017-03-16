@@ -2,6 +2,7 @@ package server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import constants.JsonUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
 import org.xml.sax.SAXException;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
-  private static final ObjectMapper OM = new ObjectMapper();
+  private static final ObjectMapper OM = JsonUtils.getOM();
 
   public static void main(String[] args) throws IOException, SAXException {
     Map<String, ThingService> things = new HashMap<>();

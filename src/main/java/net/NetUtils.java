@@ -1,6 +1,5 @@
 package net;
 
-import constants.MediaTypes;
 import exceptions.NetworkException;
 import okhttp3.*;
 import org.json.JSONObject;
