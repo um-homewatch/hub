@@ -1,5 +1,6 @@
 package server.controllers;
 
+@SuppressWarnings("SameParameterValue")
 public class ErrorMessage {
   private final String message;
 

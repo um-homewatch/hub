@@ -10,9 +10,13 @@ public class OWMWeather implements Weather {
   private static String URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
   private JsonNode weatherData;
 
-  OWMWeather(String city) throws NetworkException {
+  public OWMWeather(String city) throws NetworkException {
     URL = String.format(URL, city);
-    this.weatherData = NetUtils.get(HttpUrl.parse(URL)).getJson();
+    this.weatherData = getJsonData();
+  }
+
+  private JsonNode getJsonData() throws NetworkException {
+    return NetUtils.get(HttpUrl.parse(URL)).getJson();
   }
 
   @Override
