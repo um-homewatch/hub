@@ -1,16 +1,16 @@
 package locks;
 
+import base.ControllerTest;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import base.ControllerTest;
+import exceptions.NetworkException;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import server.Main;
-import exceptions.NetworkException;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -38,7 +38,7 @@ public class TestLockController extends ControllerTest {
     QUERY_STRING.put("subType", "rest");
 
     JSON = new JSONObject();
-    JSON.put("status", false);
+    JSON.put("locked", false);
 
     //startup the server
     Main.main(new String[1]);

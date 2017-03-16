@@ -10,7 +10,7 @@ public class OWMWeatherService implements ThingService<Weather> {
   private static String URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
   private JsonNode weatherData;
 
-  public OWMWeatherService(String city) throws NetworkException {
+  public OWMWeatherService(String city) {
     URL = String.format(URL, city);
   }
 
@@ -19,6 +19,11 @@ public class OWMWeatherService implements ThingService<Weather> {
     this.weatherData = this.getWeatherData();
 
     return new Weather(this.getTemperature(), this.getWindSpeed(), this.getRain(), this.getClouds());
+  }
+
+  @Override
+  public void put(Weather weather) throws NetworkException {
+    throw new UnsupportedOperationException();
   }
 
   @Override

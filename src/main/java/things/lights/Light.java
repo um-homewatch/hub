@@ -1,14 +1,17 @@
 package things.lights;
 
-import exceptions.NetworkException;
-import things.ThingService;
+public class Light {
+  private final boolean on;
 
-public interface Light extends ThingService {
-  void setStatus(boolean status) throws NetworkException;
+  public Light() {
+    this.on = false;
+  }
 
-  boolean getStatus() throws NetworkException;
+  public Light(boolean on) {
+    this.on = on;
+  }
 
-  default String getType() {
-    return "light";
+  public boolean isOn() {
+    return on;
   }
 }

@@ -1,12 +1,12 @@
 package locks;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import exceptions.NetworkException;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
-import exceptions.NetworkException;
-import things.locks.RestLock;
+import things.locks.RestLockService;
 
 import java.net.UnknownHostException;
 import java.util.List;
@@ -24,7 +24,7 @@ public class TestDiscoverRestLock {
   public void discoverRestLocks() throws UnknownHostException, NetworkException {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    List<RestLock> restLockList = new DiscoveryService<>(RestLock.class, 8080).discovery();
-    assertThat(restLockList.size(), is(1));
+    List<RestLockService> restLockServiceList = new DiscoveryService<>(RestLockService.class, 8080).discovery();
+    assertThat(restLockServiceList.size(), is(1));
   }
 }

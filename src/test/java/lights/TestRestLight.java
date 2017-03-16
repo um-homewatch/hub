@@ -1,10 +1,13 @@
 package lights;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import exceptions.NetworkException;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import exceptions.NetworkException;
-import things.lights.RestLight;
+import things.ThingService;
+import things.lights.Light;
+import things.lights.RestLightService;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -16,17 +19,24 @@ import static org.junit.Assert.assertThat;
 
 public class TestRestLight {
   private static final int PORT = 8080;
-  
+
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(PORT).bindAddress("0.0.0.0"));
+
+  private static ThingService<Light> lightService;
+
+  @BeforeClass
+  public static void setup() throws UnknownHostException {
+    lightService = new RestLightService(InetAddress.getLocalHost(), PORT);
+  }
 
   @Test
   public void getStatus() throws UnknownHostException, NetworkException {
     LightStubs.stubGetStatus(wireMockRule, true);
 
-    RestLight light = new RestLight(InetAddress.getLocalHost(), PORT);
+    Light light = lightService.get();
 
-    assertThat(light.getStatus(), is(true));
+    assertThat(light.isOn(), is(true));
     verify(getRequestedFor(urlPathEqualTo("/status")));
   }
 
@@ -34,9 +44,9 @@ public class TestRestLight {
   public void getStatusOff() throws UnknownHostException, NetworkException {
     LightStubs.stubGetStatus(wireMockRule, false);
 
-    RestLight light = new RestLight(InetAddress.getLocalHost(), PORT);
+    Light light = lightService.get();
 
-    assertThat(light.getStatus(), is(false));
+    assertThat(light.isOn(), is(false));
     verify(getRequestedFor(urlPathEqualTo("/status")));
   }
 
@@ -44,8 +54,8 @@ public class TestRestLight {
   public void setStatusOn() throws UnknownHostException, NetworkException {
     LightStubs.stubPutStatus(wireMockRule, true);
 
-    RestLight light = new RestLight(InetAddress.getLocalHost(), PORT);
-    light.setStatus(true);
+    Light light = new Light(true);
+    lightService.put(light);
 
     verify(putRequestedFor(urlPathEqualTo("/status")).withRequestBody(equalTo("{\"power\":true}")));
   }
@@ -54,8 +64,8 @@ public class TestRestLight {
   public void setStatusOff() throws UnknownHostException, NetworkException, InterruptedException {
     LightStubs.stubPutStatus(wireMockRule, false);
 
-    RestLight light = new RestLight(InetAddress.getLocalHost(), PORT);
-    light.setStatus(false);
+    Light light = new Light(false);
+    lightService.put(light);
 
     verify(putRequestedFor(urlPathEqualTo("/status")).withRequestBody(equalTo("{\"power\":false}")));
   }

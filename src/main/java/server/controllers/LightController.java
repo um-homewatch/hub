@@ -1,37 +1,34 @@
 package server.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import spark.Request;
-import spark.Response;
+import constants.JsonUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
+import spark.Request;
+import spark.Response;
+import things.ThingService;
 import things.lights.Light;
-import things.lights.LightFactory;
+import things.lights.LightServiceFactory;
 
 import java.io.IOException;
 
 public class LightController {
-  private static final ObjectMapper OM = new ObjectMapper();
+  private static final ObjectMapper OM = JsonUtils.getOM();
 
-  public static String get(Request req, Response res) throws IOException, InvalidSubTypeException {
+
+  public static String get(Request req, Response res) throws IOException, InvalidSubTypeException, NetworkException {
     HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-    Light light = LightFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+    ThingService<Light> lightService = LightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
 
-    return OM.writeValueAsString(light);
+    return OM.writeValueAsString(lightService.get());
   }
 
   public static String put(Request req, Response res) throws NetworkException, IOException, InvalidSubTypeException {
     HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-    Light light = LightFactory.create(info.getAddress(), info.getPort(), info.getSubType());
-    JsonNode body = OM.readTree(req.body());
+    ThingService<Light> lightService = LightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+    Light light = OM.readValue(req.body(), Light.class);
 
-    if (!body.has("status")) {
-      res.status(400);
-      return "error";
-    }
-
-    light.setStatus(body.get("status").asBoolean());
+    lightService.put(light);
 
     return OM.writeValueAsString(light);
   }

@@ -1,12 +1,12 @@
 package lights;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import exceptions.NetworkException;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
-import exceptions.NetworkException;
-import things.lights.RestLight;
+import things.lights.RestLightService;
 
 import java.net.UnknownHostException;
 import java.util.List;
@@ -24,7 +24,7 @@ public class TestDiscoverRestLight {
   public void discoverRestLights() throws UnknownHostException, NetworkException {
     LightStubs.stubGetStatus(wireMockRule, true);
 
-    List<RestLight> restLightList = new DiscoveryService<>(RestLight.class, 8080).discovery();
-    assertThat(restLightList.size(), is(1));
+    List<RestLightService> restLightServiceList = new DiscoveryService<>(RestLightService.class, 8080).discovery();
+    assertThat(restLightServiceList.size(), is(1));
   }
 }
