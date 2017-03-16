@@ -10,45 +10,47 @@ import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestLock extends HttpThingService implements Lock {
+public class RestLockService extends HttpThingService<Lock> {
   private final OkHttpClient httpClient = new OkHttpClient();
 
-  public RestLock(InetAddress ipAddress) {
+  public RestLockService(InetAddress ipAddress) {
     super(ipAddress);
   }
 
-  public RestLock(InetAddress ipAddress, int port) {
+  public RestLockService(InetAddress ipAddress, int port) {
     super(ipAddress, port);
   }
 
   @Override
-  public void setLock(boolean isLocked) throws NetworkException {
+  public Lock get() throws NetworkException {
+    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status")).getJson();
+
+    boolean lock = response.get("locked").asBoolean();
+
+    return new Lock(lock);
+  }
+
+  @Override
+  public void put(Lock lock) throws NetworkException {
     JSONObject json = new JSONObject();
-    json.put("locked", isLocked);
+    json.put("locked", lock.isLocked());
 
     NetUtils.put(HttpUrl.parse(this.getUrl() + "/status"), json);
   }
 
   @Override
-  public boolean isLocked() throws NetworkException {
-    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status")).getJson();
-
-    return response.get("locked").asBoolean();
-  }
-
-  @Override
-  public Object get() throws NetworkException {
-    return null;
-  }
-
-  @Override
   public boolean ping() {
     try {
-      isLocked();
+      get();
     } catch (NetworkException e) {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public String getType() {
+    return "lock";
   }
 
   @Override

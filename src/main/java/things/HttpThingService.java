@@ -2,7 +2,7 @@ package things;
 
 import java.net.InetAddress;
 
-public abstract class HttpThingService implements ThingService {
+public abstract class HttpThingService<T> implements ThingService<T> {
   private InetAddress ipAddress;
   private Integer port = null;
 

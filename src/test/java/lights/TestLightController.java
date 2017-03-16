@@ -21,7 +21,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class TestLightController extends ControllerTest{
+public class TestLightController extends ControllerTest {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
@@ -38,7 +38,7 @@ public class TestLightController extends ControllerTest{
     QUERY_STRING.put("subType", "rest");
 
     JSON = new JSONObject();
-    JSON.put("status", false);
+    JSON.put("on", false);
 
     //startup the server
     Main.main(new String[1]);
@@ -52,7 +52,7 @@ public class TestLightController extends ControllerTest{
             .asJson()
             .getBody()
             .getObject()
-            .getBoolean("status");
+            .getBoolean("on");
 
     assertThat(status, is(true));
   }
@@ -66,7 +66,7 @@ public class TestLightController extends ControllerTest{
             .asJson()
             .getBody()
             .getObject()
-            .getBoolean("status");
+            .getBoolean("on");
 
     assertThat(status, is(false));
   }

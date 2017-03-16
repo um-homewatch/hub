@@ -1,14 +1,17 @@
 package things.locks;
 
-import exceptions.NetworkException;
-import things.ThingService;
+public class Lock {
+  private final boolean locked;
 
-public interface Lock extends ThingService {
-  void setLock(boolean isLocked) throws NetworkException;
+  public Lock() {
+    this.locked = false;
+  }
 
-  boolean isLocked() throws NetworkException;
+  public Lock(boolean locked) {
+    this.locked = locked;
+  }
 
-  default String getType() {
-    return "lock";
+  public boolean isLocked() {
+    return locked;
   }
 }

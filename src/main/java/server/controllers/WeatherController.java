@@ -3,6 +3,7 @@ package server.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
+import server.ErrorMessage;
 import spark.Request;
 import spark.Response;
 import things.weather.Weather;

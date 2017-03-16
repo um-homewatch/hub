@@ -1,7 +1,7 @@
 package exceptions;
 
 public class NetworkException extends Exception {
-  private int statusCode;
+  private final int statusCode;
 
   public NetworkException(int statusCode) {
     this.statusCode = statusCode;

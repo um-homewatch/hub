@@ -20,8 +20,8 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(OWMWeatherService.class)
 public class TestOWMWeather {
-  private static ObjectMapper OM = new ObjectMapper();
-  private static File fixture = new File("src/test/fixtures/owmweather.json");
+  private static final ObjectMapper OM = new ObjectMapper();
+  private static final File fixture = new File("src/test/fixtures/owmweather.json");
   private static Weather WEATHER;
 
   @BeforeClass
@@ -34,24 +34,24 @@ public class TestOWMWeather {
   }
 
   @Test
-  public void getTemperature(){
+  public void getTemperature() {
     double temp = WEATHER.getTemperature();
 
     assertEquals(6.93, temp, 0.01);
   }
 
   @Test
-  public void hasRain(){
+  public void hasRain() {
     assertTrue(WEATHER.isRaining());
   }
 
   @Test
-  public void hasCloud(){
+  public void hasCloud() {
     assertTrue(WEATHER.isCloudy());
   }
 
   @Test
-  public void getWindSpeed(){
+  public void getWindSpeed() {
     double temp = WEATHER.getWindSpeed();
 
     assertEquals(1.11, temp, 0.01);

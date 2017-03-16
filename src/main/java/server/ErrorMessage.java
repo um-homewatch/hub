@@ -1,10 +1,9 @@
-package server.controllers;
+package server;
 
-@SuppressWarnings("SameParameterValue")
 public class ErrorMessage {
   private final String message;
 
-  ErrorMessage(String message) {
+  public ErrorMessage(String message) {
     this.message = message;
   }
 

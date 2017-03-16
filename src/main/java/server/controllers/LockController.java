@@ -1,37 +1,32 @@
 package server.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import spark.Request;
-import spark.Response;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
+import spark.Request;
+import spark.Response;
+import things.ThingService;
 import things.locks.Lock;
-import things.locks.LockFactory;
+import things.locks.LockServiceFactory;
 
 import java.io.IOException;
 
 public class LockController {
   private static final ObjectMapper OM = new ObjectMapper();
 
-  public static String get(Request req, Response res) throws IOException, InvalidSubTypeException {
+  public static String get(Request req, Response res) throws IOException, InvalidSubTypeException, NetworkException {
     HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-    Lock lock = LockFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+    ThingService<Lock> lockService = LockServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
 
-    return OM.writeValueAsString(lock);
+    return OM.writeValueAsString(lockService.get());
   }
 
   public static String put(Request req, Response res) throws NetworkException, IOException, InvalidSubTypeException {
     HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-    Lock lock = LockFactory.create(info.getAddress(), info.getPort(), info.getSubType());
-    JsonNode body = OM.readTree(req.body());
+    ThingService<Lock> lockService = LockServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+    Lock lock = OM.readValue(req.body(), Lock.class);
 
-    if (!body.has("status")) {
-      res.status(400);
-      return "error";
-    }
-
-    lock.setLock(body.get("status").asBoolean());
+    lockService.put(lock);
 
     return OM.writeValueAsString(lock);
   }
