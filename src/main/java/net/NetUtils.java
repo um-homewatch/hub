@@ -4,7 +4,6 @@ import constants.MediaTypes;
 import exceptions.NetworkException;
 import okhttp3.*;
 import org.json.JSONObject;
-import sun.nio.ch.Net;
 
 import java.io.IOException;
 

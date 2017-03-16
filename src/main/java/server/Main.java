@@ -9,7 +9,7 @@ import server.controllers.LockController;
 import server.controllers.WeatherController;
 import spark.Spark;
 import things.DiscoveryService;
-import things.Thing;
+import things.ThingService;
 import things.lights.RestLight;
 import things.locks.RestLock;
 
@@ -21,7 +21,7 @@ public class Main {
   private static final ObjectMapper OM = new ObjectMapper();
 
   public static void main(String[] args) throws IOException, SAXException {
-    Map<String, Thing> things = new HashMap<>();
+    Map<String, ThingService> things = new HashMap<>();
 
     Spark.get("/lights/discover", (req, res) -> {
       DiscoveryService<RestLight> discoveryService = new DiscoveryService<>(RestLight.class);

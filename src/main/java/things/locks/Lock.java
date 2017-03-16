@@ -1,9 +1,9 @@
 package things.locks;
 
 import exceptions.NetworkException;
-import things.Thing;
+import things.ThingService;
 
-public interface Lock extends Thing {
+public interface Lock extends ThingService {
   void setLock(boolean isLocked) throws NetworkException;
 
   boolean isLocked() throws NetworkException;

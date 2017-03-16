@@ -1,17 +1,31 @@
 package things.weather;
 
-import things.Thing;
+public class Weather {
+  private final double temperature;
+  private final double windSpeed;
+  private final boolean raining;
+  private final boolean cloudy;
 
-public interface Weather extends Thing {
-  double getTemperature();
+  public Weather(double temperature, double windSpeed, boolean raining, boolean cloudy) {
+    this.temperature = temperature;
+    this.windSpeed = windSpeed;
+    this.raining = raining;
+    this.cloudy = cloudy;
+  }
 
-  double getWindSpeed();
+  public double getTemperature() {
+    return temperature;
+  }
 
-  boolean hasRain();
+  public double getWindSpeed() {
+    return windSpeed;
+  }
 
-  boolean hasClouds();
+  public boolean isRaining() {
+    return raining;
+  }
 
-  default String getType() {
-    return "weather";
+  public boolean isCloudy() {
+    return cloudy;
   }
 }

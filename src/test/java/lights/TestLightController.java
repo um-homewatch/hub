@@ -4,13 +4,13 @@ import base.ControllerTest;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import exceptions.NetworkException;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import server.Main;
-import exceptions.NetworkException;
 
 import java.io.IOException;
 import java.net.UnknownHostException;

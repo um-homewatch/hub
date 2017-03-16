@@ -5,17 +5,22 @@ import exceptions.NetworkException;
 import net.NetUtils;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
-import things.HttpThing;
+import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestLight extends HttpThing implements Light {
+public class RestLight extends HttpThingService implements Light {
   public RestLight(InetAddress ipAddress) {
     super(ipAddress);
   }
 
   public RestLight(InetAddress ipAddress, int port) {
     super(ipAddress, port);
+  }
+
+  @Override
+  public Object get() throws NetworkException {
+    return null;
   }
 
   @Override

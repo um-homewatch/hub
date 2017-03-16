@@ -1,9 +1,9 @@
 package things.lights;
 
 import exceptions.NetworkException;
-import things.Thing;
+import things.ThingService;
 
-public interface Light extends Thing {
+public interface Light extends ThingService {
   void setStatus(boolean status) throws NetworkException;
 
   boolean getStatus() throws NetworkException;

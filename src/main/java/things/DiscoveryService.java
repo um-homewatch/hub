@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @SuppressWarnings("SameParameterValue")
-public class DiscoveryService<T extends HttpThing> {
+public class DiscoveryService<T extends HttpThingService> {
   private final CompletionService<T> completionService;
   private final List<T> things = new ArrayList<>();
   private final Class<T> thingType;
