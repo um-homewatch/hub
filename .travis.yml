@@ -4,7 +4,7 @@ jdk:
   - oraclejdk8
 script:
   - mvn clean install
-  - sonar-scanner
+  - mvn -Dsonar.branch=`git rev-parse --abbrev-ref HEAD` sonar:sonar
 addons:
   sonarqube:
   branches:
