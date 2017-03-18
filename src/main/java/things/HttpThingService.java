@@ -3,7 +3,7 @@ package things;
 import java.net.InetAddress;
 
 public abstract class HttpThingService<T> implements ThingService<T> {
-  private InetAddress ipAddress;
+  private final InetAddress ipAddress;
   private Integer port = null;
 
   protected HttpThingService(InetAddress ipAddress) {
@@ -17,10 +17,6 @@ public abstract class HttpThingService<T> implements ThingService<T> {
 
   public InetAddress getIpAddress() {
     return ipAddress;
-  }
-
-  public void setIpAddress(InetAddress ipAddress) {
-    this.ipAddress = ipAddress;
   }
 
   public abstract boolean ping();

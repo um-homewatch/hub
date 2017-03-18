@@ -5,7 +5,6 @@ import org.apache.commons.net.util.SubnetUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.logging.Level;
@@ -30,28 +29,29 @@ public class DiscoveryService<T extends HttpThingService> {
 
   public List<T> discovery() {
     try {
-      Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-      for (NetworkInterface networkInterface = interfaces.nextElement(); interfaces.hasMoreElements(); networkInterface = interfaces.nextElement()) {
-        for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-          if (interfaceAddress.getAddress() instanceof Inet4Address) {
-            String hostAddress = interfaceAddress.getAddress().getHostAddress();
-            short subnetMask = interfaceAddress.getNetworkPrefixLength();
-            SubnetUtils subnetUtils = new SubnetUtils(hostAddress + "/" + subnetMask);
+      InetAddress localhost = InetAddress.getLocalHost();
+      NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localhost);
+      if (networkInterface == null)
+        networkInterface = NetworkInterface.getByIndex(0);
+      for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+        if (interfaceAddress.getAddress() instanceof Inet4Address) {
+          String hostAddress = interfaceAddress.getAddress().getHostAddress();
+          short subnetMask = interfaceAddress.getNetworkPrefixLength();
+          SubnetUtils subnetUtils = new SubnetUtils(hostAddress + "/" + subnetMask);
 
-            for (String address : subnetUtils.getInfo().getAllAddresses()) {
-              pingAddress(address);
-            }
-
-            int numberOfTasks = subnetUtils.getInfo().getAllAddresses().length;
-
-            for (int i = 0; i < numberOfTasks; i++) {
-              Future<T> future = completionService.take();
-              if (future.get() != null) {
-                this.things.add(future.get());
-              }
-            }
-
+          for (String address : subnetUtils.getInfo().getAllAddresses()) {
+            pingAddress(address);
           }
+
+          int numberOfTasks = subnetUtils.getInfo().getAllAddresses().length;
+
+          for (int i = 0; i < numberOfTasks; i++) {
+            Future<T> future = completionService.take();
+            if (future.get() != null) {
+              this.things.add(future.get());
+            }
+          }
+
         }
       }
     } catch (UnknownHostException | SocketException | IllegalAccessException | InvocationTargetException | InstantiationException | InterruptedException |

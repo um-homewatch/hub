@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class TestRestLight {
   private static final int PORT = 8080;
@@ -68,5 +68,23 @@ public class TestRestLight {
     lightService.put(light);
 
     verify(putRequestedFor(urlPathEqualTo("/status")).withRequestBody(equalTo("{\"power\":false}")));
+  }
+
+  @Test
+  public void testGoodPing() {
+    LightStubs.stubGetStatus(wireMockRule, true);
+
+    boolean ping = lightService.ping();
+
+    assertTrue(ping);
+  }
+
+  @Test
+  public void testBadPing() throws UnknownHostException {
+    ThingService<Light> badLightService = new RestLightService(InetAddress.getLocalHost());
+
+    boolean ping = badLightService.ping();
+
+    assertFalse(ping);
   }
 }
