@@ -2,7 +2,6 @@ package locks;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import exceptions.NetworkException;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
