@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class TestRestLock {
   private static final int PORT = 8080;
@@ -68,5 +68,23 @@ public class TestRestLock {
     lockService.put(lock);
 
     verify(putRequestedFor(urlPathEqualTo("/status")).withRequestBody(equalTo("{\"locked\":false}")));
+  }
+
+  @Test
+  public void testGoodPing(){
+    LockStubs.stubGetStatus(wireMockRule, true);
+
+    boolean ping = lockService.ping();
+
+    assertTrue(ping);
+  }
+
+  @Test
+  public void testBadPing() throws UnknownHostException {
+    ThingService<Lock> badLockService = new RestLockService(InetAddress.getLocalHost());
+
+    boolean ping = badLockService.ping();
+
+    assertFalse(ping);
   }
 }
