@@ -15,7 +15,6 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore
 public class TestDiscoverRestLight {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
