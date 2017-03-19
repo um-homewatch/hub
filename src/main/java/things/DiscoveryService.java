@@ -33,10 +33,8 @@ public class DiscoveryService<T> {
 
   public List<HttpThingService<T>> discovery() {
     try {
-      InetAddress localhost = InetAddress.getLocalHost();
-      NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localhost);
-      if (networkInterface == null)
-        networkInterface = NetworkInterface.getByIndex(1);
+      NetworkInterface networkInterface = NetworkInterface.getByName("wlp2s0");
+
       for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
         if (interfaceAddress.getAddress() instanceof Inet4Address) {
           String hostAddress = interfaceAddress.getAddress().getHostAddress();
@@ -68,7 +66,7 @@ public class DiscoveryService<T> {
   }
 
   private void pingAddress(String address) throws UnknownHostException, IllegalAccessException, InvocationTargetException, InstantiationException, InvalidSubTypeException {
-    HttpThingService<T> thingService = this.serviceFactory.create(InetAddress.getByName(address), null, subtype);
+    HttpThingService<T> thingService = this.serviceFactory.create(InetAddress.getByName(address), this.port, subtype);
     this.completionService.submit(() -> {
       if (thingService.ping()) {
         return thingService;
