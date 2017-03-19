@@ -17,7 +17,7 @@ public class RestLockService extends HttpThingService<Lock> {
     super(ipAddress);
   }
 
-  public RestLockService(InetAddress ipAddress, int port) {
+  public RestLockService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
   }
 

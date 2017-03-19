@@ -12,7 +12,11 @@ import server.controllers.WeatherController;
 import spark.Spark;
 import things.DiscoveryService;
 import things.ThingService;
+import things.lights.Light;
+import things.lights.LightServiceFactory;
 import things.lights.RestLightService;
+import things.locks.Lock;
+import things.locks.LockServiceFactory;
 import things.locks.RestLockService;
 
 import java.io.IOException;
@@ -26,12 +30,12 @@ public class Main {
     Map<String, ThingService> things = new HashMap<>();
 
     Spark.get("/lights/discover", (req, res) -> {
-      DiscoveryService<RestLightService> discoveryService = new DiscoveryService<>(RestLightService.class);
+      DiscoveryService<Light> discoveryService = new DiscoveryService<>(new LightServiceFactory(), "rest");
       return OM.writeValueAsString(discoveryService.discovery());
     });
 
     Spark.get("/locks/discover", (req, res) -> {
-      DiscoveryService<RestLockService> discoveryService = new DiscoveryService<>(RestLockService.class);
+      DiscoveryService<Lock> discoveryService = new DiscoveryService<>(new LockServiceFactory(), "rest");
       return OM.writeValueAsString(discoveryService.discovery());
     });
 

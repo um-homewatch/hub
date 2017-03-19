@@ -14,7 +14,7 @@ public class RestLightService extends HttpThingService<Light> {
     super(ipAddress);
   }
 
-  public RestLightService(InetAddress ipAddress, int port) {
+  public RestLightService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
   }
 

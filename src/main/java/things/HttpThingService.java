@@ -10,7 +10,7 @@ public abstract class HttpThingService<T> implements ThingService<T> {
     this.ipAddress = ipAddress;
   }
 
-  protected HttpThingService(InetAddress ipAddress, int port) {
+  protected HttpThingService(InetAddress ipAddress, Integer port) {
     this.ipAddress = ipAddress;
     this.port = port;
   }
