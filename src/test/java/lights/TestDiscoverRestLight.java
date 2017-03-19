@@ -8,10 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
 import things.HttpThingService;
-import things.ThingService;
 import things.lights.Light;
 import things.lights.LightServiceFactory;
-import things.lights.RestLightService;
 
 import java.net.UnknownHostException;
 import java.util.List;

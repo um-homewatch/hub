@@ -8,9 +8,6 @@ import java.net.InetAddress;
 
 
 public class LightServiceFactory implements HttpThingServiceFactory<Light> {
-  private LightServiceFactory() {
-  }
-
   public HttpThingService<Light> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "rest":

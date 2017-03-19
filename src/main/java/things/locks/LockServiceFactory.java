@@ -6,7 +6,7 @@ import things.HttpThingServiceFactory;
 
 import java.net.InetAddress;
 
-public class LockServiceFactory implements HttpThingServiceFactory<Lock>{
+public class LockServiceFactory implements HttpThingServiceFactory<Lock> {
   public HttpThingService<Lock> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "rest":

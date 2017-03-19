@@ -8,13 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
 import things.HttpThingService;
-import things.lights.Light;
-import things.lights.LightServiceFactory;
 import things.locks.Lock;
 import things.locks.LockServiceFactory;
-import things.locks.RestLockService;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
