@@ -6,12 +6,14 @@ import net.NetUtils;
 import okhttp3.HttpUrl;
 import things.ThingService;
 
+import java.util.logging.Logger;
+
 public class OWMWeatherService implements ThingService<Weather> {
-  private static String URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
+  private static String url = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
   private JsonNode weatherData;
 
   public OWMWeatherService(String city) {
-    URL = String.format(URL, city);
+    url = String.format(url, city);
   }
 
   @Override
@@ -29,14 +31,15 @@ public class OWMWeatherService implements ThingService<Weather> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(HttpUrl.parse(URL)).getResponse().code() == 200;
+      return NetUtils.get(HttpUrl.parse(url)).getResponse().code() == 200;
     } catch (NetworkException e) {
+      Logger.getGlobal().info("FAILED PING REASON:" + e);
       return false;
     }
   }
 
   private JsonNode getWeatherData() throws NetworkException {
-    return NetUtils.get(HttpUrl.parse(URL)).getJson();
+    return NetUtils.get(HttpUrl.parse(url)).getJson();
   }
 
   @Override

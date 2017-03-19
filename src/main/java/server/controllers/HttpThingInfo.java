@@ -25,7 +25,7 @@ public class HttpThingInfo {
       throw new IllegalArgumentException();
     } else {
       Integer portNumber = port.hasValue() ? port.integerValue() : null;
-      return new HttpThingInfo(InetAddress.getByName(address.value()), port.integerValue(), subType.value());
+      return new HttpThingInfo(InetAddress.getByName(address.value()), portNumber, subType.value());
     }
   }
 

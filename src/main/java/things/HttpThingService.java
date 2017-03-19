@@ -19,8 +19,6 @@ public abstract class HttpThingService<T> implements ThingService<T> {
     return ipAddress;
   }
 
-  public abstract boolean ping();
-
   protected String getUrl() {
     if (port == null)
       return String.format("http://%s", this.ipAddress.getHostAddress());

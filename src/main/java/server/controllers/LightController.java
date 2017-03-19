@@ -2,6 +2,7 @@ package server.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.JsonUtils;
+import constants.LoggerUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
 import spark.Request;
@@ -17,20 +18,41 @@ public class LightController {
   private static final ObjectMapper OM = JsonUtils.getOM();
   private static final HttpThingServiceFactory<Light> lightServiceFactory = new LightServiceFactory();
 
-  public static String get(Request req, Response res) throws IOException, InvalidSubTypeException, NetworkException {
-    HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-    ThingService<Light> lightService = lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
-
-    return OM.writeValueAsString(lightService.get());
+  private LightController() {
   }
 
-  public static String put(Request req, Response res) throws NetworkException, IOException, InvalidSubTypeException {
-    HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-    ThingService<Light> lightService = lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
-    Light light = OM.readValue(req.body(), Light.class);
+  public static String get(Request req, Response res) throws NetworkException {
+    try {
+      HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
+      ThingService<Light> lightService = lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
 
-    lightService.put(light);
+      res.status(200);
+      return OM.writeValueAsString(lightService.get());
+    } catch (IOException e) {
+      LoggerUtils.logException(e);
+      throw new NetworkException(e.getMessage(), 500);
+    } catch (InvalidSubTypeException e) {
+      LoggerUtils.logException(e);
+      throw new NetworkException(e.getMessage(), 400);
+    }
+  }
 
-    return OM.writeValueAsString(light);
+  public static String put(Request req, Response res) throws NetworkException {
+    try {
+      HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
+      ThingService<Light> lightService = lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      Light light = OM.readValue(req.body(), Light.class);
+
+      lightService.put(light);
+
+      res.status(200);
+      return OM.writeValueAsString(light);
+    } catch (IOException e) {
+      LoggerUtils.logException(e);
+      throw new NetworkException(e.getMessage(), 500);
+    } catch (InvalidSubTypeException e) {
+      LoggerUtils.logException(e);
+      throw new NetworkException(e.getMessage(), 400);
+    }
   }
 }

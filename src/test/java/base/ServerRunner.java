@@ -8,7 +8,7 @@ import server.Main;
 import java.io.IOException;
 
 @Ignore
-public class ControllerTest {
+public class ServerRunner {
   @BeforeClass
   public static void setUpBaseClass() {
     try {

@@ -3,6 +3,7 @@ package things.locks;
 import exceptions.InvalidSubTypeException;
 import things.HttpThingService;
 import things.HttpThingServiceFactory;
+
 import java.net.InetAddress;
 
 public class LockServiceFactory implements HttpThingServiceFactory<Lock>{

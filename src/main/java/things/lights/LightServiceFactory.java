@@ -3,11 +3,14 @@ package things.lights;
 import exceptions.InvalidSubTypeException;
 import things.HttpThingService;
 import things.HttpThingServiceFactory;
-import things.ThingService;
 
 import java.net.InetAddress;
 
-public class LightServiceFactory implements HttpThingServiceFactory<Light>{
+
+public class LightServiceFactory implements HttpThingServiceFactory<Light> {
+  private LightServiceFactory() {
+  }
+
   public HttpThingService<Light> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "rest":
