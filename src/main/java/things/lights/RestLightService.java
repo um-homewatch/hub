@@ -10,7 +10,11 @@ import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestLightService extends HttpThingService<Light> {
+class RestLightService extends HttpThingService<Light> {
+  public RestLightService() {
+    super();
+  }
+
   public RestLightService(InetAddress ipAddress) {
     super(ipAddress);
   }

@@ -1,6 +1,6 @@
-package locks;
+package things.lights;
 
-import base.ServerRunner;
+import things.ServerRunner;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -21,7 +21,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class TestLockController extends ServerRunner {
+public class TestLightController extends ServerRunner {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
@@ -38,7 +38,7 @@ public class TestLockController extends ServerRunner {
     QUERY_STRING.put("subType", "rest");
 
     JSON = new JSONObject();
-    JSON.put("locked", false);
+    JSON.put("on", false);
 
     //startup the server
     Main.main(new String[1]);
@@ -46,36 +46,36 @@ public class TestLockController extends ServerRunner {
 
   @Test
   public void getStatus() throws UnknownHostException, NetworkException, UnirestException {
-    LockStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetStatus(wireMockRule, true);
 
-    boolean status = Unirest.get("http://localhost:4567/locks").queryString(QUERY_STRING)
+    boolean status = Unirest.get("http://localhost:4567/lights").queryString(QUERY_STRING)
             .asJson()
             .getBody()
             .getObject()
-            .getBoolean("locked");
+            .getBoolean("on");
 
     assertThat(status, is(true));
   }
 
   @Test
   public void setStatus() throws UnknownHostException, NetworkException, UnirestException {
-    LockStubs.stubPutStatus(wireMockRule, false);
-    LockStubs.stubGetStatus(wireMockRule, false);
+    LightStubs.stubPutStatus(wireMockRule, false);
+    LightStubs.stubGetStatus(wireMockRule, false);
 
-    boolean status = Unirest.put("http://localhost:4567/locks").queryString(QUERY_STRING).body(JSON)
+    boolean status = Unirest.put("http://localhost:4567/lights").queryString(QUERY_STRING).body(JSON)
             .asJson()
             .getBody()
             .getObject()
-            .getBoolean("locked");
+            .getBoolean("on");
 
     assertThat(status, is(false));
   }
 
   @Test
   public void errorInvalidArgument() throws UnirestException {
-    LockStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetStatus(wireMockRule, true);
 
-    int status = Unirest.get("http://localhost:4567/locks")
+    int status = Unirest.get("http://localhost:4567/lights")
             .asJson()
             .getStatus();
 
@@ -84,13 +84,15 @@ public class TestLockController extends ServerRunner {
 
   @Test
   public void errorInvalidSubType() throws UnirestException {
-    LockStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetStatus(wireMockRule, true);
 
-    int status = Unirest.get("http://localhost:4567/locks")
+    int status = Unirest.get("http://localhost:4567/lights")
             .queryString("address", "192.168.1.1")
             .queryString("subType", "cenas")
             .asJson()
             .getStatus();
+
+
 
     assertThat(status, is(400));
   }

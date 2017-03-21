@@ -10,7 +10,11 @@ import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestLockService extends HttpThingService<Lock> {
+class RestLockService extends HttpThingService<Lock> {
+  public RestLockService() {
+    super();
+  }
+
   public RestLockService(InetAddress ipAddress) {
     super(ipAddress);
   }

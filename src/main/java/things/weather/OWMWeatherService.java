@@ -8,12 +8,21 @@ import things.ThingService;
 
 import java.util.logging.Logger;
 
-public class OWMWeatherService implements ThingService<Weather> {
-  private static String url = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
+class OWMWeatherService implements ThingService<Weather> {
+  private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/things.weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
+  private String url;
   private JsonNode weatherData;
 
+  public OWMWeatherService() {
+    url = String.format(BASE_URL, "");
+  }
+
   public OWMWeatherService(String city) {
-    url = String.format(url, city);
+    url = String.format(BASE_URL, city);
+  }
+
+  public void setCity(String city) {
+    url = String.format(BASE_URL, city);
   }
 
   @Override

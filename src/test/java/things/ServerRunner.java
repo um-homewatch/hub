@@ -1,4 +1,4 @@
-package base;
+package things;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
