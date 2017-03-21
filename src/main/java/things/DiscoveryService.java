@@ -1,5 +1,7 @@
 package things;
 
+import constants.LoggerUtils;
+import exceptions.InvalidSubTypeException;
 import org.apache.commons.net.util.SubnetUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -7,69 +9,76 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class DiscoveryService<T extends HttpThingService> {
-  private final CompletionService<T> completionService;
-  private final List<T> things = new ArrayList<>();
-  private final Class<T> thingType;
+public class DiscoveryService<T> {
+  private final CompletionService<HttpThingService<T>> completionService;
+  private final List<HttpThingService<T>> things = new ArrayList<>();
+  private final HttpThingServiceFactory<T> serviceFactory;
+  private final String subtype;
   private Integer port = null;
 
-  public DiscoveryService(Class<T> thingType) {
+  public DiscoveryService(HttpThingServiceFactory<T> serviceFactory, String subtype) throws InvalidSubTypeException {
+    if (!serviceFactory.isSubType(subtype))
+      throw new InvalidSubTypeException();
     ExecutorService executorService = Executors.newCachedThreadPool();
     this.completionService = new ExecutorCompletionService<>(executorService);
-    this.thingType = thingType;
+    this.serviceFactory = serviceFactory;
+    this.subtype = subtype;
   }
 
-  public DiscoveryService(Class<T> thingType, int port) {
-    this(thingType);
+  public DiscoveryService(HttpThingServiceFactory<T> serviceFactory, String subtype, int port) throws InvalidSubTypeException {
+    this(serviceFactory, subtype);
     this.port = port;
   }
 
-  public List<T> discovery() {
+  public List<HttpThingService<T>> discovery() {
     try {
       InetAddress localhost = InetAddress.getLocalHost();
       NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localhost);
+
       if (networkInterface == null)
-        networkInterface = NetworkInterface.getByIndex(0);
+        networkInterface = NetworkInterface.getByName("wlp2s0");
+
       for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-        if (interfaceAddress.getAddress() instanceof Inet4Address) {
-          String hostAddress = interfaceAddress.getAddress().getHostAddress();
-          short subnetMask = interfaceAddress.getNetworkPrefixLength();
-          SubnetUtils subnetUtils = new SubnetUtils(hostAddress + "/" + subnetMask);
-
-          for (String address : subnetUtils.getInfo().getAllAddresses()) {
-            pingAddress(address);
-          }
-
-          int numberOfTasks = subnetUtils.getInfo().getAllAddresses().length;
-
-          for (int i = 0; i < numberOfTasks; i++) {
-            Future<T> future = completionService.take();
-            if (future.get() != null) {
-              this.things.add(future.get());
-            }
-          }
-
-        }
+        pingInterfaceAddresses(interfaceAddress);
       }
     } catch (UnknownHostException | SocketException | IllegalAccessException | InvocationTargetException | InstantiationException | InterruptedException |
-            ExecutionException e) {
-      Logger.getAnonymousLogger().log(Level.SEVERE, "An exception occurred", e);
+            ExecutionException | InvalidSubTypeException e) {
+      LoggerUtils.logException(e);
     }
     return this.things;
   }
 
-  private void pingAddress(String address) throws UnknownHostException, IllegalAccessException, InvocationTargetException, InstantiationException {
-    T thing;
-    if (port == null)
-      thing = (T) thingType.getDeclaredConstructors()[0].newInstance(InetAddress.getByName(address));
-    else
-      thing = (T) thingType.getDeclaredConstructors()[1].newInstance(InetAddress.getByName(address), port);
+  private void pingInterfaceAddresses(InterfaceAddress interfaceAddress) throws InvocationTargetException, InstantiationException, IllegalAccessException, UnknownHostException, InterruptedException, ExecutionException, InvalidSubTypeException {
+    InetAddress address = interfaceAddress.getAddress();
+    if (address instanceof Inet4Address) {
+      String hostAddress = address.getHostAddress();
+      short subnetMask = interfaceAddress.getNetworkPrefixLength();
+      SubnetUtils subnetUtils = new SubnetUtils(hostAddress + "/" + subnetMask);
+
+      for (String subnetAddress : subnetUtils.getInfo().getAllAddresses()) {
+        pingAddress(subnetAddress);
+      }
+
+      addTasks(subnetUtils.getInfo().getAllAddresses().length);
+    }
+  }
+
+  private void addTasks(int numberOfTasks) throws InterruptedException, ExecutionException {
+    for (int i = 0; i < numberOfTasks; i++) {
+      Future<HttpThingService<T>> future = completionService.take();
+      if (future.get() != null) {
+        this.things.add(future.get());
+      }
+    }
+  }
+
+  private void pingAddress(String address) throws UnknownHostException, IllegalAccessException, InvocationTargetException, InstantiationException, InvalidSubTypeException {
+    HttpThingService<T> thingService = this.serviceFactory.create(InetAddress.getByName(address), this.port, subtype);
+
     this.completionService.submit(() -> {
-      if (thing.ping()) {
-        return thing;
+      if (thingService.ping()) {
+        return thingService;
       } else
         return null;
     });

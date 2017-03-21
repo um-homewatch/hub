@@ -1,23 +1,25 @@
 package things.locks;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import constants.LoggerUtils;
 import exceptions.NetworkException;
 import net.NetUtils;
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import org.json.JSONObject;
 import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestLockService extends HttpThingService<Lock> {
-  private final OkHttpClient httpClient = new OkHttpClient();
+class RestLockService extends HttpThingService<Lock> {
+  public RestLockService() {
+    super();
+  }
 
   public RestLockService(InetAddress ipAddress) {
     super(ipAddress);
   }
 
-  public RestLockService(InetAddress ipAddress, int port) {
+  public RestLockService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
   }
 
@@ -43,6 +45,7 @@ public class RestLockService extends HttpThingService<Lock> {
     try {
       get();
     } catch (NetworkException e) {
+      LoggerUtils.logException(e);
       return false;
     }
     return true;

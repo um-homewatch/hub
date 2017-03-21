@@ -1,4 +1,4 @@
-package weather;
+package things.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.BeforeClass;
@@ -7,8 +7,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import things.ThingService;
-import things.weather.OWMWeatherService;
-import things.weather.Weather;
 
 import java.io.File;
 

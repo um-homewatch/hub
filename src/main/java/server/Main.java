@@ -3,6 +3,7 @@ package server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.JsonUtils;
+import constants.LoggerUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
 import org.xml.sax.SAXException;
@@ -11,27 +12,27 @@ import server.controllers.LockController;
 import server.controllers.WeatherController;
 import spark.Spark;
 import things.DiscoveryService;
-import things.ThingService;
-import things.lights.RestLightService;
-import things.locks.RestLockService;
+import things.lights.Light;
+import things.lights.LightServiceFactory;
+import things.locks.Lock;
+import things.locks.LockServiceFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
   private static final ObjectMapper OM = JsonUtils.getOM();
 
-  public static void main(String[] args) throws IOException, SAXException {
-    Map<String, ThingService> things = new HashMap<>();
+  private Main() {
+  }
 
+  public static void main(String[] args) throws IOException, SAXException {
     Spark.get("/lights/discover", (req, res) -> {
-      DiscoveryService<RestLightService> discoveryService = new DiscoveryService<>(RestLightService.class);
+      DiscoveryService<Light> discoveryService = new DiscoveryService<>(new LightServiceFactory(), "rest");
       return OM.writeValueAsString(discoveryService.discovery());
     });
 
     Spark.get("/locks/discover", (req, res) -> {
-      DiscoveryService<RestLockService> discoveryService = new DiscoveryService<>(RestLockService.class);
+      DiscoveryService<Lock> discoveryService = new DiscoveryService<>(new LockServiceFactory(), "rest");
       return OM.writeValueAsString(discoveryService.discovery());
     });
 
@@ -47,26 +48,26 @@ public class Main {
     Spark.exception(IllegalArgumentException.class, (exception, req, res) -> {
       res.status(400);
       res.body(exceptionToString(exception));
-      exception.printStackTrace();
+      LoggerUtils.logException(exception);
     });
 
     Spark.exception(InvalidSubTypeException.class, (exception, req, res) -> {
       res.status(400);
       res.body(exceptionToString(exception));
-      exception.printStackTrace();
+      LoggerUtils.logException(exception);
     });
 
     Spark.exception(NetworkException.class, (exception, req, res) -> {
       NetworkException e = (NetworkException) exception;
       res.status(e.getStatusCode());
       res.body(exceptionToString(exception));
-      exception.printStackTrace();
+      LoggerUtils.logException(exception);
     });
 
     Spark.exception(Exception.class, (exception, req, res) -> {
       res.status(500);
       res.body(exceptionToString(exception));
-      exception.printStackTrace();
+      LoggerUtils.logException(exception);
     });
 
     Spark.after((request, response) -> {
@@ -78,8 +79,8 @@ public class Main {
   private static String exceptionToString(Exception e) {
     try {
       return OM.writeValueAsString(new ErrorMessage(e.getMessage()));
-    } catch (JsonProcessingException ex) {
-      ex.printStackTrace();
+    } catch (JsonProcessingException e1) {
+      LoggerUtils.logException(e1);
       return null;
     }
   }

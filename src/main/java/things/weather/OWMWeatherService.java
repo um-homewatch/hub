@@ -6,12 +6,23 @@ import net.NetUtils;
 import okhttp3.HttpUrl;
 import things.ThingService;
 
-public class OWMWeatherService implements ThingService<Weather> {
-  private static String URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
+import java.util.logging.Logger;
+
+class OWMWeatherService implements ThingService<Weather> {
+  private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/things.weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
+  private String url;
   private JsonNode weatherData;
 
+  public OWMWeatherService() {
+    url = String.format(BASE_URL, "");
+  }
+
   public OWMWeatherService(String city) {
-    URL = String.format(URL, city);
+    url = String.format(BASE_URL, city);
+  }
+
+  public void setCity(String city) {
+    url = String.format(BASE_URL, city);
   }
 
   @Override
@@ -29,14 +40,15 @@ public class OWMWeatherService implements ThingService<Weather> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(HttpUrl.parse(URL)).getResponse().code() == 200;
+      return NetUtils.get(HttpUrl.parse(url)).getResponse().code() == 200;
     } catch (NetworkException e) {
+      Logger.getGlobal().info("FAILED PING REASON:" + e);
       return false;
     }
   }
 
   private JsonNode getWeatherData() throws NetworkException {
-    return NetUtils.get(HttpUrl.parse(URL)).getJson();
+    return NetUtils.get(HttpUrl.parse(url)).getJson();
   }
 
   @Override

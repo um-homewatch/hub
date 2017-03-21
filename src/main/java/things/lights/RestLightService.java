@@ -1,6 +1,7 @@
 package things.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import constants.LoggerUtils;
 import exceptions.NetworkException;
 import net.NetUtils;
 import okhttp3.HttpUrl;
@@ -9,12 +10,16 @@ import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestLightService extends HttpThingService<Light> {
+class RestLightService extends HttpThingService<Light> {
+  public RestLightService() {
+    super();
+  }
+
   public RestLightService(InetAddress ipAddress) {
     super(ipAddress);
   }
 
-  public RestLightService(InetAddress ipAddress, int port) {
+  public RestLightService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
   }
 
@@ -40,6 +45,7 @@ public class RestLightService extends HttpThingService<Light> {
     try {
       get();
     } catch (NetworkException e) {
+      LoggerUtils.logException(e);
       return false;
     }
     return true;

@@ -3,14 +3,17 @@ package things;
 import java.net.InetAddress;
 
 public abstract class HttpThingService<T> implements ThingService<T> {
-  private final InetAddress ipAddress;
+  private InetAddress ipAddress;
   private Integer port = null;
+
+  protected HttpThingService() {
+  }
 
   protected HttpThingService(InetAddress ipAddress) {
     this.ipAddress = ipAddress;
   }
 
-  protected HttpThingService(InetAddress ipAddress, int port) {
+  protected HttpThingService(InetAddress ipAddress, Integer port) {
     this.ipAddress = ipAddress;
     this.port = port;
   }
@@ -19,7 +22,17 @@ public abstract class HttpThingService<T> implements ThingService<T> {
     return ipAddress;
   }
 
-  public abstract boolean ping();
+  public void setIpAddress(InetAddress ipAddress) {
+    this.ipAddress = ipAddress;
+  }
+
+  public Integer getPort() {
+    return port;
+  }
+
+  public void setPort(Integer port) {
+    this.port = port;
+  }
 
   protected String getUrl() {
     if (port == null)

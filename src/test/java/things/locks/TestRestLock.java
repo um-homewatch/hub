@@ -1,4 +1,4 @@
-package locks;
+package things.locks;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import exceptions.NetworkException;
@@ -6,8 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import things.ThingService;
-import things.locks.Lock;
-import things.locks.RestLockService;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

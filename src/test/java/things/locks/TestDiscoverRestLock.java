@@ -1,12 +1,13 @@
-package lights;
+package things.locks;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import things.DiscoveryService;
-import things.lights.RestLightService;
+import things.HttpThingService;
 
 import java.net.UnknownHostException;
 import java.util.List;
@@ -16,15 +17,15 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @Ignore
-public class TestDiscoverRestLight {
+public class TestDiscoverRestLock {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
   @Test
-  public void discoverRestLights() throws UnknownHostException, NetworkException {
-    LightStubs.stubGetStatus(wireMockRule, true);
+  public void discoverRestLocks() throws UnknownHostException, NetworkException, InvalidSubTypeException {
+    LockStubs.stubGetStatus(wireMockRule, true);
 
-    List<RestLightService> restLightServiceList = new DiscoveryService<>(RestLightService.class, 8080).discovery();
-    assertThat(restLightServiceList.size(), is(1));
+    List<HttpThingService<Lock>> restLockServiceList = new DiscoveryService<>(new LockServiceFactory(), "rest", 8080).discovery();
+    assertThat(restLockServiceList.size(), is(1));
   }
 }
