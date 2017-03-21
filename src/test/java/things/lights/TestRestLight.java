@@ -1,6 +1,7 @@
 package things.lights;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import constants.LightStubs;
 import exceptions.NetworkException;
 import org.junit.BeforeClass;
 import org.junit.Rule;

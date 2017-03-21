@@ -1,6 +1,7 @@
 package things.lights;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import constants.LightStubs;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
 import org.junit.Ignore;

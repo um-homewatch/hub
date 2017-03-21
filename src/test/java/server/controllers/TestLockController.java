@@ -1,5 +1,6 @@
-package things.locks;
+package server.controllers;
 
+import constants.LockStubs;
 import things.ServerRunner;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;

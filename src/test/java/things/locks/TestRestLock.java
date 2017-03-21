@@ -1,6 +1,7 @@
 package things.locks;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import constants.LockStubs;
 import exceptions.NetworkException;
 import org.junit.BeforeClass;
 import org.junit.Rule;
