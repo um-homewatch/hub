@@ -46,6 +46,7 @@
                 <configuration>
                     <instrumentation>
                         <ignoreTrivial>true</ignoreTrivial>
+                        <exclude>things/*DiscoveryService.class</exclude>
                     </instrumentation>
                     <formats>
                         <format>html</format>

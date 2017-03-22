@@ -14,6 +14,7 @@ import java.io.IOException;
 
 public class WeatherController {
   private static final ObjectMapper OM = new ObjectMapper();
+  private static final WeatherServiceFactory weatherServiceFactory = new WeatherServiceFactory();
 
   private WeatherController() {
   }
@@ -26,7 +27,7 @@ public class WeatherController {
       }
 
       String city = req.queryMap("city").value();
-      Weather weather = WeatherServiceFactory.create(city, "owm").get();
+      Weather weather = weatherServiceFactory.create(city, "owm").get();
 
       return OM.writeValueAsString(weather);
     } catch (IOException e) {

@@ -4,11 +4,8 @@ import exceptions.InvalidSubTypeException;
 import things.ThingService;
 import things.ThingServiceFactory;
 
-public class WeatherServiceFactory implements ThingServiceFactory<Weather>{
-  private WeatherServiceFactory() {
-  }
-
-  public static ThingService<Weather> create(String city, String subtype) throws InvalidSubTypeException {
+public class WeatherServiceFactory implements ThingServiceFactory<Weather> {
+  public ThingService<Weather> create(String city, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "owm":
         return new OWMWeatherService(city);
@@ -29,6 +26,11 @@ public class WeatherServiceFactory implements ThingServiceFactory<Weather>{
 
   @Override
   public boolean isSubType(String subtype) {
-    return false;
+    switch (subtype) {
+      case "owm":
+        return true;
+      default:
+        return false;
+    }
   }
 }

@@ -1,7 +1,6 @@
 package things.locks;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import constants.LoggerUtils;
 import exceptions.NetworkException;
 import net.NetUtils;
 import okhttp3.HttpUrl;
@@ -45,7 +44,6 @@ class RestLockService extends HttpThingService<Lock> {
     try {
       get();
     } catch (NetworkException e) {
-      LoggerUtils.logException(e);
       return false;
     }
     return true;

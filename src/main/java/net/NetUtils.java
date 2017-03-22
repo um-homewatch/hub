@@ -1,6 +1,5 @@
 package net;
 
-import constants.LoggerUtils;
 import exceptions.NetworkException;
 import okhttp3.*;
 import org.json.JSONObject;
@@ -23,8 +22,7 @@ public class NetUtils {
 
       analyzeStatusCode(response);
     } catch (IOException e) {
-      LoggerUtils.logException(e);
-      throw new NetworkException(e.getMessage(), 500);
+      throw new NetworkException(e, 500);
     }
   }
 
@@ -38,8 +36,7 @@ public class NetUtils {
 
       return new JsonResponse(response);
     } catch (IOException e) {
-      LoggerUtils.logException(e);
-      throw new NetworkException(e.getMessage(), 500);
+      throw new NetworkException(e, 500);
     }
   }
 
