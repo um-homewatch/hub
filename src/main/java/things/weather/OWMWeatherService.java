@@ -9,15 +9,15 @@ import things.ThingService;
 import java.util.logging.Logger;
 
 class OWMWeatherService implements ThingService<Weather> {
-  private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/things.weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
+  private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
   private String url;
   private JsonNode weatherData;
 
-  public OWMWeatherService() {
+  OWMWeatherService() {
     url = String.format(BASE_URL, "");
   }
 
-  public OWMWeatherService(String city) {
+  OWMWeatherService(String city) {
     url = String.format(BASE_URL, city);
   }
 

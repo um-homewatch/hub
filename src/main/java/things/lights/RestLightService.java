@@ -10,21 +10,25 @@ import things.HttpThingService;
 import java.net.InetAddress;
 
 class RestLightService extends HttpThingService<Light> {
-  public RestLightService() {
+  private HttpUrl baseUrl;
+
+  RestLightService() {
     super();
   }
 
-  public RestLightService(InetAddress ipAddress) {
+  RestLightService(InetAddress ipAddress) {
     super(ipAddress);
+    this.baseUrl = HttpUrl.parse(this.getUrl() + "/status");
   }
 
-  public RestLightService(InetAddress ipAddress, Integer port) {
+  RestLightService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
+    this.baseUrl = HttpUrl.parse(this.getUrl() + "/status");
   }
 
   @Override
   public Light get() throws NetworkException {
-    JsonNode response = NetUtils.get(HttpUrl.parse(this.getUrl() + "/status")).getJson();
+    JsonNode response = NetUtils.get(baseUrl).getJson();
 
     boolean on = response.get("power").asBoolean();
 
@@ -36,17 +40,16 @@ class RestLightService extends HttpThingService<Light> {
     JSONObject json = new JSONObject();
     json.put("power", light.isOn());
 
-    NetUtils.put(HttpUrl.parse(this.getUrl() + "/status"), json);
+    NetUtils.put(baseUrl, json);
   }
 
   @Override
   public boolean ping() {
     try {
-      get();
+      return NetUtils.get(baseUrl, 500, 500).getResponse().code() == 200;
     } catch (NetworkException e) {
       return false;
     }
-    return true;
   }
 
   @Override

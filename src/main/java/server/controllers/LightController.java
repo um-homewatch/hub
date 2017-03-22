@@ -5,6 +5,7 @@ import constants.JsonUtils;
 import constants.LoggerUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
+import server.controllers.pojos.HttpThingInfo;
 import spark.Request;
 import spark.Response;
 import things.HttpThingServiceFactory;

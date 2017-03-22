@@ -5,6 +5,7 @@ import constants.LoggerUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
 import server.ErrorMessage;
+import server.controllers.pojos.ThingInfo;
 import spark.Request;
 import spark.Response;
 import things.weather.Weather;
@@ -21,13 +22,15 @@ public class WeatherController {
 
   public static String get(Request req, Response res) throws NetworkException {
     try {
+      ThingInfo info = ThingInfo.fromQueryString(req.queryMap());
+
       if (!req.queryMap("city").hasValue()) {
         res.status(400);
         return OM.writeValueAsString(new ErrorMessage("missing params: city"));
       }
 
       String city = req.queryMap("city").value();
-      Weather weather = weatherServiceFactory.create(city, "owm").get();
+      Weather weather = weatherServiceFactory.create(city, info.getSubType()).get();
 
       return OM.writeValueAsString(weather);
     } catch (IOException e) {

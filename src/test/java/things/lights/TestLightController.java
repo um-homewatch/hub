@@ -1,4 +1,4 @@
-package server.controllers;
+package things.lights;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
@@ -10,9 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-import server.Main;
 import things.ServerRunner;
-
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -41,9 +39,6 @@ public class TestLightController extends ServerRunner {
 
     JSON = new JSONObject();
     JSON.put("on", false);
-
-    //startup the server
-    Main.main(new String[1]);
   }
 
   @Test

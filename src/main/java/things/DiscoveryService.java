@@ -4,7 +4,6 @@ import constants.LoggerUtils;
 import exceptions.InvalidSubTypeException;
 import org.apache.commons.net.util.SubnetUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +41,13 @@ public class DiscoveryService<T> {
       for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
         pingInterfaceAddresses(interfaceAddress);
       }
-    } catch (UnknownHostException | SocketException | IllegalAccessException | InvocationTargetException | InstantiationException | InterruptedException |
-            ExecutionException | InvalidSubTypeException e) {
+    } catch (UnknownHostException | SocketException | InterruptedException | ExecutionException | InvalidSubTypeException e) {
       LoggerUtils.logException(e);
     }
     return this.things;
   }
 
-  private void pingInterfaceAddresses(InterfaceAddress interfaceAddress) throws InvocationTargetException, InstantiationException, IllegalAccessException, UnknownHostException, InterruptedException, ExecutionException, InvalidSubTypeException {
+  private void pingInterfaceAddresses(InterfaceAddress interfaceAddress) throws UnknownHostException, InterruptedException, ExecutionException, InvalidSubTypeException {
     InetAddress address = interfaceAddress.getAddress();
     if (address instanceof Inet4Address) {
       String hostAddress = address.getHostAddress();
@@ -73,7 +71,7 @@ public class DiscoveryService<T> {
     }
   }
 
-  private void pingAddress(String address) throws UnknownHostException, IllegalAccessException, InvocationTargetException, InstantiationException, InvalidSubTypeException {
+  private void pingAddress(String address) throws UnknownHostException, InvalidSubTypeException {
     HttpThingService<T> thingService = this.serviceFactory.create(InetAddress.getByName(address), this.port, subtype);
 
     this.completionService.submit(() -> {

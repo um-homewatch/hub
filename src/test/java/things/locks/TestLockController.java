@@ -1,17 +1,16 @@
-package server.controllers;
+package things.locks;
 
-import constants.LockStubs;
-import things.ServerRunner;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import constants.LockStubs;
 import exceptions.NetworkException;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-import server.Main;
+import things.ServerRunner;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -40,9 +39,6 @@ public class TestLockController extends ServerRunner {
 
     JSON = new JSONObject();
     JSON.put("locked", false);
-
-    //startup the server
-    Main.main(new String[1]);
   }
 
   @Test
