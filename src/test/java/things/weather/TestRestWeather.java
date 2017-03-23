@@ -3,7 +3,6 @@ package things.weather;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import constants.WeatherStubs;
 import exceptions.NetworkException;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,15 +26,14 @@ public class TestRestWeather {
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
   private RestWeatherService restWeatherService;
-  private Weather originalWeather = new Weather(1.1, 2.2, true, true);
-  private Weather returnedWeather;
+  private final Weather originalWeather = new Weather(1.1, 2.2, true, true);
 
   @Test
   public void testWeather() throws NetworkException, UnknownHostException {
     restWeatherService = new RestWeatherService(InetAddress.getLocalHost(), 8080);
     WeatherStubs.stubGetStatus(wireMockRule, originalWeather);
 
-    returnedWeather = restWeatherService.get();
+    Weather returnedWeather = restWeatherService.get();
 
     assertEquals(originalWeather, returnedWeather);
   }

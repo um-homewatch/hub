@@ -42,7 +42,7 @@ class OWMWeatherService implements ThingService<Weather> {
     }
   }
 
-  private JsonNode getWeatherData() throws NetworkException, ExecutionException {
+  private JsonNode getWeatherData() throws ExecutionException {
     String region = CacheUtils.get(REGION_URL).getJson().get("region_name").asText();
     this.url = String.format(BASE_URL, region);
 

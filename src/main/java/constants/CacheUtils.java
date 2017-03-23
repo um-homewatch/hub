@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class CacheUtils {
-  private static LoadingCache<HttpUrl, JsonResponse> cachedResponses = CacheBuilder.newBuilder()
+  private static final LoadingCache<HttpUrl, JsonResponse> cachedResponses = CacheBuilder.newBuilder()
           .expireAfterAccess(10, TimeUnit.MINUTES)
           .build(new CacheLoader<HttpUrl, JsonResponse>() {
             public JsonResponse load(HttpUrl url) throws NetworkException {

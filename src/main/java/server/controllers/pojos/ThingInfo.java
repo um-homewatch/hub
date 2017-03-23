@@ -2,8 +2,6 @@ package server.controllers.pojos;
 
 import spark.QueryParamsMap;
 
-import java.net.UnknownHostException;
-
 public class ThingInfo {
   private final String subType;
 
@@ -11,7 +9,7 @@ public class ThingInfo {
     this.subType = subType;
   }
 
-  public static ThingInfo fromQueryString(QueryParamsMap query) throws UnknownHostException {
+  public static ThingInfo fromQueryString(QueryParamsMap query) {
     QueryParamsMap subType = query.get("subType");
 
     if (!subType.hasValue()) {

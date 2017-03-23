@@ -22,12 +22,11 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 public class TestOWMWeather {
   private static final ObjectMapper OM = new ObjectMapper();
   private static final File fixture = new File("src/test/fixtures/owmweather.json");
-  private static ThingService<Weather> weatherService;
   private static Weather WEATHER;
 
   @BeforeClass
   public static void setup() throws Exception {
-    weatherService = spy(new OWMWeatherService());
+    ThingService<Weather> weatherService = spy(new OWMWeatherService());
 
     doReturn(OM.readTree(fixture)).when(weatherService, "getWeatherData");
 

@@ -70,9 +70,7 @@ public class Main {
       LoggerUtils.logException(exception);
     });
 
-    Spark.after((request, response) -> {
-      response.header("Content-Type", "application/json");
-    });
+    Spark.after((request, response) -> response.header("Content-Type", "application/json"));
   }
 
   private static String exceptionToString(Exception e) {
