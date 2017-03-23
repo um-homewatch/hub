@@ -37,7 +37,7 @@ public class WeatherController {
 
       Weather weather = weatherThingService.get();
       res.status(200);
-      
+
       return OM.writeValueAsString(weather);
     } catch (IOException e) {
       LoggerUtils.logException(e);

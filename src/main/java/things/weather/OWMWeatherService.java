@@ -1,23 +1,30 @@
 package things.weather;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import constants.CacheUtils;
 import exceptions.NetworkException;
 import net.NetUtils;
 import okhttp3.HttpUrl;
 import things.ThingService;
 
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 class OWMWeatherService implements ThingService<Weather> {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
+  private static final HttpUrl REGION_URL = HttpUrl.parse("http://freegeoip.net/json/");
   private String url = "http://api.openweathermap.org/data/2.5/weather?Braga&APPID=3e7e26039e4050a3edaaf374adb887de";
   private JsonNode weatherData;
 
   @Override
   public Weather get() throws NetworkException {
-    this.weatherData = this.getWeatherData();
+    try {
+      this.weatherData = this.getWeatherData();
 
-    return new Weather(this.getTemperature(), this.getWindSpeed(), this.getRain(), this.getClouds());
+      return new Weather(this.getTemperature(), this.getWindSpeed(), this.getRain(), this.getClouds());
+    } catch (ExecutionException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
@@ -35,11 +42,11 @@ class OWMWeatherService implements ThingService<Weather> {
     }
   }
 
-  private JsonNode getWeatherData() throws NetworkException {
-    String region = NetUtils.get(HttpUrl.parse("http://freegeoip.net/json/")).getJson().get("region_name").asText();
+  private JsonNode getWeatherData() throws NetworkException, ExecutionException {
+    String region = CacheUtils.get(REGION_URL).getJson().get("region_name").asText();
     this.url = String.format(BASE_URL, region);
 
-    return NetUtils.get(HttpUrl.parse(url)).getJson();
+    return CacheUtils.get(HttpUrl.parse(url)).getJson();
   }
 
   @Override

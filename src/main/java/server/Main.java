@@ -71,7 +71,6 @@ public class Main {
     });
 
     Spark.after((request, response) -> {
-      response.header("Content-Encoding", "gzip");
       response.header("Content-Type", "application/json");
     });
   }
