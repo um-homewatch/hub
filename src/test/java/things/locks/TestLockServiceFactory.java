@@ -4,9 +4,6 @@ import exceptions.InvalidSubTypeException;
 import org.junit.Test;
 import things.HttpThingService;
 import things.ThingService;
-import things.locks.Lock;
-import things.locks.LockServiceFactory;
-import things.locks.RestLockService;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -36,7 +33,7 @@ public class TestLockServiceFactory {
   }
 
   @Test
-  public void testIsSubType(){
+  public void testIsSubType() {
     assertTrue(serviceFactory.isSubType("rest"));
   }
 }

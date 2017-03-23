@@ -90,7 +90,6 @@ public class TestLightController extends ServerRunner {
             .getStatus();
 
 
-
     assertThat(status, is(400));
   }
 }

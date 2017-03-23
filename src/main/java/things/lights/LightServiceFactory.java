@@ -31,11 +31,17 @@ public class LightServiceFactory implements HttpThingServiceFactory<Light> {
 
   @Override
   public boolean isSubType(String subtype) {
-    switch (subtype) {
-      case "rest":
-        return true;
-      default:
-        return false;
+    String subTypeUpper = subtype.toUpperCase();
+    try {
+      SubType.valueOf(subTypeUpper);
+
+      return true;
+    } catch (IllegalArgumentException ex) {
+      return false;
     }
   }
+}
+
+enum SubType {
+  REST
 }

@@ -4,8 +4,6 @@ import exceptions.InvalidSubTypeException;
 import org.junit.Test;
 import things.HttpThingService;
 import things.ThingService;
-import things.lights.Light;
-import things.lights.LightServiceFactory;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -35,7 +33,7 @@ public class TestLightServiceFactory {
   }
 
   @Test
-  public void testIsSubType(){
+  public void testIsSubType() {
     assertTrue(serviceFactory.isSubType("rest"));
   }
 }

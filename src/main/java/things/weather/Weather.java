@@ -38,4 +38,17 @@ public class Weather {
   public boolean isCloudy() {
     return cloudy;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+
+    if (!(o instanceof Weather))
+      return false;
+
+    Weather weather = (Weather) o;
+
+    return Double.compare(weather.getTemperature(), getTemperature()) == 0 && Double.compare(weather.getWindSpeed(), getWindSpeed()) == 0 && isRaining() == weather.isRaining() && isCloudy() == weather.isCloudy();
+  }
 }

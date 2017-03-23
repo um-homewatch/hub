@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.LoggerUtils;
 import exceptions.InvalidSubTypeException;
 import exceptions.NetworkException;
-import server.ErrorMessage;
+import server.controllers.pojos.HttpThingInfo;
 import server.controllers.pojos.ThingInfo;
 import spark.Request;
 import spark.Response;
+import things.HttpThingService;
+import things.ThingService;
 import things.weather.Weather;
 import things.weather.WeatherServiceFactory;
 
@@ -24,14 +26,18 @@ public class WeatherController {
     try {
       ThingInfo info = ThingInfo.fromQueryString(req.queryMap());
 
-      if (!req.queryMap("city").hasValue()) {
-        res.status(400);
-        return OM.writeValueAsString(new ErrorMessage("missing params: city"));
+      ThingService<Weather> weatherThingService = weatherServiceFactory.create(info.getSubType());
+
+      if (weatherThingService instanceof HttpThingService) {
+        HttpThingInfo httpThingInfo = HttpThingInfo.fromQueryString(req.queryMap());
+        HttpThingService<Weather> weatherHttpThingService = (HttpThingService<Weather>) weatherThingService;
+        weatherHttpThingService.setIpAddress(httpThingInfo.getAddress());
+        weatherHttpThingService.setPort(httpThingInfo.getPort());
       }
 
-      String city = req.queryMap("city").value();
-      Weather weather = weatherServiceFactory.create(city, info.getSubType()).get();
-
+      Weather weather = weatherThingService.get();
+      res.status(200);
+      
       return OM.writeValueAsString(weather);
     } catch (IOException e) {
       LoggerUtils.logException(e);

@@ -30,11 +30,17 @@ public class LockServiceFactory implements HttpThingServiceFactory<Lock> {
 
   @Override
   public boolean isSubType(String subtype) {
-    switch (subtype) {
-      case "rest":
-        return true;
-      default:
-        return false;
+    String subTypeUpper = subtype.toUpperCase();
+    try {
+      SubType.valueOf(subTypeUpper);
+
+      return true;
+    } catch (IllegalArgumentException ex) {
+      return false;
     }
   }
+}
+
+enum SubType {
+  REST
 }

@@ -10,20 +10,8 @@ import java.util.logging.Logger;
 
 class OWMWeatherService implements ThingService<Weather> {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
-  private String url;
+  private String url = "http://api.openweathermap.org/data/2.5/weather?Braga&APPID=3e7e26039e4050a3edaaf374adb887de";
   private JsonNode weatherData;
-
-  OWMWeatherService() {
-    url = String.format(BASE_URL, "");
-  }
-
-  OWMWeatherService(String city) {
-    url = String.format(BASE_URL, city);
-  }
-
-  public void setCity(String city) {
-    url = String.format(BASE_URL, city);
-  }
 
   @Override
   public Weather get() throws NetworkException {
@@ -48,6 +36,9 @@ class OWMWeatherService implements ThingService<Weather> {
   }
 
   private JsonNode getWeatherData() throws NetworkException {
+    String region = NetUtils.get(HttpUrl.parse("http://freegeoip.net/json/")).getJson().get("region_name").asText();
+    this.url = String.format(BASE_URL, region);
+
     return NetUtils.get(HttpUrl.parse(url)).getJson();
   }
 
