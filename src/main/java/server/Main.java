@@ -9,6 +9,7 @@ import exceptions.NetworkException;
 import org.xml.sax.SAXException;
 import server.controllers.LightController;
 import server.controllers.LockController;
+import server.controllers.NgrokController;
 import server.controllers.WeatherController;
 import spark.Spark;
 import things.DiscoveryService;
@@ -43,6 +44,8 @@ public class Main {
     Spark.put("/locks", LockController::put);
 
     Spark.get("/weather", WeatherController::get);
+
+    Spark.get("/tunnel", NgrokController::get);
 
 
     Spark.exception(IllegalArgumentException.class, (exception, req, res) -> {
