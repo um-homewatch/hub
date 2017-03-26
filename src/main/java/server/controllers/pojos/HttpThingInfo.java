@@ -21,7 +21,7 @@ public class HttpThingInfo extends ThingInfo {
     QueryParamsMap subType = query.get("subType");
 
     if (!address.hasValue() || !subType.hasValue()) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("missing parameters. required params = address & subtype");
     } else {
       Integer portNumber = port.hasValue() ? port.integerValue() : null;
       return new HttpThingInfo(InetAddress.getByName(address.value()), portNumber, subType.value());
