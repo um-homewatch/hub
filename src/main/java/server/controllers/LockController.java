@@ -24,23 +24,20 @@ public class LockController {
   public static String get(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Lock> lockService = lockServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingService<Lock> lockService = createLockService(info);
 
       res.status(200);
       return OM.writeValueAsString(lockService.get());
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
-    } catch (InvalidSubTypeException e) {
-      LoggerUtils.logException(e);
-      throw new NetworkException(e.getMessage(), 400);
     }
   }
 
   public static String put(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Lock> lockService = lockServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingService<Lock> lockService = createLockService(info);
       Lock lock = OM.readValue(req.body(), Lock.class);
 
       lockService.put(lock);
@@ -50,6 +47,12 @@ public class LockController {
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
+    }
+  }
+
+  private static ThingService<Lock> createLockService(HttpThingInfo info) throws NetworkException {
+    try {
+      return lockServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
     } catch (InvalidSubTypeException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 400);

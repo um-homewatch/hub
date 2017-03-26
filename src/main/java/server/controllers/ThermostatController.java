@@ -24,23 +24,20 @@ public class ThermostatController {
   public static String get(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Thermostat> thermostatService = thermostatServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingService<Thermostat> thermostatService = createThermostatService(info);
 
       res.status(200);
       return OM.writeValueAsString(thermostatService.get());
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
-    } catch (InvalidSubTypeException e) {
-      LoggerUtils.logException(e);
-      throw new NetworkException(e.getMessage(), 400);
     }
   }
 
   public static String put(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Thermostat> thermostatService = thermostatServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingService<Thermostat> thermostatService = createThermostatService(info);
       Thermostat thermostat = OM.readValue(req.body(), Thermostat.class);
 
       thermostatService.put(thermostat);
@@ -50,6 +47,12 @@ public class ThermostatController {
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
+    }
+  }
+
+  private static ThingService<Thermostat> createThermostatService(HttpThingInfo info) throws NetworkException {
+    try {
+      return thermostatServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
     } catch (InvalidSubTypeException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 400);

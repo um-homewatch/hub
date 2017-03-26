@@ -5,6 +5,7 @@ public class Thermostat {
   private double targetTemperature;
 
   public Thermostat() {
+    this.targetTemperature = 0;
   }
 
   public Thermostat(double targetTemperature) {

@@ -11,11 +11,12 @@ import spark.Request;
 import spark.Response;
 
 public class NgrokController {
-  private static final ObjectMapper OM = JsonUtils.getOM();
+  private NgrokController(){
+  }
 
   public static String get(Request req, Response res) throws NetworkException {
     JsonResponse jsonResponse = NetUtils.get(HttpUrl.parse("http://localhost:4040/api/tunnels/homewatch-hub"));
-
+    
     return convertResponse(jsonResponse);
   }
 

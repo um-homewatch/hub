@@ -85,8 +85,19 @@ public class TestThermostatController extends ServerRunner {
   }
 
   @Test
-  public void errorInvalidSubType() throws UnirestException {
+  public void errorInvalidSubTypeGet() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/thermostats")
+            .queryString("address", "192.168.1.1")
+            .queryString("subType", "cenas")
+            .asJson()
+            .getStatus();
+
+    assertThat(status, is(400));
+  }
+
+  @Test
+  public void errorInvalidSubTypePut() throws UnirestException {
+    int status = Unirest.put("http://localhost:4567/thermostats")
             .queryString("address", "192.168.1.1")
             .queryString("subType", "cenas")
             .asJson()

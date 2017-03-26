@@ -25,23 +25,20 @@ public class LightController {
   public static String get(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Light> lightService = lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingService<Light> lightService = createLightService(info);
 
       res.status(200);
       return OM.writeValueAsString(lightService.get());
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
-    } catch (InvalidSubTypeException e) {
-      LoggerUtils.logException(e);
-      throw new NetworkException(e.getMessage(), 400);
     }
   }
 
   public static String put(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Light> lightService = lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingService<Light> lightService = createLightService(info);
       Light light = OM.readValue(req.body(), Light.class);
 
       lightService.put(light);
@@ -51,6 +48,12 @@ public class LightController {
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
+    }
+  }
+
+  private static ThingService<Light> createLightService(HttpThingInfo info) throws NetworkException {
+    try {
+      return lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
     } catch (InvalidSubTypeException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 400);
