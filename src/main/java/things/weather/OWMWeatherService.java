@@ -14,21 +14,20 @@ class OWMWeatherService implements ThingService<Weather> {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
   private static final HttpUrl REGION_URL = HttpUrl.parse("http://freegeoip.net/json/");
   private String url = "http://api.openweathermap.org/data/2.5/weather?Braga&APPID=3e7e26039e4050a3edaaf374adb887de";
-  private JsonNode weatherData;
 
   @Override
   public Weather get() throws NetworkException {
     try {
-      this.weatherData = this.getWeatherData();
+      JsonNode response = this.getWeatherData();
 
-      return new Weather(this.getTemperature(), this.getWindSpeed(), this.getRain(), this.getClouds());
+      return this.jsonToWeather(response);
     } catch (ExecutionException e) {
       throw new NetworkException(e, 500);
     }
   }
 
   @Override
-  public void put(Weather weather) throws NetworkException {
+  public Weather put(Weather weather) throws NetworkException {
     throw new UnsupportedOperationException();
   }
 
@@ -59,18 +58,19 @@ class OWMWeatherService implements ThingService<Weather> {
     return "owm";
   }
 
-  private double getTemperature() {
-    return weatherData.get("main").get("temp").asDouble() - 273.15d;
+  private Weather jsonToWeather(JsonNode json) {
+    double temperature = json.get("main").get("temp").asDouble() - 273.15d;
+    double windspeed = json.get("wind").get("speed").asDouble();
+    boolean rain = getRain(json);
+    boolean cloudy = json.get("clouds").get("all").asInt() > 0;
+
+    return new Weather(temperature, windspeed, rain, cloudy);
   }
 
-  private double getWindSpeed() {
-    return weatherData.get("wind").get("speed").asDouble();
-  }
-
-  private boolean getRain() {
+  private boolean getRain(JsonNode json) {
     boolean rain = false;
 
-    for (JsonNode weatherNode : weatherData.get("weather")) {
+    for (JsonNode weatherNode : json.get("weather")) {
       int statusCode = weatherNode.get("id").asInt();
       rain = statusCode >= 300 && statusCode <= 531;
       if (rain)
@@ -78,9 +78,5 @@ class OWMWeatherService implements ThingService<Weather> {
     }
 
     return rain;
-  }
-
-  private boolean getClouds() {
-    return weatherData.get("clouds").get("all").asInt() > 0;
   }
 }

@@ -14,9 +14,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.net.ssl.*")

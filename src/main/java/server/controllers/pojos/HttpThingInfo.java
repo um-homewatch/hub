@@ -15,16 +15,21 @@ public class HttpThingInfo extends ThingInfo {
     this.port = port;
   }
 
-  public static HttpThingInfo fromQueryString(QueryParamsMap query) throws UnknownHostException {
-    QueryParamsMap address = query.get("address");
-    QueryParamsMap port = query.get("port");
-    QueryParamsMap subType = query.get("subType");
+  public static HttpThingInfo fromQueryString(QueryParamsMap query) {
+    try {
+      QueryParamsMap address = query.get("address");
+      QueryParamsMap port = query.get("port");
+      QueryParamsMap subType = query.get("subType");
 
-    if (!address.hasValue() || !subType.hasValue()) {
-      throw new IllegalArgumentException("missing parameters. required params = address & subtype");
-    } else {
-      Integer portNumber = port.hasValue() ? port.integerValue() : null;
-      return new HttpThingInfo(InetAddress.getByName(address.value()), portNumber, subType.value());
+      if (!address.hasValue() || !subType.hasValue()) {
+        throw new IllegalArgumentException("missing parameters. required params = address & subtype");
+      } else {
+        Integer portNumber = port.hasValue() ? port.integerValue() : null;
+
+        return new HttpThingInfo(InetAddress.getByName(address.value()), portNumber, subType.value());
+      }
+    } catch (UnknownHostException e) {
+      throw new IllegalArgumentException(e.getMessage());
     }
   }
 

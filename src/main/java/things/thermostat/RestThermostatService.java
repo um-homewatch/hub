@@ -1,7 +1,7 @@
 package things.thermostat;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.NetworkException;
-import net.JsonResponse;
 import net.NetUtils;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
@@ -9,7 +9,7 @@ import things.HttpThingService;
 
 import java.net.InetAddress;
 
-public class RestThermostatService extends HttpThingService<Thermostat>{
+public class RestThermostatService extends HttpThingService<Thermostat> {
   private HttpUrl baseUrl;
 
   public RestThermostatService() {
@@ -28,19 +28,19 @@ public class RestThermostatService extends HttpThingService<Thermostat>{
 
   @Override
   public Thermostat get() throws NetworkException {
-    JsonResponse json = NetUtils.get(this.baseUrl);
+    JsonNode response = NetUtils.get(this.baseUrl).getJson();
 
-    double targetTemperature = json.getJson().get("target_temperature").asDouble();
-
-    return new Thermostat(targetTemperature);
+    return this.jsonToThermostat(response);
   }
 
   @Override
-  public void put(Thermostat thermostat) throws NetworkException {
+  public Thermostat put(Thermostat thermostat) throws NetworkException {
     JSONObject json = new JSONObject();
     json.put("target_temperature", thermostat.getTargetTemperature());
 
-    NetUtils.put(this.baseUrl, json);
+    JsonNode response = NetUtils.put(this.baseUrl, json).getJson();
+
+    return this.jsonToThermostat(response);
   }
 
   @Override
@@ -60,5 +60,11 @@ public class RestThermostatService extends HttpThingService<Thermostat>{
   @Override
   public String getSubType() {
     return "rest";
+  }
+
+  private Thermostat jsonToThermostat(JsonNode json) {
+    double targetTemperature = json.get("target_temperature").asDouble();
+
+    return new Thermostat(targetTemperature);
   }
 }

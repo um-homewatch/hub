@@ -41,10 +41,10 @@ public class LightController {
       ThingService<Light> lightService = createLightService(info);
       Light light = OM.readValue(req.body(), Light.class);
 
-      lightService.put(light);
+      Light newLight = lightService.put(light);
 
       res.status(200);
-      return OM.writeValueAsString(light);
+      return OM.writeValueAsString(newLight);
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);

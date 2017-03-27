@@ -40,10 +40,10 @@ public class ThermostatController {
       ThingService<Thermostat> thermostatService = createThermostatService(info);
       Thermostat thermostat = OM.readValue(req.body(), Thermostat.class);
 
-      thermostatService.put(thermostat);
+      Thermostat newThermostat = thermostatService.put(thermostat);
 
       res.status(200);
-      return OM.writeValueAsString(thermostat);
+      return OM.writeValueAsString(newThermostat);
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);

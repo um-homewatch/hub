@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import things.ThingService;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -50,7 +51,7 @@ public class TestRestLock {
   }
 
   @Test
-  public void setLockTrue() throws UnknownHostException, NetworkException {
+  public void setLockTrue() throws IOException, NetworkException {
     LockStubs.stubPutStatus(wireMockRule, true);
 
     Lock lock = new Lock(true);
@@ -60,7 +61,7 @@ public class TestRestLock {
   }
 
   @Test
-  public void setLockFalse() throws UnknownHostException, NetworkException, InterruptedException {
+  public void setLockFalse() throws IOException, NetworkException, InterruptedException {
     LockStubs.stubPutStatus(wireMockRule, false);
 
     Lock lock = new Lock(false);

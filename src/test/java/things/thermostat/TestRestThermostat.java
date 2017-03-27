@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import things.ThingService;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Random;
@@ -43,7 +44,7 @@ public class TestRestThermostat {
   }
 
   @Test
-  public void setThermostat() throws UnknownHostException, NetworkException {
+  public void setThermostat() throws IOException, NetworkException {
     ThermostatStubs.stubPutStatus(wireMockRule, new Thermostat(24.5));
 
     Thermostat thermostat = new Thermostat(24.5);

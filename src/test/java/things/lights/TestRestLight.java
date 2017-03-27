@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import things.ThingService;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -50,7 +51,7 @@ public class TestRestLight {
   }
 
   @Test
-  public void setStatusOn() throws UnknownHostException, NetworkException {
+  public void setStatusOn() throws IOException, NetworkException {
     LightStubs.stubPutStatus(wireMockRule, true);
 
     Light light = new Light(true);
@@ -60,7 +61,7 @@ public class TestRestLight {
   }
 
   @Test
-  public void setStatusOff() throws UnknownHostException, NetworkException, InterruptedException {
+  public void setStatusOff() throws IOException, NetworkException, InterruptedException {
     LightStubs.stubPutStatus(wireMockRule, false);
 
     Light light = new Light(false);

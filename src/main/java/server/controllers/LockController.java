@@ -40,10 +40,10 @@ public class LockController {
       ThingService<Lock> lockService = createLockService(info);
       Lock lock = OM.readValue(req.body(), Lock.class);
 
-      lockService.put(lock);
+      Lock newLock = lockService.put(lock);
 
       res.status(200);
-      return OM.writeValueAsString(lock);
+      return OM.writeValueAsString(newLock);
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);

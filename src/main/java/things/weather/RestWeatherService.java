@@ -23,18 +23,13 @@ public class RestWeatherService extends HttpThingService<Weather> {
 
   @Override
   public Weather get() throws NetworkException {
-    JsonNode json = NetUtils.get(getBaseUrl()).getJson();
+    JsonNode response = NetUtils.get(getBaseUrl()).getJson();
 
-    double temp = json.get("temperature").asDouble();
-    double windSpeed = json.get("windspeed").asDouble();
-    boolean raining = json.get("raining").asBoolean();
-    boolean cloudy = json.get("cloudy").asBoolean();
-
-    return new Weather(temp, windSpeed, raining, cloudy);
+    return this.jsonToWeather(response);
   }
 
   @Override
-  public void put(Weather weather) throws NetworkException {
+  public Weather put(Weather weather) throws NetworkException {
     throw new UnsupportedOperationException();
   }
 
@@ -59,5 +54,14 @@ public class RestWeatherService extends HttpThingService<Weather> {
 
   private HttpUrl getBaseUrl() {
     return HttpUrl.parse(this.getUrl() + "/status");
+  }
+
+  private Weather jsonToWeather(JsonNode json) {
+    double temp = json.get("temperature").asDouble();
+    double windSpeed = json.get("windspeed").asDouble();
+    boolean raining = json.get("raining").asBoolean();
+    boolean cloudy = json.get("cloudy").asBoolean();
+
+    return new Weather(temp, windSpeed, raining, cloudy);
   }
 }

@@ -30,17 +30,17 @@ class RestLightService extends HttpThingService<Light> {
   public Light get() throws NetworkException {
     JsonNode response = NetUtils.get(baseUrl).getJson();
 
-    boolean on = response.get("power").asBoolean();
-
-    return new Light(on);
+    return this.jsonToLight(response);
   }
 
   @Override
-  public void put(Light light) throws NetworkException {
+  public Light put(Light light) throws NetworkException {
     JSONObject json = new JSONObject();
     json.put("power", light.isOn());
 
-    NetUtils.put(baseUrl, json);
+    JsonNode response = NetUtils.put(baseUrl, json).getJson();
+
+    return this.jsonToLight(response);
   }
 
   @Override
@@ -60,5 +60,11 @@ class RestLightService extends HttpThingService<Light> {
   @Override
   public String getSubType() {
     return "rest";
+  }
+
+  private Light jsonToLight(JsonNode json) {
+    boolean on = json.get("power").asBoolean();
+
+    return new Light(on);
   }
 }

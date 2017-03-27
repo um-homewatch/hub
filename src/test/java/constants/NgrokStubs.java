@@ -2,15 +2,11 @@ package constants;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.json.JSONObject;
-import things.weather.Weather;
 
 import java.io.File;
 import java.io.IOException;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class NgrokStubs {
   public static void stubGetStatus(WireMockRule wireMockRule) throws IOException {

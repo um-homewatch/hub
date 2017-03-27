@@ -30,8 +30,6 @@ public class TestThermostatController extends ServerRunner {
 
   // Query string to send on each test
   private static Map<String, Object> QUERY_STRING;
-  // JsonObject to change the thing status
-  private static JSONObject JSON;
 
   @BeforeClass
   public static void setup() throws IOException, SAXException {
@@ -40,7 +38,7 @@ public class TestThermostatController extends ServerRunner {
     QUERY_STRING.put("port", 8080);
     QUERY_STRING.put("subType", "rest");
 
-    JSON = new JSONObject();
+    JSONObject JSON = new JSONObject();
     JSON.put("targetTemperature", new Random().nextDouble());
   }
 

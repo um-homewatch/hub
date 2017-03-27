@@ -30,17 +30,17 @@ class RestLockService extends HttpThingService<Lock> {
   public Lock get() throws NetworkException {
     JsonNode response = NetUtils.get(baseUrl).getJson();
 
-    boolean lock = response.get("locked").asBoolean();
-
-    return new Lock(lock);
+    return this.jsonToLock(response);
   }
 
   @Override
-  public void put(Lock lock) throws NetworkException {
+  public Lock put(Lock lock) throws NetworkException {
     JSONObject json = new JSONObject();
     json.put("locked", lock.isLocked());
 
-    NetUtils.put(baseUrl, json);
+    JsonNode response = NetUtils.put(baseUrl, json).getJson();
+
+    return this.jsonToLock(response);
   }
 
   @Override
@@ -60,5 +60,11 @@ class RestLockService extends HttpThingService<Lock> {
   @Override
   public String getSubType() {
     return "rest";
+  }
+
+  private Lock jsonToLock(JsonNode json) {
+    boolean lock = json.get("locked").asBoolean();
+
+    return new Lock(lock);
   }
 }

@@ -2,8 +2,6 @@ package server.controllers.pojos;
 
 import spark.QueryParamsMap;
 
-import java.net.UnknownHostException;
-
 public class ThingInfo {
   private final String subType;
 
