@@ -34,7 +34,8 @@ class OWMWeatherService implements ThingService<Weather> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(HttpUrl.parse(url)).getResponse().code() == 200;
+      get();
+      return true;
     } catch (NetworkException e) {
       Logger.getGlobal().info("FAILED PING REASON:" + e);
       return false;

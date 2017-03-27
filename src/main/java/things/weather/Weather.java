@@ -51,4 +51,14 @@ public class Weather {
 
     return Double.compare(weather.getTemperature(), getTemperature()) == 0 && Double.compare(weather.getWindSpeed(), getWindSpeed()) == 0 && isRaining() == weather.isRaining() && isCloudy() == weather.isCloudy();
   }
+
+  @Override
+  public String toString() {
+    return "Weather{" +
+            "temperature=" + temperature +
+            ", windSpeed=" + windSpeed +
+            ", raining=" + raining +
+            ", cloudy=" + cloudy +
+            '}';
+  }
 }

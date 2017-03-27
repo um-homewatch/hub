@@ -1,6 +1,9 @@
 package things.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import constants.WeatherStubs;
+import exceptions.NetworkException;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +13,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import things.ThingService;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.spy;
@@ -22,38 +28,26 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 public class TestOWMWeather {
   private static final ObjectMapper OM = new ObjectMapper();
   private static final File fixture = new File("src/test/fixtures/owmweather.json");
-  private static Weather WEATHER;
+  private static final Weather originalWeather = new Weather(7, 1.11, true, true);
+  private ThingService<Weather> weatherService;
 
-  @BeforeClass
-  public static void setup() throws Exception {
-    ThingService<Weather> weatherService = spy(new OWMWeatherService());
+
+  @Before
+  public void setup() throws Exception {
+    weatherService = spy(new OWMWeatherService());
 
     doReturn(OM.readTree(fixture)).when(weatherService, "getWeatherData");
-
-    WEATHER = weatherService.get();
   }
 
   @Test
-  public void getTemperature() {
-    double temp = WEATHER.getTemperature();
+  public void testWeather() throws NetworkException, UnknownHostException {
+    Weather returnedWeather = weatherService.get();
 
-    assertEquals(6.93, temp, 0.01);
+    assertEquals(originalWeather, returnedWeather);
   }
 
   @Test
-  public void hasRain() {
-    assertTrue(WEATHER.isRaining());
-  }
-
-  @Test
-  public void hasCloud() {
-    assertTrue(WEATHER.isCloudy());
-  }
-
-  @Test
-  public void getWindSpeed() {
-    double temp = WEATHER.getWindSpeed();
-
-    assertEquals(1.11, temp, 0.01);
+  public void goodPing() throws UnknownHostException {
+    assertTrue(weatherService.ping());
   }
 }

@@ -46,7 +46,7 @@ class RestLightService extends HttpThingService<Light> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(baseUrl, 500, 500).getResponse().code() == 200;
+      return NetUtils.get(baseUrl).getResponse().code() == 200;
     } catch (NetworkException e) {
       return false;
     }
