@@ -1,6 +1,7 @@
 package homewatch.things.locks;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.NetUtils;
 import okhttp3.HttpUrl;
@@ -48,6 +49,7 @@ class RestLockService extends HttpThingService<Lock> {
     try {
       return NetUtils.get(baseUrl).getResponse().code() == 200;
     } catch (NetworkException e) {
+      LoggerUtils.logException(e);
       return false;
     }
   }

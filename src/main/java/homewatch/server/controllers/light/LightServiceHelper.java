@@ -3,6 +3,7 @@ package homewatch.server.controllers.light;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
+import homewatch.server.controllers.ServiceHelper;
 import homewatch.server.controllers.pojos.HttpThingInfo;
 import homewatch.things.HttpThingServiceFactory;
 import homewatch.things.ThingService;
@@ -12,12 +13,11 @@ import homewatch.things.lights.LightServiceFactory;
 import spark.QueryParamsMap;
 import spark.Request;
 
-public class LightServiceHelper {
+public class LightServiceHelper extends ServiceHelper<Light>{
   private static final HttpThingServiceFactory<Light> lightServiceFactory = new LightServiceFactory();
-  private final Request req;
 
   public LightServiceHelper(Request req) {
-    this.req = req;
+    super(req);
   }
 
   public ThingService<Light> createService() throws NetworkException {

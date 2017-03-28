@@ -3,17 +3,11 @@ package homewatch.server.controllers.light;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
-import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.controllers.pojos.HttpThingInfo;
-import homewatch.things.lights.HueLightService;
-import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
-import homewatch.things.HttpThingServiceFactory;
 import homewatch.things.ThingService;
 import homewatch.things.lights.Light;
-import homewatch.things.lights.LightServiceFactory;
 
 import java.io.IOException;
 

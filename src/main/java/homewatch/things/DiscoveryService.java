@@ -5,6 +5,7 @@ import homewatch.exceptions.InvalidSubTypeException;
 import org.apache.commons.net.util.SubnetUtils;
 
 import java.net.*;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -40,14 +41,14 @@ public class DiscoveryService<T> {
       }
 
       addTasks(addresses.size());
-    } catch (UnknownHostException | SocketException | InterruptedException | ExecutionException | InvalidSubTypeException e) {
+    } catch (UnknownHostException | SocketException | InterruptedException | ExecutionException e) {
       LoggerUtils.logException(e);
     }
 
     return this.things;
   }
 
-  private List<String> getAddressList() throws InterruptedException, ExecutionException, InvalidSubTypeException, UnknownHostException, SocketException {
+  private List<String> getAddressList() throws UnknownHostException, SocketException {
     List<String> addresses = new LinkedList<>();
     NetworkInterface networkInterface = getNetworkInterface();
 
@@ -59,21 +60,17 @@ public class DiscoveryService<T> {
   }
 
   private NetworkInterface getNetworkInterface() throws SocketException, UnknownHostException {
-    InetAddress localhost = InetAddress.getLocalHost();
-
     return NetworkInterface.getByName("wlan0");
   }
 
-  private void addAddresses(InterfaceAddress interfaceAddress, List<String> addresses) throws UnknownHostException, InterruptedException, ExecutionException, InvalidSubTypeException {
+  private void addAddresses(InterfaceAddress interfaceAddress, List<String> addresses) {
     InetAddress address = interfaceAddress.getAddress();
     if (address instanceof Inet4Address) {
       String hostAddress = address.getHostAddress();
       short subnetMask = interfaceAddress.getNetworkPrefixLength();
       SubnetUtils subnetUtils = new SubnetUtils(hostAddress + "/" + subnetMask);
 
-      for (String subnetAddress : subnetUtils.getInfo().getAllAddresses()) {
-        addresses.add(subnetAddress);
-      }
+      Collections.addAll(addresses, subnetUtils.getInfo().getAllAddresses());
     }
   }
 
@@ -86,12 +83,12 @@ public class DiscoveryService<T> {
     }
   }
 
-  private void pingAddress(String address) throws UnknownHostException, InvalidSubTypeException {
+  private void pingAddress(String address) {
     this.completionService.submit(() -> {
       HttpThingService<T> thingService = this.serviceFactory.create(InetAddress.getByName(address), this.port, subtype);
 
       boolean on = thingService.ping();
-      System.out.println(on);
+
       if (on) {
         return thingService;
       } else

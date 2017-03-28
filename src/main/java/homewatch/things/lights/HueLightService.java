@@ -8,7 +8,6 @@ import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.net.InetAddress;
-import java.util.logging.Logger;
 
 public class HueLightService extends HttpThingService<Light> {
   private int lightID;
@@ -39,7 +38,7 @@ public class HueLightService extends HttpThingService<Light> {
   @Override
   public Light get() throws NetworkException {
     HttpUrl url = HttpUrl.parse(String.format("%s/%d", baseUrl, lightID));
-    Logger.getGlobal().info(url.toString());
+
     JsonNode response = NetUtils.get(url).getJson();
 
     return this.jsonToLight(response);
@@ -47,11 +46,8 @@ public class HueLightService extends HttpThingService<Light> {
 
   @Override
   public Light put(Light light) throws NetworkException {
-    HttpUrl url = HttpUrl.parse(String.format("%s/%d/state", baseUrl, lightID));
     JSONObject json = new JSONObject();
     json.put("on", light.isOn());
-
-    JsonNode response = NetUtils.put(url, json).getJson();
 
     return light;
   }

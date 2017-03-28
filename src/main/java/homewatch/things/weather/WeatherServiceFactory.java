@@ -1,8 +1,11 @@
 package homewatch.things.weather;
 
+import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
+
+import java.util.logging.Logger;
 
 public class WeatherServiceFactory implements ThingServiceFactory<Weather> {
   @Override
@@ -25,7 +28,7 @@ public class WeatherServiceFactory implements ThingServiceFactory<Weather> {
       SubType.valueOf(subTypeUpper);
 
       return true;
-    } catch (IllegalArgumentException ex) {
+    } catch (IllegalArgumentException e) {
       return false;
     }
   }
