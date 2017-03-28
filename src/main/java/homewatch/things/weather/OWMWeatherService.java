@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 class OWMWeatherService implements ThingService<Weather> {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
-  private static final HttpUrl REGION_URL = HttpUrl.parse("http://freegeoip.homewatch.net/json/");
+  private static final HttpUrl REGION_URL = HttpUrl.parse("http://freegeoip.net/json/");
   private String url = "http://api.openweathermap.org/data/2.5/weather?Braga&APPID=3e7e26039e4050a3edaaf374adb887de";
 
   @Override

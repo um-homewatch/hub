@@ -1,8 +1,10 @@
 package homewatch.things.lights;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import homewatch.constants.JsonUtils;
 import homewatch.constants.LightStubs;
 import homewatch.exceptions.NetworkException;
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.xml.sax.SAXException;
 import homewatch.things.ServerRunner;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -26,6 +29,8 @@ import static org.junit.Assert.assertThat;
 public class TestLightController extends ServerRunner {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
+
+  private static JsonNode GET_HUE;
 
   // Query string to send on each test
   private static Map<String, Object> QUERY_STRING;
@@ -41,13 +46,16 @@ public class TestLightController extends ServerRunner {
 
     JSON = new JSONObject();
     JSON.put("on", false);
+
+    GET_HUE = JsonUtils.getOM().readTree(new File("src/test/fixtures/hue/get.json"));
   }
 
   @Test
-  public void getStatus() throws UnknownHostException, NetworkException, UnirestException {
-    LightStubs.stubGetStatus(wireMockRule, true);
+  public void getRest() throws UnknownHostException, NetworkException, UnirestException {
+    LightStubs.stubGetRest(wireMockRule, true);
 
-    boolean status = Unirest.get("http://localhost:4567/lights").queryString(QUERY_STRING)
+    boolean status = Unirest.get("http://localhost:4567/lights")
+            .queryString(QUERY_STRING)
             .asJson()
             .getBody()
             .getObject()
@@ -57,9 +65,9 @@ public class TestLightController extends ServerRunner {
   }
 
   @Test
-  public void setStatus() throws UnknownHostException, NetworkException, UnirestException {
-    LightStubs.stubPutStatus(wireMockRule, false);
-    LightStubs.stubGetStatus(wireMockRule, false);
+  public void putRest() throws UnknownHostException, NetworkException, UnirestException {
+    LightStubs.stubGetPut(wireMockRule, false);
+    LightStubs.stubGetRest(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/lights").queryString(QUERY_STRING).body(JSON)
             .asJson()
@@ -71,8 +79,43 @@ public class TestLightController extends ServerRunner {
   }
 
   @Test
+  public void getHue() throws UnirestException {
+    LightStubs.stubGetHue(wireMockRule, true);
+
+    boolean status = Unirest.get("http://localhost:4567/lights")
+            .queryString("subType", "hue")
+            .queryString("address", "localhost")
+            .queryString("port", 8080)
+            .queryString("light_id", 1)
+            .asJson()
+            .getBody()
+            .getObject()
+            .getBoolean("on");
+
+    assertThat(status, is(true));
+  }
+
+  @Test
+  public void putHue() throws UnirestException {
+    LightStubs.stubPutHue(wireMockRule, false);
+
+    boolean status = Unirest.put("http://localhost:4567/lights")
+            .queryString("subType", "hue")
+            .queryString("address", "localhost")
+            .queryString("port", 8080)
+            .queryString("light_id", 1)
+            .body(JSON)
+            .asJson()
+            .getBody()
+            .getObject()
+            .getBoolean("on");
+
+    assertThat(status, is(false));
+  }
+
+  @Test
   public void errorInvalidArgument() throws UnirestException {
-    LightStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetRest(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/lights")
             .asJson()
@@ -83,7 +126,7 @@ public class TestLightController extends ServerRunner {
 
   @Test
   public void errorInvalidSubType() throws UnirestException {
-    LightStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetRest(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/lights")
             .queryString("address", "192.168.1.1")

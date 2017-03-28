@@ -6,6 +6,8 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.pojos.HttpThingInfo;
+import homewatch.things.lights.HueLightService;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import homewatch.things.HttpThingServiceFactory;
@@ -25,7 +27,7 @@ public class LightController {
   public static String get(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Light> lightService = createLightService(info);
+      ThingService<Light> lightService = createLightService(info, req);
 
       res.status(200);
       return OM.writeValueAsString(lightService.get());
@@ -38,7 +40,7 @@ public class LightController {
   public static String put(Request req, Response res) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Light> lightService = createLightService(info);
+      ThingService<Light> lightService = createLightService(info, req);
       Light light = OM.readValue(req.body(), Light.class);
 
       Light newLight = lightService.put(light);
@@ -51,9 +53,19 @@ public class LightController {
     }
   }
 
-  private static ThingService<Light> createLightService(HttpThingInfo info) throws NetworkException {
+  private static ThingService<Light> createLightService(HttpThingInfo info, Request req) throws NetworkException {
     try {
-      return lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingService<Light> thingService =  lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+
+      if (thingService instanceof HueLightService){
+        QueryParamsMap lightIdParam = req.queryMap().get("light_id");
+        if (!lightIdParam.hasValue())
+          throw new IllegalArgumentException("missing light_id");
+        HueLightService hueLightService = (HueLightService) thingService;
+        hueLightService.setLightID(lightIdParam.integerValue());
+      }
+
+      return thingService;
     } catch (InvalidSubTypeException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 400);

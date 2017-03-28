@@ -12,6 +12,8 @@ public class LightServiceFactory implements HttpThingServiceFactory<Light> {
   @Override
   public HttpThingService<Light> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
+      case "hue":
+        return new HueLightService(address, port);
       case "rest":
         return new RestLightService(address, port);
       default:
@@ -22,6 +24,8 @@ public class LightServiceFactory implements HttpThingServiceFactory<Light> {
   @Override
   public ThingService<Light> create(String subtype) throws InvalidSubTypeException {
     switch (subtype) {
+      case "hue":
+        return new HueLightService();
       case "rest":
         return new RestLightService();
       default:
@@ -43,5 +47,5 @@ public class LightServiceFactory implements HttpThingServiceFactory<Light> {
 }
 
 enum SubType {
-  REST
+  REST, HUE
 }
