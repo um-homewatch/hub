@@ -14,14 +14,14 @@ import java.util.logging.Logger;
 
 public class CacheUtils {
   private static final LoadingCache<HttpUrl, JsonResponse> cachedResponses = CacheBuilder.newBuilder()
-          .expireAfterAccess(10, TimeUnit.MINUTES)
-          .build(new CacheLoader<HttpUrl, JsonResponse>() {
-            @Override
-            public JsonResponse load(HttpUrl url) throws NetworkException {
-              Logger.getGlobal().info(url.host());
-              return NetUtils.get(url);
-            }
-          });
+      .expireAfterAccess(10, TimeUnit.MINUTES)
+      .build(new CacheLoader<HttpUrl, JsonResponse>() {
+        @Override
+        public JsonResponse load(HttpUrl url) throws NetworkException {
+          Logger.getGlobal().info(url.host());
+          return NetUtils.get(url);
+        }
+      });
 
   private CacheUtils() {
   }

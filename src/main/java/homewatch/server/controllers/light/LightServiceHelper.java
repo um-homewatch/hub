@@ -13,7 +13,7 @@ import homewatch.things.lights.LightServiceFactory;
 import spark.QueryParamsMap;
 import spark.Request;
 
-public class LightServiceHelper extends ServiceHelper<Light>{
+public class LightServiceHelper extends ServiceHelper<Light> {
   private static final HttpThingServiceFactory<Light> lightServiceFactory = new LightServiceFactory();
 
   public LightServiceHelper(Request req) {

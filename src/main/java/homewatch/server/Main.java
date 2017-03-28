@@ -6,15 +6,18 @@ import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
+import homewatch.server.controllers.LockController;
+import homewatch.server.controllers.NgrokController;
+import homewatch.server.controllers.ThermostatController;
+import homewatch.server.controllers.WeatherController;
 import homewatch.server.controllers.light.LightController;
-import org.xml.sax.SAXException;
-import homewatch.server.controllers.*;
-import spark.Spark;
 import homewatch.things.DiscoveryService;
 import homewatch.things.lights.Light;
 import homewatch.things.lights.LightServiceFactory;
 import homewatch.things.locks.Lock;
 import homewatch.things.locks.LockServiceFactory;
+import org.xml.sax.SAXException;
+import spark.Spark;
 
 import java.io.IOException;
 

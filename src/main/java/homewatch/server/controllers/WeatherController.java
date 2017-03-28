@@ -6,12 +6,12 @@ import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.pojos.HttpThingInfo;
 import homewatch.server.controllers.pojos.ThingInfo;
-import spark.Request;
-import spark.Response;
 import homewatch.things.HttpThingService;
 import homewatch.things.ThingService;
 import homewatch.things.weather.Weather;
 import homewatch.things.weather.WeatherServiceFactory;
+import spark.Request;
+import spark.Response;
 
 import java.io.IOException;
 

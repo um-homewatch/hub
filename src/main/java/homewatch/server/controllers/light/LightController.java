@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import spark.Request;
-import spark.Response;
 import homewatch.things.ThingService;
 import homewatch.things.lights.Light;
+import spark.Request;
+import spark.Response;
 
 import java.io.IOException;
 

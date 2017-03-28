@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.NetUtils;
+import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
-import homewatch.things.HttpThingService;
 
 import java.net.InetAddress;
 

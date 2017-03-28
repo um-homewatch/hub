@@ -3,8 +3,8 @@ package homewatch.things.weather;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.CacheUtils;
 import homewatch.exceptions.NetworkException;
-import okhttp3.HttpUrl;
 import homewatch.things.ThingService;
+import okhttp3.HttpUrl;
 
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;

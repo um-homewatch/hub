@@ -31,10 +31,10 @@ public class NetUtils {
 
   private static OkHttpClient timeoutHttpClient(int connectionTimeout, int socketTimeout) {
     return new OkHttpClient.Builder()
-            .connectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
-            .writeTimeout(socketTimeout, TimeUnit.MILLISECONDS)
-            .readTimeout(socketTimeout, TimeUnit.MILLISECONDS)
-            .build();
+        .connectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
+        .writeTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+        .readTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+        .build();
   }
 
   private static JsonResponse internalPut(HttpUrl url, JSONObject jsonBody, OkHttpClient httpClient) throws NetworkException {
