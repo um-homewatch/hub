@@ -6,6 +6,7 @@ import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
+import homewatch.server.controllers.light.LightController;
 import org.xml.sax.SAXException;
 import homewatch.server.controllers.*;
 import spark.Spark;
