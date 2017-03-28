@@ -37,7 +37,6 @@ public class LightController {
 
   public static String put(Request req, Response res) throws NetworkException {
     try {
-      HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
       ThingService<Light> lightService = new LightServiceHelper(req).createService();
       Light light = OM.readValue(req.body(), Light.class);
 
