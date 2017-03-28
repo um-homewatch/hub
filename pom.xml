@@ -30,7 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>server.Main</mainClass>
+                            <mainClass>homewatch.server.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -59,7 +59,7 @@
                 <configuration>
                     <instrumentation>
                         <ignoreTrivial>true</ignoreTrivial>
-                        <exclude>things/*DiscoveryService.class</exclude>
+                        <exclude>homewatch.things/*DiscoveryService.class</exclude>
                     </instrumentation>
                     <formats>
                         <format>html</format>
