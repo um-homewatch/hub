@@ -5,12 +5,12 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.pojos.HttpThingInfo;
-import spark.Request;
-import spark.Response;
 import homewatch.things.HttpThingServiceFactory;
 import homewatch.things.ThingService;
 import homewatch.things.locks.Lock;
 import homewatch.things.locks.LockServiceFactory;
+import spark.Request;
+import spark.Response;
 
 import java.io.IOException;
 

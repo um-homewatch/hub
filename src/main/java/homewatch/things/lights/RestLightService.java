@@ -1,11 +1,12 @@
 package homewatch.things.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.NetUtils;
+import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
-import homewatch.things.HttpThingService;
 
 import java.net.InetAddress;
 
@@ -48,6 +49,7 @@ class RestLightService extends HttpThingService<Light> {
     try {
       return NetUtils.get(baseUrl).getResponse().code() == 200;
     } catch (NetworkException e) {
+      LoggerUtils.logException(e);
       return false;
     }
   }

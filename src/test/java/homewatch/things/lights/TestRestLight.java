@@ -32,7 +32,7 @@ public class TestRestLight {
 
   @Test
   public void getStatus() throws UnknownHostException, NetworkException {
-    LightStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetRest(wireMockRule, true);
 
     Light light = lightService.get();
 
@@ -42,7 +42,7 @@ public class TestRestLight {
 
   @Test
   public void getStatusOff() throws UnknownHostException, NetworkException {
-    LightStubs.stubGetStatus(wireMockRule, false);
+    LightStubs.stubGetRest(wireMockRule, false);
 
     Light light = lightService.get();
 
@@ -52,7 +52,7 @@ public class TestRestLight {
 
   @Test
   public void setStatusOn() throws IOException, NetworkException {
-    LightStubs.stubPutStatus(wireMockRule, true);
+    LightStubs.stubGetPut(wireMockRule, true);
 
     Light light = new Light(true);
     lightService.put(light);
@@ -62,7 +62,7 @@ public class TestRestLight {
 
   @Test
   public void setStatusOff() throws IOException, NetworkException, InterruptedException {
-    LightStubs.stubPutStatus(wireMockRule, false);
+    LightStubs.stubGetPut(wireMockRule, false);
 
     Light light = new Light(false);
     lightService.put(light);
@@ -72,7 +72,7 @@ public class TestRestLight {
 
   @Test
   public void testGoodPing() {
-    LightStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetRest(wireMockRule, true);
 
     boolean ping = lightService.ping();
 

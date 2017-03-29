@@ -31,7 +31,7 @@ public class TestDiscover {
 
   @Test
   public void discoverRestLights() throws Exception {
-    LightStubs.stubGetStatus(wireMockRule, true);
+    LightStubs.stubGetRest(wireMockRule, true);
 
     DiscoveryService<Light> discoveryService = spy(new DiscoveryService<>(new LightServiceFactory(), "rest", 8080));
 

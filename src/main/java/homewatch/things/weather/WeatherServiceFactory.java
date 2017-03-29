@@ -25,7 +25,7 @@ public class WeatherServiceFactory implements ThingServiceFactory<Weather> {
       SubType.valueOf(subTypeUpper);
 
       return true;
-    } catch (IllegalArgumentException ex) {
+    } catch (IllegalArgumentException e) {
       return false;
     }
   }

@@ -5,12 +5,12 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.pojos.HttpThingInfo;
-import spark.Request;
-import spark.Response;
 import homewatch.things.HttpThingServiceFactory;
 import homewatch.things.ThingService;
 import homewatch.things.thermostat.Thermostat;
 import homewatch.things.thermostat.ThermostatServiceFactory;
+import spark.Request;
+import spark.Response;
 
 import java.io.IOException;
 

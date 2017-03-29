@@ -3,8 +3,8 @@ package homewatch.things.weather;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.NetUtils;
-import okhttp3.HttpUrl;
 import homewatch.things.HttpThingService;
+import okhttp3.HttpUrl;
 
 import java.net.InetAddress;
 

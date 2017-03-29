@@ -1,31 +1,25 @@
-package homewatch.server.controllers;
+package homewatch.server.controllers.light;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
-import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.controllers.pojos.HttpThingInfo;
-import spark.Request;
-import spark.Response;
-import homewatch.things.HttpThingServiceFactory;
 import homewatch.things.ThingService;
 import homewatch.things.lights.Light;
-import homewatch.things.lights.LightServiceFactory;
+import spark.Request;
+import spark.Response;
 
 import java.io.IOException;
 
 public class LightController {
   private static final ObjectMapper OM = JsonUtils.getOM();
-  private static final HttpThingServiceFactory<Light> lightServiceFactory = new LightServiceFactory();
 
   private LightController() {
   }
 
   public static String get(Request req, Response res) throws NetworkException {
     try {
-      HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Light> lightService = createLightService(info);
+      ThingService<Light> lightService = new LightServiceHelper(req).createService();
 
       res.status(200);
       return OM.writeValueAsString(lightService.get());
@@ -37,8 +31,7 @@ public class LightController {
 
   public static String put(Request req, Response res) throws NetworkException {
     try {
-      HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Light> lightService = createLightService(info);
+      ThingService<Light> lightService = new LightServiceHelper(req).createService();
       Light light = OM.readValue(req.body(), Light.class);
 
       Light newLight = lightService.put(light);
@@ -48,15 +41,6 @@ public class LightController {
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
-    }
-  }
-
-  private static ThingService<Light> createLightService(HttpThingInfo info) throws NetworkException {
-    try {
-      return lightServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
-    } catch (InvalidSubTypeException e) {
-      LoggerUtils.logException(e);
-      throw new NetworkException(e.getMessage(), 400);
     }
   }
 }

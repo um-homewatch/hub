@@ -29,7 +29,7 @@ public class HttpThingInfo extends ThingInfo {
         return new HttpThingInfo(InetAddress.getByName(address.value()), portNumber, subType.value());
       }
     } catch (UnknownHostException e) {
-      throw new IllegalArgumentException(e.getMessage());
+      throw new IllegalArgumentException(e);
     }
   }
 
