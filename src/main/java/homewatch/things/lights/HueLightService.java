@@ -49,6 +49,8 @@ public class HueLightService extends HttpThingService<Light> {
     JSONObject json = new JSONObject();
     json.put("on", light.isOn());
 
+    NetUtils.put(HttpUrl.parse(String.format("%s/%d/state", baseUrl, lightID)), json);
+
     return light;
   }
 
