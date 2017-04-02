@@ -72,7 +72,7 @@ public class HueLightService extends HttpThingService<Light> {
     return "hue";
   }
 
-  private HttpUrl baseUrl(){
+  private HttpUrl baseUrl() {
     return HttpUrl.parse(this.getUrl() + "/api/newdeveloper/lights");
   }
 

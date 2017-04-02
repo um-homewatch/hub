@@ -41,14 +41,14 @@ public class DiscoveryService<T> {
       }
 
       addTasks(addresses.size());
-    } catch (UnknownHostException | SocketException | InterruptedException | ExecutionException e) {
+    } catch (SocketException | InterruptedException | ExecutionException e) {
       LoggerUtils.logException(e);
     }
 
     return this.things;
   }
 
-  private List<String> getAddressList() throws UnknownHostException, SocketException {
+  private List<String> getAddressList() throws SocketException {
     List<String> addresses = new LinkedList<>();
     NetworkInterface networkInterface = getNetworkInterface();
 
@@ -59,7 +59,7 @@ public class DiscoveryService<T> {
     return addresses;
   }
 
-  private NetworkInterface getNetworkInterface() throws SocketException, UnknownHostException {
+  private NetworkInterface getNetworkInterface() throws SocketException {
     return NetworkInterface.getByName("wlan0");
   }
 

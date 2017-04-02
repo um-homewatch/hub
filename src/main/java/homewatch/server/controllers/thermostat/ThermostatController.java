@@ -2,13 +2,10 @@ package homewatch.server.controllers.thermostat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.LoggerUtils;
-import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.pojos.HttpThingInfo;
 import homewatch.things.ThingService;
-import homewatch.things.ThingServiceFactory;
 import homewatch.things.thermostat.Thermostat;
-import homewatch.things.thermostat.ThermostatServiceFactory;
 import spark.Request;
 import spark.Response;
 

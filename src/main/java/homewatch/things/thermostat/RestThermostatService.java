@@ -58,7 +58,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
     return "rest";
   }
 
-  private HttpUrl baseUrl(){
+  private HttpUrl baseUrl() {
     return HttpUrl.parse(this.getUrl() + "/status");
   }
 

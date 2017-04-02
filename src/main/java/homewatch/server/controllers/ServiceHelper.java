@@ -15,7 +15,7 @@ public abstract class ServiceHelper<T> {
 
   public abstract ThingService<T> createService() throws NetworkException;
 
-  protected HttpThingService<T> httpService(ThingService<T> thingService){
+  protected HttpThingService<T> httpService(ThingService<T> thingService) {
     HttpThingInfo httpThingInfo = HttpThingInfo.fromQueryString(req.queryMap());
 
     HttpThingService<T> httpThingService = (HttpThingService<T>) thingService;

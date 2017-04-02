@@ -26,7 +26,7 @@ public class ThermostatServiceHelper extends ServiceHelper<Thermostat> {
       ThingService<Thermostat> thermostatThingService = thermostatServiceFactory.create(info.getSubType());
 
 
-      if (thermostatThingService instanceof HttpThingService){
+      if (thermostatThingService instanceof HttpThingService) {
         thermostatThingService = httpService(thermostatThingService);
       }
 

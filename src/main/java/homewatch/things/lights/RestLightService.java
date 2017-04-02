@@ -9,7 +9,6 @@ import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.net.InetAddress;
-import java.util.logging.Logger;
 
 class RestLightService extends HttpThingService<Light> {
   RestLightService() {
@@ -60,7 +59,7 @@ class RestLightService extends HttpThingService<Light> {
     return "rest";
   }
 
-  private HttpUrl baseUrl(){
+  private HttpUrl baseUrl() {
     return HttpUrl.parse(this.getUrl() + "/status");
   }
 

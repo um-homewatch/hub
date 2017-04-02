@@ -3,7 +3,6 @@ package homewatch.server.controllers.weather;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.pojos.ThingInfo;
 import homewatch.things.ThingService;
 import homewatch.things.weather.Weather;
 import homewatch.things.weather.WeatherServiceFactory;
@@ -14,7 +13,6 @@ import java.io.IOException;
 
 public class WeatherController {
   private static final ObjectMapper OM = new ObjectMapper();
-  private static final WeatherServiceFactory weatherServiceFactory = new WeatherServiceFactory();
 
   private WeatherController() {
   }

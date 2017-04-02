@@ -4,7 +4,6 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.ServiceHelper;
-import homewatch.server.pojos.HttpThingInfo;
 import homewatch.server.pojos.ThingInfo;
 import homewatch.things.HttpThingService;
 import homewatch.things.ThingService;
@@ -14,7 +13,7 @@ import homewatch.things.weather.WeatherServiceFactory;
 import spark.Request;
 
 public class WeatherServiceHelper extends ServiceHelper<Weather> {
-  private static ThingServiceFactory<Weather> weatherServiceFactory = new WeatherServiceFactory();
+  private static final ThingServiceFactory<Weather> weatherServiceFactory = new WeatherServiceFactory();
 
   protected WeatherServiceHelper(Request req) {
     super(req);

@@ -19,12 +19,13 @@ public class LockServiceHelper extends ServiceHelper<Lock> {
     super(req);
   }
 
+  @Override
   public ThingService<Lock> createService() throws NetworkException {
     try {
       ThingInfo info = ThingInfo.fromQueryString(req.queryMap());
       ThingService<Lock> lockThingService = lockServiceFactory.create(info.getSubType());
 
-      if (lockThingService instanceof HttpThingService){
+      if (lockThingService instanceof HttpThingService) {
         lockThingService = this.httpService(lockThingService);
       }
 

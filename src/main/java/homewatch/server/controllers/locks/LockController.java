@@ -6,7 +6,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.server.pojos.HttpThingInfo;
 import homewatch.things.ThingService;
 import homewatch.things.locks.Lock;
-import homewatch.things.locks.LockServiceFactory;
 import spark.Request;
 import spark.Response;
 

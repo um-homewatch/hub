@@ -4,7 +4,6 @@ import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.HttpThingService;
 import homewatch.things.HttpThingServiceFactory;
 import homewatch.things.ThingService;
-import homewatch.things.ThingServiceFactory;
 
 import java.net.InetAddress;
 

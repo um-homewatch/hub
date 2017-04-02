@@ -21,6 +21,7 @@ public class LightServiceHelper extends ServiceHelper<Light> {
     super(req);
   }
 
+  @Override
   public ThingService<Light> createService() throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());

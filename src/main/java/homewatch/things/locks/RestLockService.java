@@ -60,7 +60,7 @@ class RestLockService extends HttpThingService<Lock> {
     return "rest";
   }
 
-  private HttpUrl baseUrl(){
+  private HttpUrl baseUrl() {
     return HttpUrl.parse(this.getUrl() + "/status");
   }
 
