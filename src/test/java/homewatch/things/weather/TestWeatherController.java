@@ -92,7 +92,7 @@ public class TestWeatherController extends ServerRunner {
 
   @Test
   public void errorInvalidSubType() throws UnirestException {
-    Whitebox.setInternalState(WeatherController.class, "weatherServiceFactory", new WeatherServiceFactory());
+    Whitebox.setInternalState(WeatherServiceHelper.class, "weatherServiceFactory", new WeatherServiceFactory());
 
     int status = Unirest.get("http://localhost:4567/weather")
         .queryString("city", "Vancouver")
