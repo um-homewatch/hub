@@ -3,10 +3,10 @@ package homewatch.things.thermostat;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.constants.ThermostatStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.things.ThingService;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import homewatch.things.ThingService;
 
 import java.io.IOException;
 import java.net.InetAddress;

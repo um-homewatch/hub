@@ -3,10 +3,10 @@ package homewatch.things.lights;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.constants.LightStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.things.ThingService;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import homewatch.things.ThingService;
 
 import java.io.IOException;
 import java.net.InetAddress;

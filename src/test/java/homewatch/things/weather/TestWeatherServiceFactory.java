@@ -1,8 +1,8 @@
 package homewatch.things.weather;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import org.junit.Test;
 import homewatch.things.ThingService;
+import org.junit.Test;
 
 import java.net.UnknownHostException;
 

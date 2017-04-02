@@ -1,5 +1,6 @@
 package homewatch.things;
 
+import homewatch.server.Main;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -7,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
-import homewatch.server.Main;
 import spark.Spark;
 
 import java.io.IOException;

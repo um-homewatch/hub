@@ -1,8 +1,8 @@
 package homewatch.constants;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.json.JSONObject;
 import homewatch.things.weather.Weather;
+import org.json.JSONObject;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
@@ -15,9 +15,9 @@ public class WeatherStubs {
     json.put("cloudy", weather.isRaining());
 
     wireMockRule.stubFor(get(urlPathEqualTo("/status"))
-            .willReturn(aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(json.toString())));
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withHeader("Content-Type", "application/json")
+            .withBody(json.toString())));
   }
 }

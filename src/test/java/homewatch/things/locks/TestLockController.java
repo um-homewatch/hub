@@ -5,13 +5,13 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.LockStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.things.ServerRunner;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.xml.sax.SAXException;
-import homewatch.things.ServerRunner;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -48,10 +48,10 @@ public class TestLockController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     boolean status = Unirest.get("http://localhost:4567/locks").queryString(QUERY_STRING)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("locked");
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("locked");
 
     assertThat(status, is(true));
   }
@@ -62,10 +62,10 @@ public class TestLockController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/locks").queryString(QUERY_STRING).body(JSON)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("locked");
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("locked");
 
     assertThat(status, is(false));
   }
@@ -75,8 +75,8 @@ public class TestLockController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/locks")
-            .asJson()
-            .getStatus();
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
@@ -86,10 +86,10 @@ public class TestLockController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/locks")
-            .queryString("address", "192.168.1.1")
-            .queryString("subType", "cenas")
-            .asJson()
-            .getStatus();
+        .queryString("address", "192.168.1.1")
+        .queryString("subType", "cenas")
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }

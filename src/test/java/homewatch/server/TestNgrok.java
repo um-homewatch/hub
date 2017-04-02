@@ -5,10 +5,10 @@ import homewatch.constants.NgrokStubs;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.JsonResponse;
 import homewatch.net.NetUtils;
+import homewatch.things.ServerRunner;
 import okhttp3.HttpUrl;
 import org.junit.Rule;
 import org.junit.Test;
-import homewatch.things.ServerRunner;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import java.io.IOException;

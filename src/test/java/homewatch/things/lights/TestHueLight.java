@@ -28,14 +28,12 @@ public class TestHueLight {
 
   private static HueLightService lightService;
 
-  private static JsonNode HUE_RESPONSE;
-
   @BeforeClass
   public static void setup() throws IOException {
     lightService = new HueLightService(InetAddress.getLocalHost(), PORT);
     lightService.setLightID(1);
 
-    HUE_RESPONSE = JsonUtils.getOM().readTree(new File("src/test/fixtures/hue/get.json"));
+    JsonNode HUE_RESPONSE = JsonUtils.getOM().readTree(new File("src/test/fixtures/hue/get.json"));
   }
 
   @Test

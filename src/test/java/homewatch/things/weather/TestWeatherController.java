@@ -6,6 +6,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.WeatherStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.server.controllers.weather.WeatherController;
+import homewatch.server.controllers.weather.WeatherServiceHelper;
+import homewatch.things.ServerRunner;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,8 +16,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
-import homewatch.server.controllers.WeatherController;
-import homewatch.things.ServerRunner;
 
 import java.io.IOException;
 import java.util.Random;
@@ -45,7 +46,7 @@ public class TestWeatherController extends ServerRunner {
     PowerMockito.when(weatherServiceFactory.create("owm")).thenReturn(owmWeatherService);
     PowerMockito.when(weatherServiceFactory.create("rest")).thenReturn(new RestWeatherService());
 
-    Whitebox.setInternalState(WeatherController.class, "weatherServiceFactory", weatherServiceFactory);
+    Whitebox.setInternalState(WeatherServiceHelper.class, "weatherServiceFactory", weatherServiceFactory);
   }
 
   @Test
@@ -53,10 +54,10 @@ public class TestWeatherController extends ServerRunner {
     mockOWM();
 
     String json = Unirest.get("http://localhost:4567/weather")
-            .queryString("subType", "owm")
-            .asJson()
-            .getBody()
-            .toString();
+        .queryString("subType", "owm")
+        .asJson()
+        .getBody()
+        .toString();
 
     Weather weather = JsonUtils.getOM().readValue(json, Weather.class);
 
@@ -68,12 +69,12 @@ public class TestWeatherController extends ServerRunner {
     WeatherStubs.stubGetStatus(wireMockRule, originalWeather);
 
     String json = Unirest.get("http://localhost:4567/weather")
-            .queryString("address", "localhost")
-            .queryString("port", 8080)
-            .queryString("subType", "rest")
-            .asJson()
-            .getBody()
-            .toString();
+        .queryString("address", "localhost")
+        .queryString("port", 8080)
+        .queryString("subType", "rest")
+        .asJson()
+        .getBody()
+        .toString();
 
     Weather weather = JsonUtils.getOM().readValue(json, Weather.class);
 
@@ -83,21 +84,21 @@ public class TestWeatherController extends ServerRunner {
   @Test
   public void errorInvalidArgument() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/weather")
-            .asJson()
-            .getStatus();
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
 
   @Test
   public void errorInvalidSubType() throws UnirestException {
-    Whitebox.setInternalState(WeatherController.class, "weatherServiceFactory", new WeatherServiceFactory());
+    Whitebox.setInternalState(WeatherServiceHelper.class, "weatherServiceFactory", new WeatherServiceFactory());
 
     int status = Unirest.get("http://localhost:4567/weather")
-            .queryString("city", "Vancouver")
-            .queryString("subType", "cenas")
-            .asJson()
-            .getStatus();
+        .queryString("city", "Vancouver")
+        .queryString("subType", "cenas")
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }

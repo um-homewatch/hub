@@ -1,4 +1,4 @@
-package homewatch.server.controllers.light;
+package homewatch.server.controllers.lights;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.JsonUtils;
