@@ -7,13 +7,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.LightStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.things.ServerRunner;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.xml.sax.SAXException;
-import homewatch.things.ServerRunner;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +30,6 @@ public class TestLightController extends ServerRunner {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
-  private static JsonNode GET_HUE;
-
   // Query string to send on each test
   private static Map<String, Object> QUERY_STRING;
   // JsonObject to change the thing status
@@ -47,7 +45,7 @@ public class TestLightController extends ServerRunner {
     JSON = new JSONObject();
     JSON.put("on", false);
 
-    GET_HUE = JsonUtils.getOM().readTree(new File("src/test/fixtures/hue/get.json"));
+    JsonNode GET_HUE = JsonUtils.getOM().readTree(new File("src/test/fixtures/hue/get.json"));
   }
 
   @Test
@@ -55,11 +53,11 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     boolean status = Unirest.get("http://localhost:4567/lights")
-            .queryString(QUERY_STRING)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .queryString(QUERY_STRING)
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(true));
   }
@@ -70,10 +68,10 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/lights").queryString(QUERY_STRING).body(JSON)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(false));
   }
@@ -83,14 +81,14 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetHue(wireMockRule, true);
 
     boolean status = Unirest.get("http://localhost:4567/lights")
-            .queryString("subType", "hue")
-            .queryString("address", "localhost")
-            .queryString("port", 8080)
-            .queryString("light_id", 1)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .queryString("subType", "hue")
+        .queryString("address", "localhost")
+        .queryString("port", 8080)
+        .queryString("light_id", 1)
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(true));
   }
@@ -100,15 +98,15 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubPutHue(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/lights")
-            .queryString("subType", "hue")
-            .queryString("address", "localhost")
-            .queryString("port", 8080)
-            .queryString("light_id", 1)
-            .body(JSON)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .queryString("subType", "hue")
+        .queryString("address", "localhost")
+        .queryString("port", 8080)
+        .queryString("light_id", 1)
+        .body(JSON)
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(false));
   }
@@ -118,8 +116,8 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/lights")
-            .asJson()
-            .getStatus();
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
@@ -129,10 +127,10 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/lights")
-            .queryString("address", "192.168.1.1")
-            .queryString("subType", "cenas")
-            .asJson()
-            .getStatus();
+        .queryString("address", "192.168.1.1")
+        .queryString("subType", "cenas")
+        .asJson()
+        .getStatus();
 
 
     assertThat(status, is(400));

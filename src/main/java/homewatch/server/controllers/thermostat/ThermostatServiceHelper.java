@@ -4,15 +4,17 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.ServiceHelper;
-import homewatch.server.controllers.pojos.HttpThingInfo;
-import homewatch.things.HttpThingServiceFactory;
+import homewatch.server.pojos.HttpThingInfo;
+import homewatch.server.pojos.ThingInfo;
+import homewatch.things.HttpThingService;
 import homewatch.things.ThingService;
+import homewatch.things.ThingServiceFactory;
 import homewatch.things.thermostat.Thermostat;
 import homewatch.things.thermostat.ThermostatServiceFactory;
 import spark.Request;
 
 public class ThermostatServiceHelper extends ServiceHelper<Thermostat> {
-  private static final HttpThingServiceFactory<Thermostat> thermostatServiceFactory = new ThermostatServiceFactory();
+  private static final ThingServiceFactory<Thermostat> thermostatServiceFactory = new ThermostatServiceFactory();
 
   public ThermostatServiceHelper(Request req) {
     super(req);
@@ -20,10 +22,15 @@ public class ThermostatServiceHelper extends ServiceHelper<Thermostat> {
 
   public ThingService<Thermostat> createService() throws NetworkException {
     try {
-      HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
-      ThingService<Thermostat> thingService = thermostatServiceFactory.create(info.getAddress(), info.getPort(), info.getSubType());
+      ThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
+      ThingService<Thermostat> thermostatThingService = thermostatServiceFactory.create(info.getSubType());
 
-      return thingService;
+
+      if (thermostatThingService instanceof HttpThingService){
+        thermostatThingService = httpService(thermostatThingService);
+      }
+
+      return thermostatThingService;
     } catch (InvalidSubTypeException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 400);

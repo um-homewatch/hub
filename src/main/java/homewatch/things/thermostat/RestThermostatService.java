@@ -10,25 +10,21 @@ import org.json.JSONObject;
 import java.net.InetAddress;
 
 public class RestThermostatService extends HttpThingService<Thermostat> {
-  private HttpUrl baseUrl;
-
   public RestThermostatService() {
     super();
   }
 
   public RestThermostatService(InetAddress ipAddress) {
     super(ipAddress);
-    this.baseUrl = HttpUrl.parse(this.getUrl() + "/status");
   }
 
   public RestThermostatService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
-    this.baseUrl = HttpUrl.parse(this.getUrl() + "/status");
   }
 
   @Override
   public Thermostat get() throws NetworkException {
-    JsonNode response = NetUtils.get(this.baseUrl).getJson();
+    JsonNode response = NetUtils.get(this.baseUrl()).getJson();
 
     return this.jsonToThermostat(response);
   }
@@ -38,7 +34,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
     JSONObject json = new JSONObject();
     json.put("target_temperature", thermostat.getTargetTemperature());
 
-    JsonNode response = NetUtils.put(this.baseUrl, json).getJson();
+    JsonNode response = NetUtils.put(this.baseUrl(), json).getJson();
 
     return this.jsonToThermostat(response);
   }
@@ -46,7 +42,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(this.baseUrl).getResponse().code() == 200;
+      return NetUtils.get(this.baseUrl()).getResponse().code() == 200;
     } catch (NetworkException e) {
       return false;
     }
@@ -60,6 +56,10 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
   @Override
   public String getSubType() {
     return "rest";
+  }
+
+  private HttpUrl baseUrl(){
+    return HttpUrl.parse(this.getUrl() + "/status");
   }
 
   private Thermostat jsonToThermostat(JsonNode json) {

@@ -11,7 +11,6 @@ import java.net.InetAddress;
 
 public class HueLightService extends HttpThingService<Light> {
   private int lightID;
-  private HttpUrl baseUrl;
 
   HueLightService() {
     super();
@@ -19,12 +18,10 @@ public class HueLightService extends HttpThingService<Light> {
 
   HueLightService(InetAddress ipAddress) {
     super(ipAddress);
-    this.baseUrl = HttpUrl.parse(this.getUrl() + "/api/newdeveloper/lights");
   }
 
   HueLightService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
-    this.baseUrl = HttpUrl.parse(this.getUrl() + "/api/newdeveloper/lights");
   }
 
   public int getLightID() {
@@ -37,7 +34,7 @@ public class HueLightService extends HttpThingService<Light> {
 
   @Override
   public Light get() throws NetworkException {
-    HttpUrl url = HttpUrl.parse(String.format("%s/%d", baseUrl, lightID));
+    HttpUrl url = HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID));
 
     JsonNode response = NetUtils.get(url).getJson();
 
@@ -49,7 +46,7 @@ public class HueLightService extends HttpThingService<Light> {
     JSONObject json = new JSONObject();
     json.put("on", light.isOn());
 
-    NetUtils.put(HttpUrl.parse(String.format("%s/%d/state", baseUrl, lightID)), json);
+    NetUtils.put(HttpUrl.parse(String.format("%s/%d/state", this.baseUrl(), lightID)), json);
 
     return light;
   }
@@ -57,7 +54,7 @@ public class HueLightService extends HttpThingService<Light> {
   @Override
   public boolean ping() {
     try {
-      HttpUrl url = HttpUrl.parse(String.format("%s/%d", baseUrl, lightID));
+      HttpUrl url = HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID));
 
       return NetUtils.get(url).getResponse().code() == 200;
     } catch (NetworkException e) {
@@ -73,6 +70,10 @@ public class HueLightService extends HttpThingService<Light> {
   @Override
   public String getSubType() {
     return "hue";
+  }
+
+  private HttpUrl baseUrl(){
+    return HttpUrl.parse(this.getUrl() + "/api/newdeveloper/lights");
   }
 
   private Light jsonToLight(JsonNode json) {

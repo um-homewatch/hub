@@ -7,13 +7,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.ThermostatStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.things.ServerRunner;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.xml.sax.SAXException;
-import homewatch.things.ServerRunner;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -50,10 +50,10 @@ public class TestThermostatController extends ServerRunner {
     ThermostatStubs.stubGetStatus(wireMockRule, thermostat);
 
     double targetTemperature = Unirest.get("http://localhost:4567/thermostats").queryString(QUERY_STRING)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getDouble("targetTemperature");
+        .asJson()
+        .getBody()
+        .getObject()
+        .getDouble("targetTemperature");
 
     assertThat(targetTemperature, is(thermostat.getTargetTemperature()));
   }
@@ -64,12 +64,12 @@ public class TestThermostatController extends ServerRunner {
     ThermostatStubs.stubPutStatus(wireMockRule, thermostat);
 
     double targetTemperature = Unirest.put("http://localhost:4567/thermostats")
-            .queryString(QUERY_STRING)
-            .body(JsonUtils.getOM().writeValueAsString(thermostat))
-            .asJson()
-            .getBody()
-            .getObject()
-            .getDouble("targetTemperature");
+        .queryString(QUERY_STRING)
+        .body(JsonUtils.getOM().writeValueAsString(thermostat))
+        .asJson()
+        .getBody()
+        .getObject()
+        .getDouble("targetTemperature");
 
 
     assertThat(targetTemperature, is(thermostat.getTargetTemperature()));
@@ -78,8 +78,8 @@ public class TestThermostatController extends ServerRunner {
   @Test
   public void errorInvalidArgument() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/thermostats")
-            .asJson()
-            .getStatus();
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
@@ -87,10 +87,10 @@ public class TestThermostatController extends ServerRunner {
   @Test
   public void errorInvalidSubTypeGet() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/thermostats")
-            .queryString("address", "192.168.1.1")
-            .queryString("subType", "cenas")
-            .asJson()
-            .getStatus();
+        .queryString("address", "192.168.1.1")
+        .queryString("subType", "cenas")
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
@@ -98,10 +98,10 @@ public class TestThermostatController extends ServerRunner {
   @Test
   public void errorInvalidSubTypePut() throws UnirestException {
     int status = Unirest.put("http://localhost:4567/thermostats")
-            .queryString("address", "192.168.1.1")
-            .queryString("subType", "cenas")
-            .asJson()
-            .getStatus();
+        .queryString("address", "192.168.1.1")
+        .queryString("subType", "cenas")
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }

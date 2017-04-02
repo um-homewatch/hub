@@ -1,9 +1,9 @@
 package homewatch.things.lights;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import org.junit.Test;
 import homewatch.things.HttpThingService;
 import homewatch.things.ThingService;
+import org.junit.Test;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

@@ -2,10 +2,8 @@ package homewatch.server.controllers.locks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.LoggerUtils;
-import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.controllers.pojos.HttpThingInfo;
-import homewatch.things.HttpThingServiceFactory;
+import homewatch.server.pojos.HttpThingInfo;
 import homewatch.things.ThingService;
 import homewatch.things.locks.Lock;
 import homewatch.things.locks.LockServiceFactory;
@@ -16,7 +14,6 @@ import java.io.IOException;
 
 public class LockController {
   private static final ObjectMapper OM = new ObjectMapper();
-  private static final HttpThingServiceFactory<Lock> lockServiceFactory = new LockServiceFactory();
 
   private LockController() {
   }

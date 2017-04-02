@@ -2,9 +2,8 @@ package homewatch.server.controllers.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.LoggerUtils;
-import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.controllers.pojos.ThingInfo;
+import homewatch.server.pojos.ThingInfo;
 import homewatch.things.ThingService;
 import homewatch.things.weather.Weather;
 import homewatch.things.weather.WeatherServiceFactory;
@@ -22,8 +21,6 @@ public class WeatherController {
 
   public static String get(Request req, Response res) throws NetworkException {
     try {
-      ThingInfo info = ThingInfo.fromQueryString(req.queryMap());
-
       ThingService<Weather> weatherThingService = new WeatherServiceHelper(req).createService();
 
       Weather weather = weatherThingService.get();

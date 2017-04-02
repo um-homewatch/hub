@@ -11,25 +11,21 @@ import org.json.JSONObject;
 import java.net.InetAddress;
 
 class RestLockService extends HttpThingService<Lock> {
-  private HttpUrl baseUrl;
-
   RestLockService() {
     super();
   }
 
   RestLockService(InetAddress ipAddress) {
     super(ipAddress);
-    this.baseUrl = HttpUrl.parse(this.getUrl() + "/status");
   }
 
   RestLockService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
-    this.baseUrl = HttpUrl.parse(this.getUrl() + "/status");
   }
 
   @Override
   public Lock get() throws NetworkException {
-    JsonNode response = NetUtils.get(baseUrl).getJson();
+    JsonNode response = NetUtils.get(this.baseUrl()).getJson();
 
     return this.jsonToLock(response);
   }
@@ -39,7 +35,7 @@ class RestLockService extends HttpThingService<Lock> {
     JSONObject json = new JSONObject();
     json.put("locked", lock.isLocked());
 
-    JsonNode response = NetUtils.put(baseUrl, json).getJson();
+    JsonNode response = NetUtils.put(this.baseUrl(), json).getJson();
 
     return this.jsonToLock(response);
   }
@@ -47,7 +43,7 @@ class RestLockService extends HttpThingService<Lock> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(baseUrl).getResponse().code() == 200;
+      return NetUtils.get(this.baseUrl()).getResponse().code() == 200;
     } catch (NetworkException e) {
       LoggerUtils.logException(e);
       return false;
@@ -62,6 +58,10 @@ class RestLockService extends HttpThingService<Lock> {
   @Override
   public String getSubType() {
     return "rest";
+  }
+
+  private HttpUrl baseUrl(){
+    return HttpUrl.parse(this.getUrl() + "/status");
   }
 
   private Lock jsonToLock(JsonNode json) {

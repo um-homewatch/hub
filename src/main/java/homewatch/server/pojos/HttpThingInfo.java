@@ -1,4 +1,4 @@
-package homewatch.server.controllers.pojos;
+package homewatch.server.pojos;
 
 import spark.QueryParamsMap;
 
