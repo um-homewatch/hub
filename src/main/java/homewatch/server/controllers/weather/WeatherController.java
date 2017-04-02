@@ -1,12 +1,10 @@
-package homewatch.server.controllers;
+package homewatch.server.controllers.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.controllers.pojos.HttpThingInfo;
 import homewatch.server.controllers.pojos.ThingInfo;
-import homewatch.things.HttpThingService;
 import homewatch.things.ThingService;
 import homewatch.things.weather.Weather;
 import homewatch.things.weather.WeatherServiceFactory;
@@ -26,14 +24,7 @@ public class WeatherController {
     try {
       ThingInfo info = ThingInfo.fromQueryString(req.queryMap());
 
-      ThingService<Weather> weatherThingService = weatherServiceFactory.create(info.getSubType());
-
-      if (weatherThingService instanceof HttpThingService) {
-        HttpThingInfo httpThingInfo = HttpThingInfo.fromQueryString(req.queryMap());
-        HttpThingService<Weather> weatherHttpThingService = (HttpThingService<Weather>) weatherThingService;
-        weatherHttpThingService.setIpAddress(httpThingInfo.getAddress());
-        weatherHttpThingService.setPort(httpThingInfo.getPort());
-      }
+      ThingService<Weather> weatherThingService = new WeatherServiceHelper(req).createService();
 
       Weather weather = weatherThingService.get();
       res.status(200);
@@ -42,9 +33,6 @@ public class WeatherController {
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
-    } catch (InvalidSubTypeException e) {
-      LoggerUtils.logException(e);
-      throw new NetworkException(e.getMessage(), 400);
     }
   }
 }

@@ -67,7 +67,7 @@ public class HueLightService extends HttpThingService<Light> {
 
   @Override
   public String getType() {
-    return "light";
+    return "lights";
   }
 
   @Override

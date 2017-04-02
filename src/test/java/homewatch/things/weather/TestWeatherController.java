@@ -6,6 +6,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.WeatherStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.server.controllers.weather.WeatherServiceHelper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
-import homewatch.server.controllers.WeatherController;
+import homewatch.server.controllers.weather.WeatherController;
 import homewatch.things.ServerRunner;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class TestWeatherController extends ServerRunner {
     PowerMockito.when(weatherServiceFactory.create("owm")).thenReturn(owmWeatherService);
     PowerMockito.when(weatherServiceFactory.create("rest")).thenReturn(new RestWeatherService());
 
-    Whitebox.setInternalState(WeatherController.class, "weatherServiceFactory", weatherServiceFactory);
+    Whitebox.setInternalState(WeatherServiceHelper.class, "weatherServiceFactory", weatherServiceFactory);
   }
 
   @Test

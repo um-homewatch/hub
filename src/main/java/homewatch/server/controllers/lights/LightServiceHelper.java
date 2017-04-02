@@ -1,4 +1,4 @@
-package homewatch.server.controllers.light;
+package homewatch.server.controllers.lights;
 
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;

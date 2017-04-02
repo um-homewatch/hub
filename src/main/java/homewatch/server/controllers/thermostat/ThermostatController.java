@@ -1,4 +1,4 @@
-package homewatch.server.controllers;
+package homewatch.server.controllers.thermostat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.LoggerUtils;
