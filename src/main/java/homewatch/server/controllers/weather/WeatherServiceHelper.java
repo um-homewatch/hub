@@ -15,7 +15,7 @@ import spark.Request;
 public class WeatherServiceHelper extends ServiceHelper<Weather> {
   private static final ThingServiceFactory<Weather> weatherServiceFactory = new WeatherServiceFactory();
 
-  protected WeatherServiceHelper(Request req) {
+  WeatherServiceHelper(Request req) {
     super(req);
   }
 

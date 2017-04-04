@@ -6,7 +6,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.WeatherStubs;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.controllers.weather.WeatherController;
 import homewatch.server.controllers.weather.WeatherServiceHelper;
 import homewatch.things.ServerRunner;
 import org.junit.Before;

@@ -5,7 +5,6 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.ThingService;
 import homewatch.things.weather.Weather;
-import homewatch.things.weather.WeatherServiceFactory;
 import spark.Request;
 import spark.Response;
 
