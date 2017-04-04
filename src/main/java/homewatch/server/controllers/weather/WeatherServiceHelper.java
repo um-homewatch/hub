@@ -15,19 +15,15 @@ import spark.Request;
 public class WeatherServiceHelper extends ServiceHelper<Weather> {
   private static final ThingServiceFactory<Weather> weatherServiceFactory = new WeatherServiceFactory();
 
-  WeatherServiceHelper(Request req) {
-    super(req);
-  }
-
   @Override
-  public ThingService<Weather> createService() throws NetworkException {
+  public ThingService<Weather> createService(Request req) throws NetworkException {
     try {
       ThingInfo info = ThingInfo.fromQueryString(req.queryMap());
 
       ThingService<Weather> weatherThingService = weatherServiceFactory.create(info.getSubType());
 
       if (weatherThingService instanceof HttpThingService) {
-        weatherThingService = this.httpService(weatherThingService);
+        weatherThingService = this.httpService(weatherThingService, req);
       }
 
       return weatherThingService;

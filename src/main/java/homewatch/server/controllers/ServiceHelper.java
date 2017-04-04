@@ -7,15 +7,9 @@ import homewatch.things.ThingService;
 import spark.Request;
 
 public abstract class ServiceHelper<T> {
-  protected final Request req;
+  public abstract ThingService<T> createService(Request req) throws NetworkException;
 
-  protected ServiceHelper(Request req) {
-    this.req = req;
-  }
-
-  public abstract ThingService<T> createService() throws NetworkException;
-
-  protected HttpThingService<T> httpService(ThingService<T> thingService) {
+  protected HttpThingService<T> httpService(ThingService<T> thingService, Request req) {
     HttpThingInfo httpThingInfo = HttpThingInfo.fromQueryString(req.queryMap());
 
     HttpThingService<T> httpThingService = (HttpThingService<T>) thingService;

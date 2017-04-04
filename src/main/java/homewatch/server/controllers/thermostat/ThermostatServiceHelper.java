@@ -16,18 +16,15 @@ import spark.Request;
 public class ThermostatServiceHelper extends ServiceHelper<Thermostat> {
   private static final ThingServiceFactory<Thermostat> thermostatServiceFactory = new ThermostatServiceFactory();
 
-  public ThermostatServiceHelper(Request req) {
-    super(req);
-  }
-
-  public ThingService<Thermostat> createService() throws NetworkException {
+  @Override
+  public ThingService<Thermostat> createService(Request req) throws NetworkException {
     try {
       ThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
       ThingService<Thermostat> thermostatThingService = thermostatServiceFactory.create(info.getSubType());
 
 
       if (thermostatThingService instanceof HttpThingService) {
-        thermostatThingService = httpService(thermostatThingService);
+        thermostatThingService = httpService(thermostatThingService, req);
       }
 
       return thermostatThingService;

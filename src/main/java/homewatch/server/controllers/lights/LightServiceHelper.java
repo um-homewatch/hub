@@ -17,22 +17,18 @@ import spark.Request;
 public class LightServiceHelper extends ServiceHelper<Light> {
   private static final ThingServiceFactory<Light> lightServiceFactory = new LightServiceFactory();
 
-  public LightServiceHelper(Request req) {
-    super(req);
-  }
-
   @Override
-  public ThingService<Light> createService() throws NetworkException {
+  public ThingService<Light> createService(Request req) throws NetworkException {
     try {
       HttpThingInfo info = HttpThingInfo.fromQueryString(req.queryMap());
       ThingService<Light> lightThingService = lightServiceFactory.create(info.getSubType());
 
       if (lightThingService instanceof HttpThingService) {
-        lightThingService = this.httpService(lightThingService);
+        lightThingService = this.httpService(lightThingService, req);
       }
 
       if (lightThingService instanceof HueLightService) {
-        lightThingService = hueLightService(lightThingService);
+        lightThingService = hueLightService(lightThingService, req);
       }
 
       return lightThingService;
@@ -42,7 +38,7 @@ public class LightServiceHelper extends ServiceHelper<Light> {
     }
   }
 
-  private ThingService<Light> hueLightService(ThingService<Light> thingService) {
+  private ThingService<Light> hueLightService(ThingService<Light> thingService, Request req) {
     QueryParamsMap lightIdParam = req.queryMap().get("light_id");
 
     if (!lightIdParam.hasValue())

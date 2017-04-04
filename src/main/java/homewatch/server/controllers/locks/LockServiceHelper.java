@@ -15,18 +15,14 @@ import spark.Request;
 public class LockServiceHelper extends ServiceHelper<Lock> {
   private static final ThingServiceFactory<Lock> lockServiceFactory = new LockServiceFactory();
 
-  public LockServiceHelper(Request req) {
-    super(req);
-  }
-
   @Override
-  public ThingService<Lock> createService() throws NetworkException {
+  public ThingService<Lock> createService(Request req) throws NetworkException {
     try {
       ThingInfo info = ThingInfo.fromQueryString(req.queryMap());
       ThingService<Lock> lockThingService = lockServiceFactory.create(info.getSubType());
 
       if (lockThingService instanceof HttpThingService) {
-        lockThingService = this.httpService(lockThingService);
+        lockThingService = this.httpService(lockThingService, req);
       }
 
       return lockThingService;

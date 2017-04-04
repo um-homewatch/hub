@@ -7,13 +7,18 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.NgrokController;
+import homewatch.server.controllers.ThingController;
 import homewatch.server.controllers.discover.DiscoveryController;
-import homewatch.server.controllers.lights.LightController;
-import homewatch.server.controllers.locks.LockController;
-import homewatch.server.controllers.thermostat.ThermostatController;
-import homewatch.server.controllers.weather.WeatherController;
+import homewatch.server.controllers.lights.LightServiceHelper;
+import homewatch.server.controllers.locks.LockServiceHelper;
+import homewatch.server.controllers.thermostat.ThermostatServiceHelper;
+import homewatch.server.controllers.weather.WeatherServiceHelper;
+import homewatch.things.lights.Light;
 import homewatch.things.lights.LightServiceFactory;
+import homewatch.things.locks.Lock;
 import homewatch.things.locks.LockServiceFactory;
+import homewatch.things.thermostat.Thermostat;
+import homewatch.things.weather.Weather;
 import org.xml.sax.SAXException;
 import spark.Spark;
 
@@ -30,16 +35,21 @@ public class Main {
 
     Spark.get("/locks/discover", new DiscoveryController<>(new LockServiceFactory())::get);
 
-    Spark.get("/lights", LightController::get);
-    Spark.put("/lights", LightController::put);
+    ThingController<Light> lightsController = new ThingController<>(new LightServiceHelper(), Light.class);
+    ThingController<Lock> locksController = new ThingController<>(new LockServiceHelper(), Lock.class);
+    ThingController<Weather> weatherController = new ThingController<>(new WeatherServiceHelper(), Weather.class);
+    ThingController<Thermostat> thermostatsController = new ThingController<>(new ThermostatServiceHelper(), Thermostat.class);
 
-    Spark.get("/locks", LockController::get);
-    Spark.put("/locks", LockController::put);
+    Spark.get("/lights", lightsController::get);
+    Spark.put("/lights", lightsController::put);
 
-    Spark.get("/weather", WeatherController::get);
+    Spark.get("/locks", locksController::get);
+    Spark.put("/locks", locksController::put);
 
-    Spark.get("/thermostats", ThermostatController::get);
-    Spark.put("/thermostats", ThermostatController::put);
+    Spark.get("/weather", weatherController::get);
+
+    Spark.get("/thermostats", thermostatsController::get);
+    Spark.put("/thermostats", thermostatsController::put);
 
     Spark.get("/tunnel", NgrokController::get);
 
