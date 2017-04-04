@@ -7,14 +7,12 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.server.controllers.NgrokController;
+import homewatch.server.controllers.discover.DiscoveryController;
 import homewatch.server.controllers.lights.LightController;
 import homewatch.server.controllers.locks.LockController;
 import homewatch.server.controllers.thermostat.ThermostatController;
 import homewatch.server.controllers.weather.WeatherController;
-import homewatch.things.DiscoveryService;
-import homewatch.things.lights.Light;
 import homewatch.things.lights.LightServiceFactory;
-import homewatch.things.locks.Lock;
 import homewatch.things.locks.LockServiceFactory;
 import org.xml.sax.SAXException;
 import spark.Spark;
@@ -28,15 +26,9 @@ public class Main {
   }
 
   public static void main(String[] args) throws IOException, SAXException {
-    Spark.get("/lights/discover", (req, res) -> {
-      DiscoveryService<Light> discoveryService = new DiscoveryService<>(new LightServiceFactory(), "rest");
-      return OM.writeValueAsString(discoveryService.discovery());
-    });
+    Spark.get("/lights/discover", new DiscoveryController<>(new LightServiceFactory())::get);
 
-    Spark.get("/locks/discover", (req, res) -> {
-      DiscoveryService<Lock> discoveryService = new DiscoveryService<>(new LockServiceFactory(), "rest");
-      return OM.writeValueAsString(discoveryService.discovery());
-    });
+    Spark.get("/locks/discover", new DiscoveryController<>(new LockServiceFactory())::get);
 
     Spark.get("/lights", LightController::get);
     Spark.put("/lights", LightController::put);
