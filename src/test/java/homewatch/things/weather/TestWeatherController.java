@@ -6,15 +6,16 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.WeatherStubs;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.controllers.weather.WeatherServiceHelper;
 import homewatch.things.ServerRunner;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.reflect.Whitebox;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.util.Random;
@@ -24,8 +25,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({OWMWeatherService.class, WeatherServiceFactory.class})
 @PowerMockIgnore("javax.net.ssl.*")
-@PrepareForTest(OWMWeatherService.class)
 public class TestWeatherController extends ServerRunner {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
@@ -38,14 +40,9 @@ public class TestWeatherController extends ServerRunner {
   }
 
   private void mockOWM() throws Exception {
-    OWMWeatherService owmWeatherService = PowerMockito.mock(OWMWeatherService.class);
-    PowerMockito.when(owmWeatherService.get()).thenReturn(originalWeather);
-
-    WeatherServiceFactory weatherServiceFactory = PowerMockito.mock(WeatherServiceFactory.class);
-    PowerMockito.when(weatherServiceFactory.create("owm")).thenReturn(owmWeatherService);
-    PowerMockito.when(weatherServiceFactory.create("rest")).thenReturn(new RestWeatherService());
-
-    Whitebox.setInternalState(WeatherServiceHelper.class, "weatherServiceFactory", weatherServiceFactory);
+    OWMWeatherService owmWeatherService = Mockito.spy(OWMWeatherService.class);
+    Mockito.when(owmWeatherService.get()).thenReturn(originalWeather);
+    PowerMockito.whenNew(OWMWeatherService.class).withAnyArguments().thenReturn(owmWeatherService);
   }
 
   @Test
@@ -91,8 +88,6 @@ public class TestWeatherController extends ServerRunner {
 
   @Test
   public void errorInvalidSubType() throws UnirestException {
-    Whitebox.setInternalState(WeatherServiceHelper.class, "weatherServiceFactory", new WeatherServiceFactory());
-
     int status = Unirest.get("http://localhost:4567/weather")
         .queryString("city", "Vancouver")
         .queryString("subType", "cenas")

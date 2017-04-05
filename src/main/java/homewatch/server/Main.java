@@ -6,19 +6,18 @@ import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
+import homewatch.server.controllers.DiscoveryController;
 import homewatch.server.controllers.NgrokController;
+import homewatch.server.controllers.ServiceHelper;
 import homewatch.server.controllers.ThingController;
-import homewatch.server.controllers.discover.DiscoveryController;
-import homewatch.server.controllers.lights.LightServiceHelper;
-import homewatch.server.controllers.locks.LockServiceHelper;
-import homewatch.server.controllers.thermostat.ThermostatServiceHelper;
-import homewatch.server.controllers.weather.WeatherServiceHelper;
 import homewatch.things.lights.Light;
 import homewatch.things.lights.LightServiceFactory;
 import homewatch.things.locks.Lock;
 import homewatch.things.locks.LockServiceFactory;
 import homewatch.things.thermostat.Thermostat;
+import homewatch.things.thermostat.ThermostatServiceFactory;
 import homewatch.things.weather.Weather;
+import homewatch.things.weather.WeatherServiceFactory;
 import org.xml.sax.SAXException;
 import spark.Spark;
 
@@ -35,10 +34,10 @@ public class Main {
 
     Spark.get("/locks/discover", new DiscoveryController<>(new LockServiceFactory())::get);
 
-    ThingController<Light> lightsController = new ThingController<>(new LightServiceHelper(), Light.class);
-    ThingController<Lock> locksController = new ThingController<>(new LockServiceHelper(), Lock.class);
-    ThingController<Weather> weatherController = new ThingController<>(new WeatherServiceHelper(), Weather.class);
-    ThingController<Thermostat> thermostatsController = new ThingController<>(new ThermostatServiceHelper(), Thermostat.class);
+    ThingController<Light> lightsController = new ThingController<>(new ServiceHelper<>(new LightServiceFactory()), Light.class);
+    ThingController<Lock> locksController = new ThingController<>(new ServiceHelper<>(new LockServiceFactory()), Lock.class);
+    ThingController<Weather> weatherController = new ThingController<>(new ServiceHelper<>(new WeatherServiceFactory()), Weather.class);
+    ThingController<Thermostat> thermostatsController = new ThingController<>(new ServiceHelper<>(new ThermostatServiceFactory()), Thermostat.class);
 
     Spark.get("/lights", lightsController::get);
     Spark.put("/lights", lightsController::put);
