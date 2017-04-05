@@ -110,29 +110,4 @@ public class TestLightController extends ServerRunner {
 
     assertThat(status, is(false));
   }
-
-  @Test
-  public void errorInvalidArgument() throws UnirestException {
-    LightStubs.stubGetRest(wireMockRule, true);
-
-    int status = Unirest.get("http://localhost:4567/lights")
-        .asJson()
-        .getStatus();
-
-    assertThat(status, is(400));
-  }
-
-  @Test
-  public void errorInvalidSubType() throws UnirestException {
-    LightStubs.stubGetRest(wireMockRule, true);
-
-    int status = Unirest.get("http://localhost:4567/lights")
-        .queryString("address", "192.168.1.1")
-        .queryString("subType", "cenas")
-        .asJson()
-        .getStatus();
-
-
-    assertThat(status, is(400));
-  }
 }

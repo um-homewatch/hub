@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({OWMWeatherService.class, WeatherServiceFactory.class})
@@ -75,25 +73,5 @@ public class TestWeatherController extends ServerRunner {
     Weather weather = JsonUtils.getOM().readValue(json, Weather.class);
 
     assertEquals(originalWeather, weather);
-  }
-
-  @Test
-  public void errorInvalidArgument() throws UnirestException {
-    int status = Unirest.get("http://localhost:4567/weather")
-        .asJson()
-        .getStatus();
-
-    assertThat(status, is(400));
-  }
-
-  @Test
-  public void errorInvalidSubType() throws UnirestException {
-    int status = Unirest.get("http://localhost:4567/weather")
-        .queryString("city", "Vancouver")
-        .queryString("subType", "cenas")
-        .asJson()
-        .getStatus();
-
-    assertThat(status, is(400));
   }
 }
