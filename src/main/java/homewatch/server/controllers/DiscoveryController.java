@@ -1,4 +1,4 @@
-package homewatch.server.controllers.discover;
+package homewatch.server.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.JsonUtils;
