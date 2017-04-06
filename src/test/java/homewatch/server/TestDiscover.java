@@ -55,14 +55,25 @@ public class TestDiscover extends ServerRunner {
   }
 
   @Test
-  public void discoverRestLocks() throws Exception {
+  public void testCode400() throws Exception {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    JSONObject json = Unirest.get("http://localhost:4567/locks/discover")
-        .queryString("subType", "rest")
-        .queryString("port", 8080)
-        .asJson().getBody().getArray().getJSONObject(0);
+    int status = Unirest.get("http://localhost:4567/lights/discover")
+        .queryString("subType", "foo")
+        .asJson()
+        .getStatus();
 
-    assertThat(json.get("ipAddress"), is(addresses.get(0)));
+    assertThat(status, is(400));
+  }
+
+  @Test
+  public void testMissingParam() throws Exception {
+    LockStubs.stubGetStatus(wireMockRule, true);
+
+    int status = Unirest.get("http://localhost:4567/lights/discover")
+        .asJson()
+        .getStatus();
+
+    assertThat(status, is(400));
   }
 }

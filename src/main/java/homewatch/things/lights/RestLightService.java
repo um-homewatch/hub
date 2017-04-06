@@ -51,7 +51,7 @@ class RestLightService extends HttpThingService<Light> {
 
   @Override
   public String getType() {
-    return "lights";
+    return "light";
   }
 
   @Override

@@ -74,35 +74,4 @@ public class TestThermostatController extends ServerRunner {
 
     assertThat(targetTemperature, is(thermostat.getTargetTemperature()));
   }
-
-  @Test
-  public void errorInvalidArgument() throws UnirestException {
-    int status = Unirest.get("http://localhost:4567/thermostats")
-        .asJson()
-        .getStatus();
-
-    assertThat(status, is(400));
-  }
-
-  @Test
-  public void errorInvalidSubTypeGet() throws UnirestException {
-    int status = Unirest.get("http://localhost:4567/thermostats")
-        .queryString("address", "192.168.1.1")
-        .queryString("subType", "cenas")
-        .asJson()
-        .getStatus();
-
-    assertThat(status, is(400));
-  }
-
-  @Test
-  public void errorInvalidSubTypePut() throws UnirestException {
-    int status = Unirest.put("http://localhost:4567/thermostats")
-        .queryString("address", "192.168.1.1")
-        .queryString("subType", "cenas")
-        .asJson()
-        .getStatus();
-
-    assertThat(status, is(400));
-  }
 }

@@ -1,15 +1,31 @@
 package homewatch.things.weather;
 
 import homewatch.exceptions.InvalidSubTypeException;
+import homewatch.things.HttpThingService;
 import homewatch.things.ThingService;
 import org.junit.Test;
 
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class TestWeatherServiceFactory {
   private static final WeatherServiceFactory serviceFactory = new WeatherServiceFactory();
+
+  @Test
+  public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
+    InetAddress addr = InetAddress.getByName("192.168.1.50");
+    HttpThingService<Weather> weatherService = serviceFactory.create(addr, 80, "rest");
+
+    assertThat(weatherService.getIpAddress(), is(addr));
+    assertThat(weatherService.getPort(), is(80));
+    assertTrue(weatherService instanceof RestWeatherService);
+    assertThat(weatherService.getType(), is("weather"));
+    assertThat(weatherService.getSubType(), is("rest"));
+  }
 
   @Test
   public void testOwmCreate() throws UnknownHostException, InvalidSubTypeException {
@@ -19,7 +35,7 @@ public class TestWeatherServiceFactory {
   }
 
   @Test
-  public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
+  public void testRestCreateEmpty() throws UnknownHostException, InvalidSubTypeException {
     ThingService<Weather> weatherService = serviceFactory.create("rest");
 
     assertTrue(weatherService instanceof RestWeatherService);
