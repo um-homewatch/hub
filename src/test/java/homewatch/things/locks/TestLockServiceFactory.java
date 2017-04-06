@@ -23,6 +23,8 @@ public class TestLockServiceFactory {
     assertThat(lockService.getIpAddress(), is(addr));
     assertThat(lockService.getPort(), is(80));
     assertTrue(lockService instanceof RestLockService);
+    assertThat(lockService.getType(), is("lock"));
+    assertThat(lockService.getSubType(), is("rest"));
   }
 
   @Test

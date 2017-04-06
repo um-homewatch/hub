@@ -24,7 +24,7 @@ public class WeatherServiceFactory implements HttpThingServiceFactory<Weather> {
   public HttpThingService<Weather> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "rest":
-        return new RestWeatherService();
+        return new RestWeatherService(address, port);
       default:
         throw new InvalidSubTypeException();
     }

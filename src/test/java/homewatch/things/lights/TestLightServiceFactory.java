@@ -23,6 +23,8 @@ public class TestLightServiceFactory {
     assertThat(lightService.getIpAddress(), is(addr));
     assertThat(lightService.getPort(), is(80));
     assertTrue(lightService instanceof RestLightService);
+    assertThat(lightService.getType(), is("light"));
+    assertThat(lightService.getSubType(), is("rest"));
   }
 
   @Test
