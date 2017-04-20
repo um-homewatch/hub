@@ -1,13 +1,16 @@
 package homewatch.server;
 
-class ErrorMessage {
-  private final String message;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-  public ErrorMessage(String message) {
-    this.message = message;
+class ErrorMessage {
+  @JsonIgnore
+  private final Exception e;
+
+  ErrorMessage(Exception e) {
+    this.e = e;
   }
 
   public String getMessage() {
-    return message;
+    return e.getMessage();
   }
 }

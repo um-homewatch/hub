@@ -19,6 +19,7 @@ import homewatch.things.thermostat.ThermostatServiceFactory;
 import homewatch.things.weather.Weather;
 import homewatch.things.weather.WeatherServiceFactory;
 import org.xml.sax.SAXException;
+import spark.Response;
 import spark.Spark;
 
 import java.io.IOException;
@@ -53,37 +54,30 @@ public class Main {
     Spark.get("/tunnel", NgrokController::get);
 
 
-    Spark.exception(IllegalArgumentException.class, (exception, req, res) -> {
-      res.status(400);
-      res.body(exceptionToString(exception));
-      LoggerUtils.logException(exception);
-    });
+    Spark.exception(IllegalArgumentException.class, (exception, req, res) -> resolveException(exception, res, 400));
 
-    Spark.exception(InvalidSubTypeException.class, (exception, req, res) -> {
-      res.status(400);
-      res.body(exceptionToString(exception));
-      LoggerUtils.logException(exception);
-    });
+    Spark.exception(InvalidSubTypeException.class, (exception, req, res) -> resolveException(exception, res, 400));
 
     Spark.exception(NetworkException.class, (exception, req, res) -> {
-      NetworkException e = (NetworkException) exception;
-      res.status(e.getStatusCode());
-      res.body(exceptionToString(exception));
-      LoggerUtils.logException(exception);
+      NetworkException networkException = (NetworkException) exception;
+      resolveException(exception, res, networkException.getStatusCode());
     });
 
-    Spark.exception(Exception.class, (exception, req, res) -> {
-      res.status(500);
-      res.body(exceptionToString(exception));
-      LoggerUtils.logException(exception);
-    });
+    Spark.exception(Exception.class, (exception, req, res) -> resolveException(exception, res, 500));
 
     Spark.after((request, response) -> response.header("Content-Type", "application/json"));
   }
 
+  private static void resolveException(Exception exception, Response res, int statusCode) {
+    res.header("Content-Type", "application/json");
+    res.status(statusCode);
+    res.body(exceptionToString(exception));
+    LoggerUtils.logException(exception);
+  }
+
   private static String exceptionToString(Exception e) {
     try {
-      return OM.writeValueAsString(new ErrorMessage(e.getMessage()));
+      return OM.writeValueAsString(new ErrorMessage(e));
     } catch (JsonProcessingException e1) {
       LoggerUtils.logException(e1);
       return null;

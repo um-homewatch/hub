@@ -13,7 +13,7 @@ public class ThingInfo {
     QueryParamsMap subType = query.get("subType");
 
     if (!subType.hasValue()) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("missing argument subtype");
     } else {
       return new ThingInfo(subType.value());
     }

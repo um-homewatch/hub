@@ -2,7 +2,7 @@ package homewatch.exceptions;
 
 public class InvalidSubTypeException extends Exception {
   public InvalidSubTypeException() {
-    super();
+    super("Invalid subType");
   }
 
   public InvalidSubTypeException(String message) {
