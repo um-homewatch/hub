@@ -49,7 +49,7 @@ class OWMWeatherService implements ThingService<Weather> {
 
   @Override
   public String getType() {
-    return "weather";
+    return "Things::Weather";
   }
 
   @Override

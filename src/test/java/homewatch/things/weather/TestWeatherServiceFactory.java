@@ -20,10 +20,10 @@ public class TestWeatherServiceFactory {
     InetAddress addr = InetAddress.getByName("192.168.1.50");
     HttpThingService<Weather> weatherService = serviceFactory.create(addr, 80, "rest");
 
-    assertThat(weatherService.getIpAddress(), is(addr));
+    assertThat(weatherService.getAddress(), is(addr));
     assertThat(weatherService.getPort(), is(80));
     assertTrue(weatherService instanceof RestWeatherService);
-    assertThat(weatherService.getType(), is("weather"));
+    assertThat(weatherService.getType(), is("Things::Weather"));
     assertThat(weatherService.getSubType(), is("rest"));
   }
 

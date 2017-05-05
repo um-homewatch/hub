@@ -20,10 +20,10 @@ public class TestThermostatServiceFactory {
     InetAddress addr = InetAddress.getByName("192.168.1.50");
     HttpThingService<Thermostat> thermostatService = serviceFactory.create(addr, 80, "rest");
 
-    assertThat(thermostatService.getIpAddress(), is(addr));
+    assertThat(thermostatService.getAddress(), is(addr));
     assertThat(thermostatService.getPort(), is(80));
     assertTrue(thermostatService instanceof RestThermostatService);
-    assertThat(thermostatService.getType(), is("thermostat"));
+    assertThat(thermostatService.getType(), is("Things::Thermostat"));
     assertThat(thermostatService.getSubType(), is("rest"));
   }
 

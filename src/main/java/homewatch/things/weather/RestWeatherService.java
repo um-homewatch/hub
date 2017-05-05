@@ -44,7 +44,7 @@ public class RestWeatherService extends HttpThingService<Weather> {
 
   @Override
   public String getType() {
-    return "weather";
+    return "Things::Weather";
   }
 
   @Override
