@@ -20,10 +20,10 @@ public class TestLockServiceFactory {
     InetAddress addr = InetAddress.getByName("192.168.1.50");
     HttpThingService<Lock> lockService = serviceFactory.create(addr, 80, "rest");
 
-    assertThat(lockService.getIpAddress(), is(addr));
+    assertThat(lockService.getAddress(), is(addr));
     assertThat(lockService.getPort(), is(80));
     assertTrue(lockService instanceof RestLockService);
-    assertThat(lockService.getType(), is("lock"));
+    assertThat(lockService.getType(), is("Things::Lock"));
     assertThat(lockService.getSubType(), is("rest"));
   }
 

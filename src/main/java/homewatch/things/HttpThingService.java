@@ -3,27 +3,27 @@ package homewatch.things;
 import java.net.InetAddress;
 
 public abstract class HttpThingService<T> implements ThingService<T> {
-  private InetAddress ipAddress;
+  private InetAddress address;
   private Integer port = null;
 
   protected HttpThingService() {
   }
 
-  protected HttpThingService(InetAddress ipAddress) {
-    this.ipAddress = ipAddress;
+  protected HttpThingService(InetAddress address) {
+    this.address = address;
   }
 
-  protected HttpThingService(InetAddress ipAddress, Integer port) {
-    this.ipAddress = ipAddress;
+  protected HttpThingService(InetAddress address, Integer port) {
+    this.address = address;
     this.port = port;
   }
 
-  public InetAddress getIpAddress() {
-    return ipAddress;
+  public InetAddress getAddress() {
+    return address;
   }
 
-  public void setIpAddress(InetAddress ipAddress) {
-    this.ipAddress = ipAddress;
+  public void setAddress(InetAddress address) {
+    this.address = address;
   }
 
   public Integer getPort() {
@@ -36,8 +36,8 @@ public abstract class HttpThingService<T> implements ThingService<T> {
 
   protected String getUrl() {
     if (port == null)
-      return String.format("http://%s", this.ipAddress.getHostAddress());
+      return String.format("http://%s", this.address.getHostAddress());
     else
-      return String.format("http://%s:%d", this.ipAddress.getHostAddress(), this.port);
+      return String.format("http://%s:%d", this.address.getHostAddress(), this.port);
   }
 }

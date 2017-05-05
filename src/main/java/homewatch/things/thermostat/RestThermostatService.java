@@ -50,7 +50,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
 
   @Override
   public String getType() {
-    return "thermostat";
+    return "Things::Thermostat";
   }
 
   @Override

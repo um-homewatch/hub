@@ -44,7 +44,7 @@ public class ServiceHelper<T> {
     HttpThingInfo httpThingInfo = HttpThingInfo.fromQueryString(req.queryMap());
 
     HttpThingService<T> httpThingService = (HttpThingService<T>) thingService;
-    httpThingService.setIpAddress(httpThingInfo.getAddress());
+    httpThingService.setAddress(httpThingInfo.getAddress());
     httpThingService.setPort(httpThingInfo.getPort());
   }
 

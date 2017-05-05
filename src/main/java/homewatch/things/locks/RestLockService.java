@@ -52,7 +52,7 @@ class RestLockService extends HttpThingService<Lock> {
 
   @Override
   public String getType() {
-    return "lock";
+    return "Things::Lock";
   }
 
   @Override

@@ -20,10 +20,10 @@ public class TestLightServiceFactory {
     InetAddress addr = InetAddress.getByName("192.168.1.50");
     HttpThingService<Light> lightService = serviceFactory.create(addr, 80, "rest");
 
-    assertThat(lightService.getIpAddress(), is(addr));
+    assertThat(lightService.getAddress(), is(addr));
     assertThat(lightService.getPort(), is(80));
     assertTrue(lightService instanceof RestLightService);
-    assertThat(lightService.getType(), is("light"));
+    assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubType(), is("rest"));
   }
 

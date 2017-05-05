@@ -51,7 +51,7 @@ public class TestDiscover extends ServerRunner {
         .queryString("port", 8080)
         .asJson().getBody().getArray().getJSONObject(0);
 
-    assertThat(json.get("ipAddress"), is(addresses.get(0)));
+    assertThat(json.get("address"), is(addresses.get(0)));
   }
 
   @Test
