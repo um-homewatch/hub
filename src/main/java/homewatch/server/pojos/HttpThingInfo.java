@@ -9,8 +9,8 @@ public class HttpThingInfo extends ThingInfo {
   private final InetAddress address;
   private final Integer port;
 
-  private HttpThingInfo(InetAddress address, Integer port, String subType) {
-    super(subType);
+  private HttpThingInfo(InetAddress address, Integer port, String subtype) {
+    super(subtype);
     this.address = address;
     this.port = port;
   }
@@ -19,14 +19,14 @@ public class HttpThingInfo extends ThingInfo {
     try {
       QueryParamsMap address = query.get("address");
       QueryParamsMap port = query.get("port");
-      QueryParamsMap subType = query.get("subType");
+      QueryParamsMap subtype = query.get("subtype");
 
-      if (!address.hasValue() || !subType.hasValue()) {
+      if (!address.hasValue() || !subtype.hasValue()) {
         throw new IllegalArgumentException("missing parameters. required params = address & subtype");
       } else {
         Integer portNumber = port.hasValue() ? port.integerValue() : null;
 
-        return new HttpThingInfo(InetAddress.getByName(address.value()), portNumber, subType.value());
+        return new HttpThingInfo(InetAddress.getByName(address.value()), portNumber, subtype.value());
       }
     } catch (UnknownHostException e) {
       throw new IllegalArgumentException(e);

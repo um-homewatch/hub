@@ -22,18 +22,18 @@ public class DiscoveryController<T> {
 
   public String get(Request req, Response res) throws NetworkException {
     try {
-      String subType = req.queryParams("subType");
+      String subtype = req.queryParams("subtype");
       Integer port = req.queryMap("port").integerValue();
 
-      if (subType == null)
-        throw new IllegalArgumentException("missing subType query param");
+      if (subtype == null)
+        throw new IllegalArgumentException("missing subtype query param");
 
       DiscoveryService<T> discoveryService;
 
       if (port == null)
-        discoveryService = new DiscoveryService<>(httpThingService, subType);
+        discoveryService = new DiscoveryService<>(httpThingService, subtype);
       else
-        discoveryService = new DiscoveryService<>(httpThingService, subType, port);
+        discoveryService = new DiscoveryService<>(httpThingService, subtype, port);
 
       res.status(200);
 

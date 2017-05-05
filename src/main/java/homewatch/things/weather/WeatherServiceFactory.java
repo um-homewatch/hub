@@ -32,10 +32,10 @@ public class WeatherServiceFactory implements HttpThingServiceFactory<Weather> {
 
   @Override
   public boolean isSubType(String subtype) {
-    String subTypeUpper = subtype.toUpperCase();
+    String subtypeUpper = subtype.toUpperCase();
 
     try {
-      SubType.valueOf(subTypeUpper);
+      SubType.valueOf(subtypeUpper);
 
       return true;
     } catch (IllegalArgumentException e) {

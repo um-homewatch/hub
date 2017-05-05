@@ -55,7 +55,7 @@ class RestLightService extends HttpThingService<Light> {
   }
 
   @Override
-  public String getSubType() {
+  public String getSubtype() {
     return "rest";
   }
 

@@ -11,5 +11,5 @@ public interface ThingService<T> {
 
   String getType();
 
-  String getSubType();
+  String getSubtype();
 }

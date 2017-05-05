@@ -53,7 +53,7 @@ class OWMWeatherService implements ThingService<Weather> {
   }
 
   @Override
-  public String getSubType() {
+  public String getSubtype() {
     return "owm";
   }
 

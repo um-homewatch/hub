@@ -37,7 +37,7 @@ public class TestLockController extends ServerRunner {
     QUERY_STRING = new HashMap<>();
     QUERY_STRING.put("address", "localhost");
     QUERY_STRING.put("port", 8080);
-    QUERY_STRING.put("subType", "rest");
+    QUERY_STRING.put("subtype", "rest");
 
     JSON = new JSONObject();
     JSON.put("locked", false);

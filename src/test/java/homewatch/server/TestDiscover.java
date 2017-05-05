@@ -47,7 +47,7 @@ public class TestDiscover extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     JSONObject json = Unirest.get("http://localhost:4567/lights/discover")
-        .queryString("subType", "rest")
+        .queryString("subtype", "rest")
         .queryString("port", 8080)
         .asJson().getBody().getArray().getJSONObject(0);
 
@@ -59,7 +59,7 @@ public class TestDiscover extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/lights/discover")
-        .queryString("subType", "foo")
+        .queryString("subtype", "foo")
         .asJson()
         .getStatus();
 

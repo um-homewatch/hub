@@ -24,7 +24,7 @@ public class TestLightServiceFactory {
     assertThat(lightService.getPort(), is(80));
     assertTrue(lightService instanceof RestLightService);
     assertThat(lightService.getType(), is("Things::Light"));
-    assertThat(lightService.getSubType(), is("rest"));
+    assertThat(lightService.getSubtype(), is("rest"));
   }
 
   @Test

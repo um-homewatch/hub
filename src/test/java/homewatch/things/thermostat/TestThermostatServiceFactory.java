@@ -24,7 +24,7 @@ public class TestThermostatServiceFactory {
     assertThat(thermostatService.getPort(), is(80));
     assertTrue(thermostatService instanceof RestThermostatService);
     assertThat(thermostatService.getType(), is("Things::Thermostat"));
-    assertThat(thermostatService.getSubType(), is("rest"));
+    assertThat(thermostatService.getSubtype(), is("rest"));
   }
 
   @Test

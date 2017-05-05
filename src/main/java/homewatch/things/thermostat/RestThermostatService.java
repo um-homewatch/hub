@@ -54,7 +54,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
   }
 
   @Override
-  public String getSubType() {
+  public String getSubtype() {
     return "rest";
   }
 

@@ -40,7 +40,7 @@ public class TestLightController extends ServerRunner {
     QUERY_STRING = new HashMap<>();
     QUERY_STRING.put("address", "localhost");
     QUERY_STRING.put("port", 8080);
-    QUERY_STRING.put("subType", "rest");
+    QUERY_STRING.put("subtype", "rest");
 
     JSON = new JSONObject();
     JSON.put("on", false);
@@ -81,7 +81,7 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetHue(wireMockRule, true);
 
     boolean status = Unirest.get("http://localhost:4567/lights")
-        .queryString("subType", "hue")
+        .queryString("subtype", "hue")
         .queryString("address", "localhost")
         .queryString("port", 8080)
         .queryString("light_id", 1)
@@ -98,7 +98,7 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubPutHue(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/lights")
-        .queryString("subType", "hue")
+        .queryString("subtype", "hue")
         .queryString("address", "localhost")
         .queryString("port", 8080)
         .queryString("light_id", 1)

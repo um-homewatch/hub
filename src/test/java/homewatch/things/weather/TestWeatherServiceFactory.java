@@ -24,7 +24,7 @@ public class TestWeatherServiceFactory {
     assertThat(weatherService.getPort(), is(80));
     assertTrue(weatherService instanceof RestWeatherService);
     assertThat(weatherService.getType(), is("Things::Weather"));
-    assertThat(weatherService.getSubType(), is("rest"));
+    assertThat(weatherService.getSubtype(), is("rest"));
   }
 
   @Test

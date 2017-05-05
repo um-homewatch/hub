@@ -30,7 +30,7 @@ public class TestThingController extends ServerRunner {
   public void errorInvalidSubTypeGet() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/lights")
         .queryString("address", "192.168.1.1")
-        .queryString("subType", "cenas")
+        .queryString("subtype", "cenas")
         .asJson()
         .getStatus();
 
@@ -41,7 +41,7 @@ public class TestThingController extends ServerRunner {
   public void errorInvalidSubTypePut() throws UnirestException {
     int status = Unirest.put("http://localhost:4567/lights")
         .queryString("address", "192.168.1.1")
-        .queryString("subType", "cenas")
+        .queryString("subtype", "cenas")
         .asJson()
         .getStatus();
 

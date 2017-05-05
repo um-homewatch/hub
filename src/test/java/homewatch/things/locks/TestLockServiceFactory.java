@@ -24,7 +24,7 @@ public class TestLockServiceFactory {
     assertThat(lockService.getPort(), is(80));
     assertTrue(lockService instanceof RestLockService);
     assertThat(lockService.getType(), is("Things::Lock"));
-    assertThat(lockService.getSubType(), is("rest"));
+    assertThat(lockService.getSubtype(), is("rest"));
   }
 
   @Test

@@ -48,7 +48,7 @@ public class TestWeatherController extends ServerRunner {
     mockOWM();
 
     String json = Unirest.get("http://localhost:4567/weather")
-        .queryString("subType", "owm")
+        .queryString("subtype", "owm")
         .asJson()
         .getBody()
         .toString();
@@ -65,7 +65,7 @@ public class TestWeatherController extends ServerRunner {
     String json = Unirest.get("http://localhost:4567/weather")
         .queryString("address", "localhost")
         .queryString("port", 8080)
-        .queryString("subType", "rest")
+        .queryString("subtype", "rest")
         .asJson()
         .getBody()
         .toString();

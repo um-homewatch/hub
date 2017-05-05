@@ -56,7 +56,7 @@ class RestLockService extends HttpThingService<Lock> {
   }
 
   @Override
-  public String getSubType() {
+  public String getSubtype() {
     return "rest";
   }
 
