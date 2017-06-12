@@ -32,7 +32,7 @@ public class TestMotionSensorController extends ServerRunner {
 
   @Test
   public void getMotionSensorRest() throws IOException, NetworkException, UnirestException {
-    MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.isMoving());
+    MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.hasMovement());
 
     String json = Unirest.get("http://localhost:4567/motionsensors")
         .queryString("address", "localhost")
@@ -41,6 +41,8 @@ public class TestMotionSensorController extends ServerRunner {
         .asJson()
         .getBody()
         .toString();
+
+    System.out.println(json);
 
     MotionSensor motionsensor = JsonUtils.getOM().readValue(json, MotionSensor.class);
 

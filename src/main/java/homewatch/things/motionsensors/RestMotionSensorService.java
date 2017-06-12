@@ -6,7 +6,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.net.NetUtils;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
-import org.json.JSONObject;
 
 import java.net.InetAddress;
 
@@ -32,12 +31,7 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
 
   @Override
   public MotionSensor put(MotionSensor motionsensor) throws NetworkException {
-    JSONObject json = new JSONObject();
-    json.put("moving", motionsensor.isMoving());
-
-    JsonNode response = NetUtils.put(this.baseUrl(), json).getJson();
-
-    return this.jsonToMotionSensor(response);
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -65,7 +59,7 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
   }
 
   private MotionSensor jsonToMotionSensor(JsonNode json) {
-    boolean motionsensor = json.get("moving").asBoolean();
+    boolean motionsensor = json.get("movement").asBoolean();
 
     return new MotionSensor(motionsensor);
   }

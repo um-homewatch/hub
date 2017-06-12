@@ -1,18 +1,21 @@
 package homewatch.things.motionsensors;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MotionSensor {
-  private final boolean moving;
+  @JsonProperty
+  private final boolean movement;
 
   public MotionSensor() {
-    this.moving = false;
+    this.movement = false;
   }
 
   public MotionSensor(boolean locked) {
-    this.moving = locked;
+    this.movement = locked;
   }
 
-  public boolean isMoving() {
-    return moving;
+  public boolean hasMovement() {
+    return movement;
   }
 
   @Override
@@ -22,6 +25,6 @@ public class MotionSensor {
 
     MotionSensor motionsensor = (MotionSensor) o;
 
-    return moving == motionsensor.moving;
+    return movement == motionsensor.movement;
   }
 }

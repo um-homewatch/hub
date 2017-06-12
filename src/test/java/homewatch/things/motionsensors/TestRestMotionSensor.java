@@ -3,13 +3,10 @@ package homewatch.things.motionsensors;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.constants.MotionSensorStubs;
 import homewatch.exceptions.NetworkException;
-import homewatch.things.motionsensors.RestMotionSensorService;
-import homewatch.things.motionsensors.MotionSensor;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.net.InetAddress;
@@ -31,7 +28,7 @@ public class TestRestMotionSensor {
   @Test
   public void testMotionSensor() throws NetworkException, UnknownHostException {
     restMotionSensorService = new RestMotionSensorService(InetAddress.getLocalHost(), 8080);
-    MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.isMoving());
+    MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.hasMovement());
 
     MotionSensor returnedMotionSensor = restMotionSensorService.get();
 
@@ -41,7 +38,7 @@ public class TestRestMotionSensor {
   @Test
   public void goodPing() throws UnknownHostException {
     restMotionSensorService = new RestMotionSensorService(InetAddress.getLocalHost(), 8080);
-    MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.isMoving());
+    MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.hasMovement());
 
     assertTrue(restMotionSensorService.ping());
   }

@@ -10,6 +10,6 @@ public class MotionSensorStubs {
         .willReturn(aResponse()
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
-            .withBody(String.format("{\"moving\":%s}", value))));
+            .withBody(String.format("{\"movement\":%s}", value))));
   }
 }
