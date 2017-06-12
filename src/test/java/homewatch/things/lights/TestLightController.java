@@ -64,7 +64,7 @@ public class TestLightController extends ServerRunner {
 
   @Test
   public void putRest() throws UnknownHostException, NetworkException, UnirestException {
-    LightStubs.stubGetPut(wireMockRule, false);
+    LightStubs.stubPutRest(wireMockRule, false);
     LightStubs.stubGetRest(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/lights").queryString(QUERY_STRING).body(JSON)

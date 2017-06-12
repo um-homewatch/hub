@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.net.ssl.*")
-@PrepareForTest(OWMWeatherService.class)
 public class TestRestWeather {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));

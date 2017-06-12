@@ -14,6 +14,8 @@ import homewatch.things.lights.Light;
 import homewatch.things.lights.LightServiceFactory;
 import homewatch.things.locks.Lock;
 import homewatch.things.locks.LockServiceFactory;
+import homewatch.things.motionsensors.MotionSensor;
+import homewatch.things.motionsensors.MotionSensorServiceFactory;
 import homewatch.things.thermostat.Thermostat;
 import homewatch.things.thermostat.ThermostatServiceFactory;
 import homewatch.things.weather.Weather;
@@ -39,6 +41,7 @@ public class Main {
     ThingController<Lock> locksController = new ThingController<>(new ServiceHelper<>(new LockServiceFactory()), Lock.class);
     ThingController<Weather> weatherController = new ThingController<>(new ServiceHelper<>(new WeatherServiceFactory()), Weather.class);
     ThingController<Thermostat> thermostatsController = new ThingController<>(new ServiceHelper<>(new ThermostatServiceFactory()), Thermostat.class);
+    ThingController<MotionSensor> motionsensorController = new ThingController<>(new ServiceHelper<>(new MotionSensorServiceFactory()), MotionSensor.class);
 
     Spark.get("/lights", lightsController::get);
     Spark.put("/lights", lightsController::put);
@@ -50,6 +53,9 @@ public class Main {
 
     Spark.get("/thermostats", thermostatsController::get);
     Spark.put("/thermostats", thermostatsController::put);
+
+    Spark.get("/motionsensors", motionsensorController::get);
+    Spark.put("/motionsensors", motionsensorController::put);
 
     Spark.get("/tunnel", NgrokController::get);
 

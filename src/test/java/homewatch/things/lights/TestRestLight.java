@@ -52,7 +52,7 @@ public class TestRestLight {
 
   @Test
   public void setStatusOn() throws IOException, NetworkException {
-    LightStubs.stubGetPut(wireMockRule, true);
+    LightStubs.stubPutRest(wireMockRule, true);
 
     Light light = new Light(true);
     lightService.put(light);
@@ -62,7 +62,7 @@ public class TestRestLight {
 
   @Test
   public void setStatusOff() throws IOException, NetworkException, InterruptedException {
-    LightStubs.stubGetPut(wireMockRule, false);
+    LightStubs.stubPutRest(wireMockRule, false);
 
     Light light = new Light(false);
     lightService.put(light);
