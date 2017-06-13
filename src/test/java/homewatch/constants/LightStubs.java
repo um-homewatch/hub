@@ -13,7 +13,7 @@ public class LightStubs {
             .withBody(String.format("{\"power\":%s}", value))));
   }
 
-  public static void stubGetPut(WireMockRule wireMockRule, boolean value) {
+  public static void stubPutRest(WireMockRule wireMockRule, boolean value) {
     wireMockRule.stubFor(put(urlPathEqualTo("/status"))
         .willReturn(aResponse()
             .withStatus(200)
