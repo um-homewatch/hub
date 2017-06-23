@@ -6,10 +6,11 @@ import homewatch.exceptions.NetworkException;
 import homewatch.things.ThingService;
 import okhttp3.HttpUrl;
 
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
-class OWMWeatherService implements ThingService<Weather> {
+class OWMWeatherService extends ThingService<Weather> {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
   private static final HttpUrl REGION_URL = HttpUrl.parse("http://freegeoip.net/json/");
 
@@ -38,6 +39,11 @@ class OWMWeatherService implements ThingService<Weather> {
       Logger.getGlobal().info("FAILED PING REASON:" + e);
       return false;
     }
+  }
+
+  @Override
+  public void setAttributes(Map<String, ?> attributes) {
+    //no attributes to set...
   }
 
   private JsonNode getWeatherData() throws ExecutionException {

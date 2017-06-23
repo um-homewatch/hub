@@ -12,6 +12,9 @@ import homewatch.things.lights.HueLightService;
 import spark.QueryParamsMap;
 import spark.Request;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ServiceHelper<T> {
   private final ThingServiceFactory<T> serviceFactory;
 
@@ -25,13 +28,7 @@ public class ServiceHelper<T> {
 
       ThingService<T> thingService = serviceFactory.create(info.getSubType());
 
-      if (thingService instanceof HttpThingService) {
-        this.httpService(thingService, req);
-      }
-
-      if (thingService instanceof HueLightService) {
-        this.hueLightService(thingService, req);
-      }
+      thingService.setAttributes(convertQueryMap(req.queryMap()));
 
       return thingService;
     } catch (InvalidSubTypeException e) {
@@ -40,20 +37,12 @@ public class ServiceHelper<T> {
     }
   }
 
-  private void httpService(ThingService<T> thingService, Request req) {
-    HttpThingInfo httpThingInfo = HttpThingInfo.fromQueryString(req.queryMap());
+  private Map<String, String> convertQueryMap(QueryParamsMap queryMap){
+    Map<String, String[]> mapStringArray = queryMap.toMap();
+    Map<String, String> map = new HashMap<>();
 
-    HttpThingService<T> httpThingService = (HttpThingService<T>) thingService;
-    httpThingService.setAddress(httpThingInfo.getAddress());
-    httpThingService.setPort(httpThingInfo.getPort());
-  }
+    mapStringArray.forEach((k,v) -> map.put(k, v[0]));
 
-  private void hueLightService(ThingService<T> thingService, Request req) {
-    QueryParamsMap lightIdParam = req.queryMap().get("light_id");
-
-    if (!lightIdParam.hasValue())
-      throw new IllegalArgumentException("missing light_id");
-    HueLightService hueLightService = (HueLightService) thingService;
-    hueLightService.setLightID(lightIdParam.integerValue());
+    return map;
   }
 }
