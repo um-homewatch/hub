@@ -8,6 +8,7 @@ import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.net.InetAddress;
+import java.util.Map;
 
 public class HueLightService extends HttpThingService<Light> {
   private int lightID;
@@ -49,6 +50,21 @@ public class HueLightService extends HttpThingService<Light> {
     NetUtils.put(HttpUrl.parse(String.format("%s/%d/state", this.baseUrl(), lightID)), json);
 
     return light;
+  }
+
+  @Override
+  public void setAttributes(Map<String, ?> attributes) {
+    super.setAttributes(attributes);
+
+    String lightID = this.getAttribute(attributes, "light_id", String.class);
+
+    if (lightID == null) throw new IllegalArgumentException("missing light_id");
+
+    try {
+      this.lightID = Integer.parseInt(lightID);
+    } catch (NumberFormatException ex) {
+      throw new IllegalArgumentException("light_id must be a number");
+    }
   }
 
   @Override
