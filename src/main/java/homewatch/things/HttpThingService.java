@@ -37,7 +37,7 @@ public abstract class HttpThingService<T> extends ThingService<T> {
   }
 
   @Override
-  public void setAttributes(Map<String, ? extends Object> attributes) {
+  public void setAttributes(Map<String, ?> attributes) {
     String address = this.getAttribute(attributes, "address", String.class);
     String port = this.getAttribute(attributes, "port", String.class);
 
@@ -47,7 +47,7 @@ public abstract class HttpThingService<T> extends ThingService<T> {
 
     try {
       this.address = InetAddress.getByName(address);
-      this.port = (port == null) ? null : Integer.parseInt((String) port);
+      this.port = (port == null) ? null : Integer.parseInt(port);
     } catch (UnknownHostException ex) {
       throw new IllegalArgumentException(ex);
     } catch (NumberFormatException ex) {

@@ -62,7 +62,7 @@ public class HueLightService extends HttpThingService<Light> {
 
     try {
       this.lightID = Integer.parseInt(lightID);
-    }catch (NumberFormatException ex){
+    } catch (NumberFormatException ex) {
       throw new IllegalArgumentException("light_id must be a number");
     }
   }

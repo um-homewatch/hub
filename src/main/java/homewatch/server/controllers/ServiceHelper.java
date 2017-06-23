@@ -3,12 +3,9 @@ package homewatch.server.controllers;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.pojos.HttpThingInfo;
 import homewatch.server.pojos.ThingInfo;
-import homewatch.things.HttpThingService;
 import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
-import homewatch.things.lights.HueLightService;
 import spark.QueryParamsMap;
 import spark.Request;
 
@@ -37,11 +34,11 @@ public class ServiceHelper<T> {
     }
   }
 
-  private Map<String, String> convertQueryMap(QueryParamsMap queryMap){
+  private Map<String, String> convertQueryMap(QueryParamsMap queryMap) {
     Map<String, String[]> mapStringArray = queryMap.toMap();
     Map<String, String> map = new HashMap<>();
 
-    mapStringArray.forEach((k,v) -> map.put(k, v[0]));
+    mapStringArray.forEach((k, v) -> map.put(k, v[0]));
 
     return map;
   }
