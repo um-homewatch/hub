@@ -1,5 +1,7 @@
 package homewatch.net;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import okhttp3.*;
 import org.json.JSONObject;
@@ -7,10 +9,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class NetUtils {
+public class HttpUtils {
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
 
-  private NetUtils() {
+  private HttpUtils() {
   }
 
   public static JsonResponse put(HttpUrl url, JSONObject jsonBody) throws NetworkException {
@@ -47,7 +49,7 @@ public class NetUtils {
 
       analyzeStatusCode(response);
 
-      return new JsonResponse(response);
+      return new JsonResponse(responseToJson(response), response.code());
     } catch (IOException e) {
       throw new NetworkException(e, 500);
     }
@@ -61,7 +63,7 @@ public class NetUtils {
 
       analyzeStatusCode(response);
 
-      return new JsonResponse(response);
+      return new JsonResponse(responseToJson(response), response.code());
     } catch (IOException e) {
       throw new NetworkException(e, 500);
     }
@@ -73,5 +75,11 @@ public class NetUtils {
     if (statusCode != 200) {
       throw new NetworkException(response.body().string(), statusCode);
     }
+  }
+
+  private static JsonNode responseToJson(Response response) throws IOException {
+    String textResponse = response.body().string();
+
+    return JsonUtils.getOM().readTree(textResponse);
   }
 }

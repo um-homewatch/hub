@@ -1,7 +1,7 @@
 package homewatch.things.lights;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.HttpThingService;
+import homewatch.things.NetworkThingService;
 import homewatch.things.ThingService;
 import org.junit.Test;
 
@@ -18,13 +18,37 @@ public class TestLightServiceFactory {
   @Test
   public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
     InetAddress addr = InetAddress.getByName("192.168.1.50");
-    HttpThingService<Light> lightService = serviceFactory.create(addr, 80, "rest");
+    NetworkThingService<Light> lightService = serviceFactory.create(addr, 80, "rest");
 
     assertThat(lightService.getAddress(), is(addr));
     assertThat(lightService.getPort(), is(80));
     assertTrue(lightService instanceof RestLightService);
     assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubtype(), is("rest"));
+  }
+
+  @Test
+  public void testCoapCreate() throws UnknownHostException, InvalidSubTypeException {
+    InetAddress addr = InetAddress.getByName("192.168.1.50");
+    NetworkThingService<Light> lightService = serviceFactory.create(addr, 80, "coap");
+
+    assertThat(lightService.getAddress(), is(addr));
+    assertThat(lightService.getPort(), is(80));
+    assertTrue(lightService instanceof CoapLightService);
+    assertThat(lightService.getType(), is("Things::Light"));
+    assertThat(lightService.getSubtype(), is("coap"));
+  }
+
+  @Test
+  public void testHueCreate() throws UnknownHostException, InvalidSubTypeException {
+    InetAddress addr = InetAddress.getByName("192.168.1.50");
+    NetworkThingService<Light> lightService = serviceFactory.create(addr, 80, "hue");
+
+    assertThat(lightService.getAddress(), is(addr));
+    assertThat(lightService.getPort(), is(80));
+    assertTrue(lightService instanceof HueLightService);
+    assertThat(lightService.getType(), is("Things::Light"));
+    assertThat(lightService.getSubtype(), is("hue"));
   }
 
   @Test
@@ -35,7 +59,17 @@ public class TestLightServiceFactory {
   }
 
   @Test
-  public void testIsSubType() {
+  public void testIsSubTypeRest() {
     assertTrue(serviceFactory.isSubType("rest"));
+  }
+
+  @Test
+  public void testIsSubTypeCoap() {
+    assertTrue(serviceFactory.isSubType("coap"));
+  }
+
+  @Test
+  public void testIsSubTypeHue() {
+    assertTrue(serviceFactory.isSubType("hue"));
   }
 }

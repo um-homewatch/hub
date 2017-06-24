@@ -6,7 +6,7 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.DiscoveryService;
-import homewatch.things.HttpThingServiceFactory;
+import homewatch.things.NetworkThingServiceFactory;
 import spark.Request;
 import spark.Response;
 
@@ -14,9 +14,9 @@ import java.io.IOException;
 
 public class DiscoveryController<T> {
   private final ObjectMapper objectMapper = JsonUtils.getOM();
-  private final HttpThingServiceFactory<T> httpThingService;
+  private final NetworkThingServiceFactory<T> httpThingService;
 
-  public DiscoveryController(HttpThingServiceFactory<T> httpThingService) {
+  public DiscoveryController(NetworkThingServiceFactory<T> httpThingService) {
     this.httpThingService = httpThingService;
   }
 

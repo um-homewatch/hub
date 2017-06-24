@@ -3,7 +3,7 @@ package homewatch.things.motionsensors;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.NetUtils;
+import homewatch.net.HttpUtils;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 
@@ -24,7 +24,7 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
 
   @Override
   public MotionSensor get() throws NetworkException {
-    JsonNode response = NetUtils.get(this.baseUrl()).getJson();
+    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
 
     return this.jsonToMotionSensor(response);
   }
@@ -37,7 +37,7 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(this.baseUrl()).getResponse().code() == 200;
+      return HttpUtils.get(this.baseUrl()).getStatusCode() == 200;
     } catch (NetworkException e) {
       LoggerUtils.logException(e);
       return false;

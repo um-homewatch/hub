@@ -13,11 +13,11 @@ import java.util.concurrent.*;
 public class DiscoveryService<T> {
   private final CompletionService<HttpThingService<T>> completionService;
   private final List<HttpThingService<T>> things;
-  private final HttpThingServiceFactory<T> serviceFactory;
+  private final NetworkThingServiceFactory<T> serviceFactory;
   private final String subtype;
   private Integer port = null;
 
-  public DiscoveryService(HttpThingServiceFactory<T> serviceFactory, String subtype) throws InvalidSubTypeException {
+  public DiscoveryService(NetworkThingServiceFactory<T> serviceFactory, String subtype) throws InvalidSubTypeException {
     if (!serviceFactory.isSubType(subtype))
       throw new InvalidSubTypeException();
     ExecutorService executorService = Executors.newCachedThreadPool();
@@ -27,7 +27,7 @@ public class DiscoveryService<T> {
     this.things = new LinkedList<>();
   }
 
-  public DiscoveryService(HttpThingServiceFactory<T> serviceFactory, String subtype, int port) throws InvalidSubTypeException {
+  public DiscoveryService(NetworkThingServiceFactory<T> serviceFactory, String subtype, int port) throws InvalidSubTypeException {
     this(serviceFactory, subtype);
     this.port = port;
   }
