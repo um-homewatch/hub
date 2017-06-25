@@ -1,21 +1,23 @@
 package homewatch.things.lights;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.HttpThingService;
-import homewatch.things.HttpThingServiceFactory;
+import homewatch.things.NetworkThingService;
+import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
 
 import java.net.InetAddress;
 
 
-public class LightServiceFactory implements HttpThingServiceFactory<Light> {
+public class LightServiceFactory implements NetworkThingServiceFactory<Light> {
   @Override
-  public HttpThingService<Light> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
+  public NetworkThingService<Light> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "hue":
         return new HueLightService(address, port);
       case "rest":
         return new RestLightService(address, port);
+      case "coap":
+        return new CoapLightService(address, port);
       default:
         throw new InvalidSubTypeException();
     }
@@ -28,6 +30,8 @@ public class LightServiceFactory implements HttpThingServiceFactory<Light> {
         return new HueLightService();
       case "rest":
         return new RestLightService();
+      case "coap":
+        return new CoapLightService();
       default:
         throw new InvalidSubTypeException();
     }
@@ -47,5 +51,5 @@ public class LightServiceFactory implements HttpThingServiceFactory<Light> {
 }
 
 enum SubType {
-  REST, HUE
+  REST, HUE, COAP
 }

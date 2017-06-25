@@ -2,7 +2,7 @@ package homewatch.things.weather;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.NetUtils;
+import homewatch.net.HttpUtils;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 
@@ -23,7 +23,7 @@ public class RestWeatherService extends HttpThingService<Weather> {
 
   @Override
   public Weather get() throws NetworkException {
-    JsonNode response = NetUtils.get(getBaseUrl()).getJson();
+    JsonNode response = HttpUtils.get(getBaseUrl()).getJson();
 
     return this.jsonToWeather(response);
   }
@@ -36,7 +36,7 @@ public class RestWeatherService extends HttpThingService<Weather> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(getBaseUrl()).getResponse().code() == 200;
+      return HttpUtils.get(getBaseUrl()).getStatusCode() == 200;
     } catch (NetworkException e) {
       return false;
     }

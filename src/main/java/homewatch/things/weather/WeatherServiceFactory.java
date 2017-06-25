@@ -1,13 +1,13 @@
 package homewatch.things.weather;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.HttpThingService;
-import homewatch.things.HttpThingServiceFactory;
+import homewatch.things.NetworkThingService;
+import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
 
 import java.net.InetAddress;
 
-public class WeatherServiceFactory implements HttpThingServiceFactory<Weather> {
+public class WeatherServiceFactory implements NetworkThingServiceFactory<Weather> {
   @Override
   public ThingService<Weather> create(String subtype) throws InvalidSubTypeException {
     switch (subtype) {
@@ -21,7 +21,7 @@ public class WeatherServiceFactory implements HttpThingServiceFactory<Weather> {
   }
 
   @Override
-  public HttpThingService<Weather> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
+  public NetworkThingService<Weather> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "rest":
         return new RestWeatherService(address, port);

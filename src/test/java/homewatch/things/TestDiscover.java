@@ -36,7 +36,7 @@ public class TestDiscover {
 
     doReturn(Collections.singletonList(InetAddress.getLocalHost().getHostAddress())).when(discoveryService, "getAddressList");
 
-    List<HttpThingService<Light>> lights = discoveryService.discovery();
+    List<NetworkThingService<Light>> lights = discoveryService.discovery();
 
     assertThat(lights.size(), is(1));
   }

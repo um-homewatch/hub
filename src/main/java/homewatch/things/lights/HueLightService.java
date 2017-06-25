@@ -2,7 +2,7 @@ package homewatch.things.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.NetUtils;
+import homewatch.net.HttpUtils;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
@@ -37,7 +37,7 @@ public class HueLightService extends HttpThingService<Light> {
   public Light get() throws NetworkException {
     HttpUrl url = HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID));
 
-    JsonNode response = NetUtils.get(url).getJson();
+    JsonNode response = HttpUtils.get(url).getJson();
 
     return this.jsonToLight(response);
   }
@@ -47,7 +47,7 @@ public class HueLightService extends HttpThingService<Light> {
     JSONObject json = new JSONObject();
     json.put("on", light.isOn());
 
-    NetUtils.put(HttpUrl.parse(String.format("%s/%d/state", this.baseUrl(), lightID)), json);
+    HttpUtils.put(HttpUrl.parse(String.format("%s/%d/state", this.baseUrl(), lightID)), json);
 
     return light;
   }
@@ -72,7 +72,7 @@ public class HueLightService extends HttpThingService<Light> {
     try {
       HttpUrl url = HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID));
 
-      return NetUtils.get(url).getResponse().code() == 200;
+      return HttpUtils.get(url).getStatusCode() == 200;
     } catch (NetworkException e) {
       return false;
     }

@@ -1,16 +1,16 @@
 package homewatch.things.thermostat;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.HttpThingService;
-import homewatch.things.HttpThingServiceFactory;
+import homewatch.things.NetworkThingService;
+import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
 
 import java.net.InetAddress;
 
 
-public class ThermostatServiceFactory implements HttpThingServiceFactory<Thermostat> {
+public class ThermostatServiceFactory implements NetworkThingServiceFactory<Thermostat> {
   @Override
-  public HttpThingService<Thermostat> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
+  public NetworkThingService<Thermostat> create(InetAddress address, Integer port, String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "rest":
         return new RestThermostatService(address, port);

@@ -4,8 +4,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import homewatch.exceptions.NetworkException;
+import homewatch.net.HttpUtils;
 import homewatch.net.JsonResponse;
-import homewatch.net.NetUtils;
 import okhttp3.HttpUrl;
 
 import java.util.concurrent.ExecutionException;
@@ -19,7 +19,7 @@ public class CacheUtils {
         @Override
         public JsonResponse load(HttpUrl url) throws NetworkException {
           Logger.getGlobal().info(url.host());
-          return NetUtils.get(url);
+          return HttpUtils.get(url);
         }
       });
 

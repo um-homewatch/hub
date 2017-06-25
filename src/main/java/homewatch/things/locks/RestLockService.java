@@ -3,7 +3,7 @@ package homewatch.things.locks;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.NetUtils;
+import homewatch.net.HttpUtils;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
@@ -25,7 +25,7 @@ class RestLockService extends HttpThingService<Lock> {
 
   @Override
   public Lock get() throws NetworkException {
-    JsonNode response = NetUtils.get(this.baseUrl()).getJson();
+    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
 
     return this.jsonToLock(response);
   }
@@ -35,7 +35,7 @@ class RestLockService extends HttpThingService<Lock> {
     JSONObject json = new JSONObject();
     json.put("locked", lock.isLocked());
 
-    JsonNode response = NetUtils.put(this.baseUrl(), json).getJson();
+    JsonNode response = HttpUtils.put(this.baseUrl(), json).getJson();
 
     return this.jsonToLock(response);
   }
@@ -43,7 +43,7 @@ class RestLockService extends HttpThingService<Lock> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(this.baseUrl()).getResponse().code() == 200;
+      return HttpUtils.get(this.baseUrl()).getStatusCode() == 200;
     } catch (NetworkException e) {
       LoggerUtils.logException(e);
       return false;

@@ -3,46 +3,49 @@ package homewatch.things.lights;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.HttpUtils;
-import homewatch.things.HttpThingService;
-import okhttp3.HttpUrl;
+import homewatch.net.CoapUtils;
+import homewatch.net.JsonResponse;
+import homewatch.things.CoapThingService;
 import org.json.JSONObject;
 
 import java.net.InetAddress;
 
-class RestLightService extends HttpThingService<Light> {
-  RestLightService() {
+class CoapLightService extends CoapThingService<Light> {
+  CoapLightService() {
     super();
   }
 
-  RestLightService(InetAddress ipAddress) {
+  CoapLightService(InetAddress ipAddress) {
     super(ipAddress);
   }
 
-  RestLightService(InetAddress ipAddress, Integer port) {
+  CoapLightService(InetAddress ipAddress, Integer port) {
     super(ipAddress, port);
   }
 
   @Override
   public Light get() throws NetworkException {
-    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
+    JsonResponse jsonResponse = CoapUtils.get(this.getUrl());
 
-    return this.jsonToLight(response);
+    return this.jsonToLight(jsonResponse.getJson());
   }
 
   @Override
   public Light put(Light light) throws NetworkException {
     JSONObject json = new JSONObject();
     json.put("power", light.isOn());
-    JsonNode response = HttpUtils.put(this.baseUrl(), json).getJson();
 
-    return this.jsonToLight(response);
+    JsonResponse jsonResponse = CoapUtils.put(this.getUrl(), json);
+
+    return this.jsonToLight(jsonResponse.getJson());
   }
 
   @Override
   public boolean ping() {
     try {
-      return HttpUtils.get(this.baseUrl()).getStatusCode() == 200;
+      this.get();
+
+      return true;
     } catch (NetworkException e) {
       LoggerUtils.logException(e);
       return false;
@@ -56,11 +59,14 @@ class RestLightService extends HttpThingService<Light> {
 
   @Override
   public String getSubtype() {
-    return "rest";
+    return "coap";
   }
 
-  private HttpUrl baseUrl() {
-    return HttpUrl.parse(this.getUrl() + "/status");
+  @Override
+  protected String getUrl() {
+    String url = super.getUrl();
+
+    return url + "/status";
   }
 
   private Light jsonToLight(JsonNode json) {

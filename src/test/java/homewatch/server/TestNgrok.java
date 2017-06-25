@@ -3,8 +3,8 @@ package homewatch.server;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.constants.NgrokStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.net.HttpUtils;
 import homewatch.net.JsonResponse;
-import homewatch.net.NetUtils;
 import homewatch.things.ServerRunner;
 import okhttp3.HttpUrl;
 import org.junit.Rule;
@@ -26,7 +26,7 @@ public class TestNgrok extends ServerRunner {
   public void testGetTunnel() throws NetworkException, IOException {
     NgrokStubs.stubGetStatus(wireMockRule);
 
-    JsonResponse jsonResponse = NetUtils.get(HttpUrl.parse("http://localhost:4567/tunnel"));
+    JsonResponse jsonResponse = HttpUtils.get(HttpUrl.parse("http://localhost:4567/tunnel"));
 
     String url = jsonResponse.getJson().get("url").asText();
 

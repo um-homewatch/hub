@@ -2,7 +2,7 @@ package homewatch.things.thermostat;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.NetUtils;
+import homewatch.net.HttpUtils;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
@@ -24,7 +24,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
 
   @Override
   public Thermostat get() throws NetworkException {
-    JsonNode response = NetUtils.get(this.baseUrl()).getJson();
+    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
 
     return this.jsonToThermostat(response);
   }
@@ -34,7 +34,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
     JSONObject json = new JSONObject();
     json.put("target_temperature", thermostat.getTargetTemperature());
 
-    JsonNode response = NetUtils.put(this.baseUrl(), json).getJson();
+    JsonNode response = HttpUtils.put(this.baseUrl(), json).getJson();
 
     return this.jsonToThermostat(response);
   }
@@ -42,7 +42,7 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
   @Override
   public boolean ping() {
     try {
-      return NetUtils.get(this.baseUrl()).getResponse().code() == 200;
+      return HttpUtils.get(this.baseUrl()).getStatusCode() == 200;
     } catch (NetworkException e) {
       return false;
     }
