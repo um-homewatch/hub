@@ -2,19 +2,15 @@ package homewatch.things.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.LightStubs;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.CoapUtils;
 import homewatch.net.JsonResponse;
 import homewatch.things.ThingService;
-import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -22,7 +18,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 

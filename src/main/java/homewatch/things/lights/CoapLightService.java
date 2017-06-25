@@ -6,7 +6,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.net.CoapUtils;
 import homewatch.net.JsonResponse;
 import homewatch.things.CoapThingService;
-import org.eclipse.californium.core.CoapClient;
 import org.json.JSONObject;
 
 import java.net.InetAddress;

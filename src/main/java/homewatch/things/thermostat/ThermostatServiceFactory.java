@@ -1,7 +1,6 @@
 package homewatch.things.thermostat;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.HttpThingService;
 import homewatch.things.NetworkThingService;
 import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;

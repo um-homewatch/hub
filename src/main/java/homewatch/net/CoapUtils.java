@@ -3,13 +3,12 @@ package homewatch.net;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
-import okhttp3.*;
+import okhttp3.Response;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class CoapUtils {
   public static JsonResponse get(String url) throws NetworkException {

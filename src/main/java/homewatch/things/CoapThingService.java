@@ -1,18 +1,16 @@
 package homewatch.things;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Map;
 
 public abstract class CoapThingService<T> extends NetworkThingService<T> {
-  public CoapThingService() {
+  protected CoapThingService() {
   }
 
-  public CoapThingService(InetAddress address) {
+  protected CoapThingService(InetAddress address) {
     super(address);
   }
 
-  public CoapThingService(InetAddress address, Integer port) {
+  protected CoapThingService(InetAddress address, Integer port) {
     super(address, port);
   }
 

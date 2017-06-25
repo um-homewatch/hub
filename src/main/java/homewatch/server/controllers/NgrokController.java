@@ -1,8 +1,8 @@
 package homewatch.server.controllers;
 
 import homewatch.exceptions.NetworkException;
-import homewatch.net.JsonResponse;
 import homewatch.net.HttpUtils;
+import homewatch.net.JsonResponse;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
 import spark.Request;

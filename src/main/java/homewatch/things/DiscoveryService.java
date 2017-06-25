@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class DiscoveryService<T> {
-  private final CompletionService<HttpThingService<T>> completionService;
-  private final List<HttpThingService<T>> things;
+  private final CompletionService<NetworkThingService<T>> completionService;
+  private final List<NetworkThingService<T>> things;
   private final NetworkThingServiceFactory<T> serviceFactory;
   private final String subtype;
   private Integer port = null;
@@ -32,7 +32,7 @@ public class DiscoveryService<T> {
     this.port = port;
   }
 
-  public List<HttpThingService<T>> discovery() {
+  public List<NetworkThingService<T>> discovery() {
     try {
       List<String> addresses = getAddressList();
 
@@ -76,7 +76,7 @@ public class DiscoveryService<T> {
 
   private void addTasks(int numberOfTasks) throws InterruptedException, ExecutionException {
     for (int i = 0; i < numberOfTasks; i++) {
-      Future<HttpThingService<T>> future = completionService.take();
+      Future<NetworkThingService<T>> future = completionService.take();
       if (future.get() != null) {
         this.things.add(future.get());
       }
@@ -85,7 +85,7 @@ public class DiscoveryService<T> {
 
   private void pingAddress(String address) {
     this.completionService.submit(() -> {
-      HttpThingService<T> thingService = this.serviceFactory.create(InetAddress.getByName(address), this.port, subtype);
+      NetworkThingService<T> thingService = this.serviceFactory.create(InetAddress.getByName(address), this.port, subtype);
 
       boolean on = thingService.ping();
 

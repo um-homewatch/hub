@@ -8,14 +8,14 @@ public abstract class NetworkThingService<T> extends ThingService<T> {
   private InetAddress address;
   private Integer port = null;
 
-  protected NetworkThingService() {
+  NetworkThingService() {
   }
 
-  protected NetworkThingService(InetAddress address) {
+  NetworkThingService(InetAddress address) {
     this.address = address;
   }
 
-  protected NetworkThingService(InetAddress address, Integer port) {
+  NetworkThingService(InetAddress address, Integer port) {
     this.address = address;
     this.port = port;
   }

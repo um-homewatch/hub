@@ -3,9 +3,6 @@ package homewatch.net;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import homewatch.constants.JsonUtils;
-import okhttp3.Response;
-
-import java.io.IOException;
 
 public class JsonResponse {
   private static final ObjectMapper OM = JsonUtils.getOM();
@@ -13,7 +10,7 @@ public class JsonResponse {
   private final JsonNode json;
   private final int statusCode;
 
-  public JsonResponse(JsonNode json, int statusCode) throws IOException {
+  public JsonResponse(JsonNode json, int statusCode) {
     this.statusCode = statusCode;
     this.json = json;
   }

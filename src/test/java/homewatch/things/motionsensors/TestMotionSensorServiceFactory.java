@@ -1,7 +1,6 @@
 package homewatch.things.motionsensors;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.HttpThingService;
 import homewatch.things.NetworkThingService;
 import homewatch.things.ThingService;
 import org.junit.Test;
