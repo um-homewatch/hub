@@ -37,9 +37,12 @@ public class TestWeatherController extends ServerRunner {
     this.originalWeather = new Weather(new Random().nextDouble(), new Random().nextDouble(), true, true);
   }
 
+
   private void mockOWM() throws Exception {
-    OWMWeatherService owmWeatherService = Mockito.spy(OWMWeatherService.class);
+    OWMWeatherService owmWeatherService = Mockito.mock(OWMWeatherService.class);
+
     Mockito.when(owmWeatherService.get()).thenReturn(originalWeather);
+
     PowerMockito.whenNew(OWMWeatherService.class).withAnyArguments().thenReturn(owmWeatherService);
   }
 
