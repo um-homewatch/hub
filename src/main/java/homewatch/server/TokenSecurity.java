@@ -14,7 +14,7 @@ public class TokenSecurity {
     try {
       String token = Files.toString(new File("./token"), Charsets.UTF_8).trim();
 
-      Spark.before((request, response) -> {
+      Spark.before("/devices/*", (request, response) -> {
         String requestToken = request.headers("TunnelAuthorization");
 
         if (requestToken == null || !requestToken.trim().equals(token))

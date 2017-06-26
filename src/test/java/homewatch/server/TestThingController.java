@@ -19,7 +19,7 @@ public class TestThingController extends ServerRunner {
 
   @Test
   public void errorInvalidArgument() throws UnirestException {
-    int status = Unirest.get("http://localhost:4567/lights")
+    int status = Unirest.get("http://localhost:4567/devices/lights")
         .asJson()
         .getStatus();
 
@@ -28,7 +28,7 @@ public class TestThingController extends ServerRunner {
 
   @Test
   public void errorInvalidSubTypeGet() throws UnirestException {
-    int status = Unirest.get("http://localhost:4567/lights")
+    int status = Unirest.get("http://localhost:4567/devices/lights")
         .queryString("address", "192.168.1.1")
         .queryString("subtype", "cenas")
         .asJson()
@@ -39,7 +39,7 @@ public class TestThingController extends ServerRunner {
 
   @Test
   public void errorInvalidSubTypePut() throws UnirestException {
-    int status = Unirest.put("http://localhost:4567/lights")
+    int status = Unirest.put("http://localhost:4567/devices/lights")
         .queryString("address", "192.168.1.1")
         .queryString("subtype", "cenas")
         .asJson()

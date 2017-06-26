@@ -50,7 +50,7 @@ public class TestWeatherController extends ServerRunner {
   public void getWeatherOWM() throws Exception {
     mockOWM();
 
-    String json = Unirest.get("http://localhost:4567/weather")
+    String json = Unirest.get("http://localhost:4567/devices/weather")
         .queryString("subtype", "owm")
         .asJson()
         .getBody()
@@ -65,7 +65,7 @@ public class TestWeatherController extends ServerRunner {
   public void getWeatherRest() throws IOException, NetworkException, UnirestException {
     WeatherStubs.stubGetStatus(wireMockRule, originalWeather);
 
-    String json = Unirest.get("http://localhost:4567/weather")
+    String json = Unirest.get("http://localhost:4567/devices/weather")
         .queryString("address", "localhost")
         .queryString("port", 8080)
         .queryString("subtype", "rest")

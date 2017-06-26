@@ -49,7 +49,7 @@ public class TestThermostatController extends ServerRunner {
     Thermostat thermostat = new Thermostat(new Random().nextDouble());
     ThermostatStubs.stubGetStatus(wireMockRule, thermostat);
 
-    double targetTemperature = Unirest.get("http://localhost:4567/thermostats").queryString(QUERY_STRING)
+    double targetTemperature = Unirest.get("http://localhost:4567/devices/thermostats").queryString(QUERY_STRING)
         .asJson()
         .getBody()
         .getObject()
@@ -63,7 +63,7 @@ public class TestThermostatController extends ServerRunner {
     Thermostat thermostat = new Thermostat(new Random().nextDouble());
     ThermostatStubs.stubPutStatus(wireMockRule, thermostat);
 
-    double targetTemperature = Unirest.put("http://localhost:4567/thermostats")
+    double targetTemperature = Unirest.put("http://localhost:4567/devices/thermostats")
         .queryString(QUERY_STRING)
         .body(JsonUtils.getOM().writeValueAsString(thermostat))
         .asJson()

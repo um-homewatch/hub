@@ -47,7 +47,7 @@ public class TestLockController extends ServerRunner {
   public void getStatus() throws UnknownHostException, NetworkException, UnirestException {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    boolean status = Unirest.get("http://localhost:4567/locks").queryString(QUERY_STRING)
+    boolean status = Unirest.get("http://localhost:4567/devices/locks").queryString(QUERY_STRING)
         .asJson()
         .getBody()
         .getObject()
@@ -61,7 +61,7 @@ public class TestLockController extends ServerRunner {
     LockStubs.stubPutStatus(wireMockRule, false);
     LockStubs.stubGetStatus(wireMockRule, false);
 
-    boolean status = Unirest.put("http://localhost:4567/locks").queryString(QUERY_STRING).body(JSON)
+    boolean status = Unirest.put("http://localhost:4567/devices/locks").queryString(QUERY_STRING).body(JSON)
         .asJson()
         .getBody()
         .getObject()

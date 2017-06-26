@@ -46,7 +46,7 @@ public class TestDiscover extends ServerRunner {
   public void discoverRestLights() throws Exception {
     LightStubs.stubGetRest(wireMockRule, true);
 
-    JSONObject json = Unirest.get("http://localhost:4567/lights/discover")
+    JSONObject json = Unirest.get("http://localhost:4567/devices/lights/discover")
         .queryString("subtype", "rest")
         .queryString("port", 8080)
         .asJson().getBody().getArray().getJSONObject(0);
@@ -58,7 +58,7 @@ public class TestDiscover extends ServerRunner {
   public void testCode400() throws Exception {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    int status = Unirest.get("http://localhost:4567/lights/discover")
+    int status = Unirest.get("http://localhost:4567/devices/lights/discover")
         .queryString("subtype", "foo")
         .asJson()
         .getStatus();
@@ -70,7 +70,7 @@ public class TestDiscover extends ServerRunner {
   public void testMissingParam() throws Exception {
     LockStubs.stubGetStatus(wireMockRule, true);
 
-    int status = Unirest.get("http://localhost:4567/lights/discover")
+    int status = Unirest.get("http://localhost:4567/devices/lights/discover")
         .asJson()
         .getStatus();
 

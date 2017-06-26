@@ -18,9 +18,9 @@ import spark.Spark;
 
 public class Routes {
   public static void perform(){
-    Spark.get("/lights/discover", new DiscoveryController<>(new LightServiceFactory())::get);
+    Spark.get("/devices/lights/discover", new DiscoveryController<>(new LightServiceFactory())::get);
 
-    Spark.get("/locks/discover", new DiscoveryController<>(new LockServiceFactory())::get);
+    Spark.get("/devices/locks/discover", new DiscoveryController<>(new LockServiceFactory())::get);
 
     ThingController<Light> lightsController = new ThingController<>(new ServiceHelper<>(new LightServiceFactory()), Light.class);
     ThingController<Lock> locksController = new ThingController<>(new ServiceHelper<>(new LockServiceFactory()), Lock.class);
@@ -28,19 +28,19 @@ public class Routes {
     ThingController<Thermostat> thermostatsController = new ThingController<>(new ServiceHelper<>(new ThermostatServiceFactory()), Thermostat.class);
     ThingController<MotionSensor> motionsensorController = new ThingController<>(new ServiceHelper<>(new MotionSensorServiceFactory()), MotionSensor.class);
 
-    Spark.get("/lights", lightsController::get);
-    Spark.put("/lights", lightsController::put);
+    Spark.get("/devices/lights", lightsController::get);
+    Spark.put("/devices/lights", lightsController::put);
 
-    Spark.get("/locks", locksController::get);
-    Spark.put("/locks", locksController::put);
+    Spark.get("/devices/locks", locksController::get);
+    Spark.put("/devices/locks", locksController::put);
 
-    Spark.get("/weather", weatherController::get);
+    Spark.get("/devices/weather", weatherController::get);
 
-    Spark.get("/thermostats", thermostatsController::get);
-    Spark.put("/thermostats", thermostatsController::put);
+    Spark.get("/devices/thermostats", thermostatsController::get);
+    Spark.put("/devices/thermostats", thermostatsController::put);
 
-    Spark.get("/motionsensors", motionsensorController::get);
-    Spark.put("/motionsensors", motionsensorController::put);
+    Spark.get("/devices/motionsensors", motionsensorController::get);
+    Spark.put("/devices/motionsensors", motionsensorController::put);
 
     Spark.get("/tunnel", NgrokController::get);
     Spark.options("/tunnel", CorsUtils::corsOptions);

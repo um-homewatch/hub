@@ -52,7 +52,7 @@ public class TestLightController extends ServerRunner {
   public void getRest() throws UnknownHostException, NetworkException, UnirestException {
     LightStubs.stubGetRest(wireMockRule, true);
 
-    boolean status = Unirest.get("http://localhost:4567/lights")
+    boolean status = Unirest.get("http://localhost:4567/devices/lights")
         .queryString(QUERY_STRING)
         .asJson()
         .getBody()
@@ -67,7 +67,7 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubPutRest(wireMockRule, false);
     LightStubs.stubGetRest(wireMockRule, false);
 
-    boolean status = Unirest.put("http://localhost:4567/lights").queryString(QUERY_STRING).body(JSON)
+    boolean status = Unirest.put("http://localhost:4567/devices/lights").queryString(QUERY_STRING).body(JSON)
         .asJson()
         .getBody()
         .getObject()
@@ -80,7 +80,7 @@ public class TestLightController extends ServerRunner {
   public void getHue() throws UnirestException {
     LightStubs.stubGetHue(wireMockRule, true);
 
-    boolean status = Unirest.get("http://localhost:4567/lights")
+    boolean status = Unirest.get("http://localhost:4567/devices/lights")
         .queryString("subtype", "hue")
         .queryString("address", "localhost")
         .queryString("port", 8080)
@@ -97,7 +97,7 @@ public class TestLightController extends ServerRunner {
   public void putHue() throws UnirestException {
     LightStubs.stubPutHue(wireMockRule, false);
 
-    boolean status = Unirest.put("http://localhost:4567/lights")
+    boolean status = Unirest.put("http://localhost:4567/devices/lights")
         .queryString("subtype", "hue")
         .queryString("address", "localhost")
         .queryString("port", 8080)
