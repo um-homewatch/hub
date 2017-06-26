@@ -10,4 +10,8 @@ public class LoggerUtils {
   public static void logException(Exception e) {
     Logger.getGlobal().log(Level.SEVERE, "An exception was thrown", e);
   }
+
+  public static void logInfo(String s) {
+    Logger.getGlobal().info(s);
+  }
 }
