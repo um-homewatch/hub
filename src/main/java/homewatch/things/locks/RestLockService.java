@@ -1,13 +1,16 @@
 package homewatch.things.locks;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
+import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 class RestLockService extends HttpThingService<Lock> {
@@ -25,19 +28,27 @@ class RestLockService extends HttpThingService<Lock> {
 
   @Override
   public Lock get() throws NetworkException {
-    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
+    try {
+      ThingResponse response = HttpUtils.get(this.baseUrl());
 
-    return this.jsonToLock(response);
+      return responseToLock(response);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
   public Lock put(Lock lock) throws NetworkException {
-    JSONObject json = new JSONObject();
-    json.put("locked", lock.isLocked());
+    try {
+      JSONObject json = new JSONObject();
+      json.put("locked", lock.isLocked());
 
-    JsonNode response = HttpUtils.put(this.baseUrl(), json).getJson();
+      ThingResponse response = HttpUtils.put(this.baseUrl(), json);
 
-    return this.jsonToLock(response);
+      return responseToLock(response);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
@@ -64,7 +75,9 @@ class RestLockService extends HttpThingService<Lock> {
     return HttpUrl.parse(this.getUrl() + "/status");
   }
 
-  private Lock jsonToLock(JsonNode json) {
+  private Lock responseToLock(ThingResponse thingResponse) throws IOException {
+    JsonNode json = JsonUtils.getOM().readTree(thingResponse.getPayload());
+
     boolean lock = json.get("locked").asBoolean();
 
     return new Lock(lock);

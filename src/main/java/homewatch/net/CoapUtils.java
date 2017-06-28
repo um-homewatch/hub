@@ -11,33 +11,21 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class CoapUtils {
-  public static JsonResponse get(String url) throws NetworkException {
-    try {
-      CoapClient coapClient = new CoapClient(url);
-      CoapResponse response = coapClient.get();
+  public static int JSON_FORMAT = 50;
 
-      String responseText = response.getResponseText();
-      JsonNode responseJson = JsonUtils.getOM().readTree(responseText);
+  public static ThingResponse get(String url) throws NetworkException {
+    CoapClient coapClient = new CoapClient(url);
+    CoapResponse response = coapClient.get();
 
-      return new JsonResponse(responseJson, response.getCode().value);
-    } catch (IOException e) {
-      throw new NetworkException(e, 500);
-    }
+    return new ThingResponse(response.getPayload(), response.getCode().value);
   }
 
-  public static JsonResponse put(String url, JSONObject jsonBody) throws NetworkException {
-    try {
-      CoapClient coapClient = new CoapClient(url);
-      //50 is the equivalent of application/json
-      CoapResponse response = coapClient.put(jsonBody.toString(), 50);
+  public static ThingResponse put(String url, byte[] payload, int format) throws NetworkException {
+    CoapClient coapClient = new CoapClient(url);
 
-      String responseText = response.getResponseText();
-      JsonNode responseJson = JsonUtils.getOM().readTree(responseText);
+    CoapResponse response = coapClient.put(payload, format);
 
-      return new JsonResponse(responseJson, response.getCode().value);
-    } catch (IOException e) {
-      throw new NetworkException(e, 500);
-    }
+    return new ThingResponse(response.getPayload(), response.getCode().value);
   }
 
   private static void analyzeStatusCode(Response response) throws NetworkException, IOException {

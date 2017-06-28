@@ -1,12 +1,15 @@
 package homewatch.things.weather;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.HttpUtils;
+import homewatch.net.*;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.util.concurrent.ExecutionException;
 
 public class RestWeatherService extends HttpThingService<Weather> {
   RestWeatherService() {
@@ -21,11 +24,16 @@ public class RestWeatherService extends HttpThingService<Weather> {
     super(ipAddress, port);
   }
 
-  @Override
   public Weather get() throws NetworkException {
-    JsonNode response = HttpUtils.get(getBaseUrl()).getJson();
+    try {
+      ThingResponse response = HttpUtils.get(this.getBaseUrl());
 
-    return this.jsonToWeather(response);
+      JsonNode jsonResponse = JsonUtils.getOM().readTree(response.getPayload());
+
+      return jsonToWeather(jsonResponse);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override

@@ -15,19 +15,19 @@ public class HttpUtils {
   private HttpUtils() {
   }
 
-  public static JsonResponse put(HttpUrl url, JSONObject jsonBody) throws NetworkException {
+  public static ThingResponse put(HttpUrl url, JSONObject jsonBody) throws NetworkException {
     return internalPut(url, jsonBody, HTTP_CLIENT);
   }
 
-  public static JsonResponse put(HttpUrl url, JSONObject jsonBody, int connectionTimeout, int socketTimeout) throws NetworkException {
+  public static ThingResponse put(HttpUrl url, JSONObject jsonBody, int connectionTimeout, int socketTimeout) throws NetworkException {
     return internalPut(url, jsonBody, timeoutHttpClient(connectionTimeout, socketTimeout));
   }
 
-  public static JsonResponse get(HttpUrl url) throws NetworkException {
+  public static ThingResponse get(HttpUrl url) throws NetworkException {
     return internalGet(url, HTTP_CLIENT);
   }
 
-  public static JsonResponse get(HttpUrl url, int connectionTimeout, int socketTimeout) throws NetworkException {
+  public static ThingResponse get(HttpUrl url, int connectionTimeout, int socketTimeout) throws NetworkException {
     return internalGet(url, timeoutHttpClient(connectionTimeout, socketTimeout));
   }
 
@@ -39,7 +39,7 @@ public class HttpUtils {
         .build();
   }
 
-  private static JsonResponse internalPut(HttpUrl url, JSONObject jsonBody, OkHttpClient httpClient) throws NetworkException {
+  private static ThingResponse internalPut(HttpUrl url, JSONObject jsonBody, OkHttpClient httpClient) throws NetworkException {
     try {
       RequestBody body = RequestBody.create(MediaTypes.JSON, jsonBody.toString());
 
@@ -49,13 +49,13 @@ public class HttpUtils {
 
       analyzeStatusCode(response);
 
-      return new JsonResponse(responseToJson(response), response.code());
+      return new ThingResponse(response.body().bytes(), response.code());
     } catch (IOException e) {
       throw new NetworkException(e, 500);
     }
   }
 
-  private static JsonResponse internalGet(HttpUrl url, OkHttpClient httpClient) throws NetworkException {
+  private static ThingResponse internalGet(HttpUrl url, OkHttpClient httpClient) throws NetworkException {
     try {
       Request request = new Request.Builder().url(url).get().build();
 
@@ -63,7 +63,7 @@ public class HttpUtils {
 
       analyzeStatusCode(response);
 
-      return new JsonResponse(responseToJson(response), response.code());
+      return new ThingResponse(response.body().bytes(), response.code());
     } catch (IOException e) {
       throw new NetworkException(e, 500);
     }
@@ -75,11 +75,5 @@ public class HttpUtils {
     if (statusCode != 200) {
       throw new NetworkException(response.body().string(), statusCode);
     }
-  }
-
-  private static JsonNode responseToJson(Response response) throws IOException {
-    String textResponse = response.body().string();
-
-    return JsonUtils.getOM().readTree(textResponse);
   }
 }

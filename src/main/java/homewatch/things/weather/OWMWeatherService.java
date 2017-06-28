@@ -2,10 +2,12 @@ package homewatch.things.weather;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.CacheUtils;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.ThingService;
 import okhttp3.HttpUrl;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
@@ -20,7 +22,7 @@ class OWMWeatherService extends ThingService<Weather> {
       JsonNode response = this.getWeatherData();
 
       return this.jsonToWeather(response);
-    } catch (ExecutionException e) {
+    } catch (ExecutionException | IOException e) {
       throw new NetworkException(e, 500);
     }
   }
@@ -46,11 +48,11 @@ class OWMWeatherService extends ThingService<Weather> {
     //no attributes to set...
   }
 
-  private JsonNode getWeatherData() throws ExecutionException {
-    String region = CacheUtils.get(REGION_URL).getJson().get("region_name").asText();
+  private JsonNode getWeatherData() throws ExecutionException, IOException {
+    String region = JsonUtils.getOM().readTree(CacheUtils.get(REGION_URL).getPayload()).get("region_name").asText();
     String url = String.format(BASE_URL, region);
 
-    return CacheUtils.get(HttpUrl.parse(url)).getJson();
+    return JsonUtils.getOM().readTree(CacheUtils.get(HttpUrl.parse(url)).getPayload());
   }
 
   @Override

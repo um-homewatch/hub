@@ -1,12 +1,14 @@
 package homewatch.things.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.HttpUtils;
+import homewatch.net.*;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Map;
 
@@ -35,11 +37,13 @@ public class HueLightService extends HttpThingService<Light> {
 
   @Override
   public Light get() throws NetworkException {
-    HttpUrl url = HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID));
+    try {
+      ThingResponse response = HttpUtils.get(HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID)));
 
-    JsonNode response = HttpUtils.get(url).getJson();
-
-    return this.jsonToLight(response);
+      return this.jsonToLight(JsonUtils.getOM().readTree(response.getPayload()));
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override

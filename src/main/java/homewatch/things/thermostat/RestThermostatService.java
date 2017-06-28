@@ -1,12 +1,15 @@
 package homewatch.things.thermostat;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
+import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 public class RestThermostatService extends HttpThingService<Thermostat> {
@@ -24,19 +27,27 @@ public class RestThermostatService extends HttpThingService<Thermostat> {
 
   @Override
   public Thermostat get() throws NetworkException {
-    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
+    try {
+      ThingResponse response = HttpUtils.get(this.baseUrl());
 
-    return this.jsonToThermostat(response);
+      return jsonToThermostat(JsonUtils.getOM().readTree(response.getPayload()));
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
   public Thermostat put(Thermostat thermostat) throws NetworkException {
-    JSONObject json = new JSONObject();
-    json.put("target_temperature", thermostat.getTargetTemperature());
+    try {
+      JSONObject json = new JSONObject();
+      json.put("target_temperature", thermostat.getTargetTemperature());
 
-    JsonNode response = HttpUtils.put(this.baseUrl(), json).getJson();
+      ThingResponse response = HttpUtils.put(this.baseUrl(), json);
 
-    return this.jsonToThermostat(response);
+      return jsonToThermostat(JsonUtils.getOM().readTree(response.getPayload()));
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override

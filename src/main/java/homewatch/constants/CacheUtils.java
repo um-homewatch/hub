@@ -5,7 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
-import homewatch.net.JsonResponse;
+import homewatch.net.ThingResponse;
 import okhttp3.HttpUrl;
 
 import java.util.concurrent.ExecutionException;
@@ -13,11 +13,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class CacheUtils {
-  private static final LoadingCache<HttpUrl, JsonResponse> cachedResponses = CacheBuilder.newBuilder()
+  private static final LoadingCache<HttpUrl, ThingResponse> cachedResponses = CacheBuilder.newBuilder()
       .expireAfterAccess(10, TimeUnit.MINUTES)
-      .build(new CacheLoader<HttpUrl, JsonResponse>() {
+      .build(new CacheLoader<HttpUrl, ThingResponse>() {
         @Override
-        public JsonResponse load(HttpUrl url) throws NetworkException {
+        public ThingResponse load(HttpUrl url) throws NetworkException {
           Logger.getGlobal().info(url.host());
           return HttpUtils.get(url);
         }
@@ -26,7 +26,7 @@ public class CacheUtils {
   private CacheUtils() {
   }
 
-  public static JsonResponse get(HttpUrl url) throws ExecutionException {
+  public static ThingResponse get(HttpUrl url) throws ExecutionException {
     return cachedResponses.get(url);
   }
 }

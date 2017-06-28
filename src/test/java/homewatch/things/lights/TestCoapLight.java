@@ -1,14 +1,13 @@
 package homewatch.things.lights;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.CoapUtils;
-import homewatch.net.JsonResponse;
+import homewatch.net.ThingResponse;
 import homewatch.things.ThingService;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -35,17 +34,17 @@ public class TestCoapLight {
   }
 
   private void stubGet(boolean power) throws NetworkException, IOException {
-    JsonNode json = JsonUtils.getOM().readTree("{\"power\": " + power + "}");
+    byte[] payload = ("{\"power\": " + power + "}").getBytes();
 
     PowerMockito.mockStatic(CoapUtils.class);
-    PowerMockito.when(CoapUtils.get(ADDRESS)).thenReturn(new JsonResponse(json, 205));
+    PowerMockito.when(CoapUtils.get(Mockito.anyString())).thenReturn(new ThingResponse(payload, 205));
   }
 
   private void stubPut(boolean power) throws NetworkException, IOException {
-    JsonNode json = JsonUtils.getOM().readTree("{\"power\": " + power + "}");
+    byte[] payload = ("{\"power\": " + power + "}").getBytes();
 
     PowerMockito.mockStatic(CoapUtils.class);
-    PowerMockito.when(CoapUtils.put(Mockito.eq(ADDRESS), Mockito.any())).thenReturn(new JsonResponse(json, 205));
+    PowerMockito.when(CoapUtils.put(Mockito.anyString(), Matchers.<byte[]>any(), Mockito.anyInt())).thenReturn(new ThingResponse(payload, 205));
   }
 
   @Test

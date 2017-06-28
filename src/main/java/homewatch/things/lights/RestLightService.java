@@ -1,13 +1,15 @@
 package homewatch.things.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.HttpUtils;
+import homewatch.net.*;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 class RestLightService extends HttpThingService<Light> {
@@ -25,18 +27,29 @@ class RestLightService extends HttpThingService<Light> {
 
   @Override
   public Light get() throws NetworkException {
-    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
+    try {
+      ThingResponse response = HttpUtils.get(this.baseUrl());
 
-    return this.jsonToLight(response);
+      JsonNode jsonResponse = JsonUtils.getOM().readTree(response.getPayload());
+
+      return this.jsonToLight(jsonResponse);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
   public Light put(Light light) throws NetworkException {
-    JSONObject json = new JSONObject();
-    json.put("power", light.isOn());
-    JsonNode response = HttpUtils.put(this.baseUrl(), json).getJson();
+    try {
+      JSONObject json = new JSONObject();
+      json.put("power", light.isOn());
 
-    return this.jsonToLight(response);
+      JsonNode response = JsonUtils.getOM().readTree(HttpUtils.put(this.baseUrl(), json).getPayload());
+
+      return this.jsonToLight(response);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override

@@ -1,13 +1,14 @@
 package homewatch.things.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.CoapUtils;
-import homewatch.net.JsonResponse;
+import homewatch.net.*;
 import homewatch.things.CoapThingService;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 class CoapLightService extends CoapThingService<Light> {
@@ -25,19 +26,27 @@ class CoapLightService extends CoapThingService<Light> {
 
   @Override
   public Light get() throws NetworkException {
-    JsonResponse jsonResponse = CoapUtils.get(this.getUrl());
+    try {
+      ThingResponse response = CoapUtils.get(this.getUrl());
 
-    return this.jsonToLight(jsonResponse.getJson());
+      return responseToLight(response);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
   public Light put(Light light) throws NetworkException {
-    JSONObject json = new JSONObject();
-    json.put("power", light.isOn());
+    try {
+      JSONObject json = new JSONObject();
+      json.put("power", light.isOn());
 
-    JsonResponse jsonResponse = CoapUtils.put(this.getUrl(), json);
+      ThingResponse response = CoapUtils.put(this.getUrl(), json.toString().getBytes("UTF-8"), CoapUtils.JSON_FORMAT);
 
-    return this.jsonToLight(jsonResponse.getJson());
+      return responseToLight(response);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
@@ -69,7 +78,9 @@ class CoapLightService extends CoapThingService<Light> {
     return url + "/status";
   }
 
-  private Light jsonToLight(JsonNode json) {
+  private Light responseToLight(ThingResponse response) throws IOException {
+    JsonNode json = JsonUtils.getOM().readTree(response.getPayload());
+
     boolean on = json.get("power").asBoolean();
 
     return new Light(on);

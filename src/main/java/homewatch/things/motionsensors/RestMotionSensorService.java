@@ -1,12 +1,15 @@
 package homewatch.things.motionsensors;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
+import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 class RestMotionSensorService extends HttpThingService<MotionSensor> {
@@ -24,9 +27,13 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
 
   @Override
   public MotionSensor get() throws NetworkException {
-    JsonNode response = HttpUtils.get(this.baseUrl()).getJson();
+    try {
+      ThingResponse response = HttpUtils.get(this.baseUrl());
 
-    return this.jsonToMotionSensor(response);
+      return responseToMotionSensor(response);
+    } catch (IOException e) {
+      throw new NetworkException(e, 500);
+    }
   }
 
   @Override
@@ -58,7 +65,9 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
     return HttpUrl.parse(this.getUrl() + "/status");
   }
 
-  private MotionSensor jsonToMotionSensor(JsonNode json) {
+  private MotionSensor responseToMotionSensor(ThingResponse thingResponse) throws IOException {
+    JsonNode json = JsonUtils.getOM().readTree(thingResponse.getPayload());
+
     boolean motionsensor = json.get("movement").asBoolean();
 
     return new MotionSensor(motionsensor);
