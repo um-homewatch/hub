@@ -40,7 +40,6 @@ public class Routes {
     Spark.put("/devices/thermostats", thermostatsController::put);
 
     Spark.get("/devices/motionsensors", motionsensorController::get);
-    Spark.put("/devices/motionsensors", motionsensorController::put);
 
     Spark.get("/tunnel", NgrokController::get);
     Spark.options("/tunnel", CorsUtils::corsOptions);
