@@ -6,18 +6,18 @@ public abstract class HttpThingService<T> extends NetworkThingService<T> {
   protected HttpThingService() {
   }
 
-  protected HttpThingService(InetAddress address) {
+  protected HttpThingService(String address) {
     super(address);
   }
 
-  protected HttpThingService(InetAddress address, Integer port) {
+  protected HttpThingService(String address, Integer port) {
     super(address, port);
   }
 
   protected String getUrl() {
     if (this.getPort() == null)
-      return String.format("http://%s", this.getAddress().getHostAddress());
+      return String.format("http://%s", this.getAddress());
     else
-      return String.format("http://%s:%d", this.getAddress().getHostAddress(), this.getPort());
+      return String.format("http://%s:%d", this.getAddress(), this.getPort());
   }
 }

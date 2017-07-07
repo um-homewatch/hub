@@ -1,7 +1,7 @@
 package homewatch.constants;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import homewatch.things.thermostat.Thermostat;
+import homewatch.things.services.thermostat.Thermostat;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 

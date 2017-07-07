@@ -5,7 +5,7 @@ import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.things.DiscoveryService;
+import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.NetworkThingServiceFactory;
 import spark.Request;
 import spark.Response;

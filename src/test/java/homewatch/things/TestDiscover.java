@@ -2,8 +2,9 @@ package homewatch.things;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.constants.LightStubs;
-import homewatch.things.lights.Light;
-import homewatch.things.lights.LightServiceFactory;
+import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.services.lights.Light;
+import homewatch.things.services.lights.LightServiceFactory;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

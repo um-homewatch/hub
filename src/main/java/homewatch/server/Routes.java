@@ -4,16 +4,16 @@ import homewatch.server.controllers.DiscoveryController;
 import homewatch.server.controllers.NgrokController;
 import homewatch.server.controllers.ServiceHelper;
 import homewatch.server.controllers.ThingController;
-import homewatch.things.lights.Light;
-import homewatch.things.lights.LightServiceFactory;
-import homewatch.things.locks.Lock;
-import homewatch.things.locks.LockServiceFactory;
-import homewatch.things.motionsensors.MotionSensor;
-import homewatch.things.motionsensors.MotionSensorServiceFactory;
-import homewatch.things.thermostat.Thermostat;
-import homewatch.things.thermostat.ThermostatServiceFactory;
-import homewatch.things.weather.Weather;
-import homewatch.things.weather.WeatherServiceFactory;
+import homewatch.things.services.lights.Light;
+import homewatch.things.services.lights.LightServiceFactory;
+import homewatch.things.services.locks.Lock;
+import homewatch.things.services.locks.LockServiceFactory;
+import homewatch.things.services.motionsensors.MotionSensor;
+import homewatch.things.services.motionsensors.MotionSensorServiceFactory;
+import homewatch.things.services.thermostat.Thermostat;
+import homewatch.things.services.thermostat.ThermostatServiceFactory;
+import homewatch.things.services.weather.Weather;
+import homewatch.things.services.weather.WeatherServiceFactory;
 import spark.Spark;
 
 public class Routes {

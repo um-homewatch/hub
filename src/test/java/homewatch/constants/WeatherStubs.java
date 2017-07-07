@@ -1,7 +1,7 @@
 package homewatch.constants;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import homewatch.things.weather.Weather;
+import homewatch.things.services.weather.Weather;
 import org.json.JSONObject;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;

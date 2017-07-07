@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import homewatch.constants.LightStubs;
 import homewatch.constants.LockStubs;
-import homewatch.things.DiscoveryService;
+import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.ServerRunner;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -36,7 +36,7 @@ public class TestDiscover extends ServerRunner {
 
   @Before
   public void setup() throws UnknownHostException {
-    addresses = Collections.singletonList(InetAddress.getLocalHost().getHostAddress());
+    addresses = Collections.singletonList(InetAddress.getLocalHost().getHostName());
 
     PowerMockito.stub(PowerMockito.method(DiscoveryService.class, "getAddressList"))
         .toReturn(addresses);

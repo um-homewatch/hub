@@ -1,30 +1,28 @@
 package homewatch.things;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Map;
 
 public abstract class NetworkThingService<T> extends ThingService<T> {
-  private InetAddress address;
+  private String address;
   private Integer port = null;
 
   NetworkThingService() {
   }
 
-  NetworkThingService(InetAddress address) {
+  NetworkThingService(String address) {
     this.address = address;
   }
 
-  NetworkThingService(InetAddress address, Integer port) {
+  NetworkThingService(String address, Integer port) {
     this.address = address;
     this.port = port;
   }
 
-  public InetAddress getAddress() {
+  public String getAddress() {
     return address;
   }
 
-  public void setAddress(InetAddress address) {
+  public void setAddress(String address) {
     this.address = address;
   }
 
@@ -46,10 +44,8 @@ public abstract class NetworkThingService<T> extends ThingService<T> {
     }
 
     try {
-      this.address = InetAddress.getByName(address);
+      this.address = address;
       this.port = (port == null) ? null : Integer.parseInt(port);
-    } catch (UnknownHostException ex) {
-      throw new IllegalArgumentException(ex);
     } catch (NumberFormatException ex) {
       throw new IllegalArgumentException("invalid port");
     }
