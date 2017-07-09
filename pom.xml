@@ -59,12 +59,6 @@
                 <configuration>
                     <instrumentation>
                         <ignoreTrivial>true</ignoreTrivial>
-                        <exclude>homewatch.things/*DiscoveryService.class</exclude>
-                        <ignores>
-                            <ignore>homewatch.*.equals*</ignore>
-                            <ignore>homewatch.*.hashCode*</ignore>
-                            <ignore>homewatch.*.toString*</ignore>
-                        </ignores>
                     </instrumentation>
                     <formats>
                         <format>html</format>
