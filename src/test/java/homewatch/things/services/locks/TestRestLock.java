@@ -1,7 +1,7 @@
 package homewatch.things.services.locks;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import homewatch.constants.LockStubs;
+import homewatch.stubs.LockStubs;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.ThingService;
 import org.junit.BeforeClass;

@@ -1,7 +1,7 @@
 package homewatch.things;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import homewatch.constants.LightStubs;
+import homewatch.stubs.LightStubs;
 import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.services.lights.Light;
 import homewatch.things.services.lights.LightServiceFactory;

@@ -1,9 +1,9 @@
 package homewatch.things.services.weather;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import homewatch.constants.CacheUtils;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
+import homewatch.net.HttpCachingUtils;
 import homewatch.things.ThingService;
 import okhttp3.HttpUrl;
 
@@ -49,10 +49,10 @@ class OWMWeatherService extends ThingService<Weather> {
   }
 
   private JsonNode getWeatherData() throws ExecutionException, IOException {
-    String region = JsonUtils.getOM().readTree(CacheUtils.get(REGION_URL).getPayload()).get("region_name").asText();
+    String region = JsonUtils.getOM().readTree(HttpCachingUtils.get(REGION_URL).getPayload()).get("region_name").asText();
     String url = String.format(BASE_URL, region);
 
-    return JsonUtils.getOM().readTree(CacheUtils.get(HttpUrl.parse(url)).getPayload());
+    return JsonUtils.getOM().readTree(HttpCachingUtils.get(HttpUrl.parse(url)).getPayload());
   }
 
   @Override

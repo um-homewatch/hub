@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.MotionSensorStubs;
+import homewatch.stubs.MotionSensorStubs;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.ServerRunner;
 import org.junit.Before;
@@ -41,8 +41,6 @@ public class TestMotionSensorController extends ServerRunner {
         .asJson()
         .getBody()
         .toString();
-
-    System.out.println(json);
 
     MotionSensor motionsensor = JsonUtils.getOM().readValue(json, MotionSensor.class);
 

@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.WeatherStubs;
+import homewatch.stubs.WeatherStubs;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.ServerRunner;
 import org.junit.Before;
