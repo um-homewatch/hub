@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class HttpUtils {
+  static final MediaType MEDIATYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
 
   private HttpUtils() {
@@ -39,7 +41,7 @@ public class HttpUtils {
 
   private static ThingResponse internalPut(HttpUrl url, JSONObject jsonBody, OkHttpClient httpClient) throws NetworkException {
     try {
-      RequestBody body = RequestBody.create(MediaTypes.JSON, jsonBody.toString());
+      RequestBody body = RequestBody.create(MEDIATYPE_JSON, jsonBody.toString());
 
       Request request = new Request.Builder().url(url).put(body).build();
 

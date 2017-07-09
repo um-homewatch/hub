@@ -1,4 +1,4 @@
-package homewatch.constants;
+package homewatch.net;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -12,18 +12,17 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public class CacheUtils {
+public class HttpCachingUtils {
   private static final LoadingCache<HttpUrl, ThingResponse> cachedResponses = CacheBuilder.newBuilder()
       .expireAfterAccess(10, TimeUnit.MINUTES)
       .build(new CacheLoader<HttpUrl, ThingResponse>() {
         @Override
         public ThingResponse load(HttpUrl url) throws NetworkException {
-          Logger.getGlobal().info(url.host());
           return HttpUtils.get(url);
         }
       });
 
-  private CacheUtils() {
+  private HttpCachingUtils() {
   }
 
   public static ThingResponse get(HttpUrl url) throws ExecutionException {

@@ -1,7 +1,8 @@
-package homewatch.constants;
+package homewatch.stubs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import homewatch.constants.JsonUtils;
 
 import java.io.File;
 import java.io.IOException;

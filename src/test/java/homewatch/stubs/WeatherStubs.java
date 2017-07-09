@@ -1,4 +1,4 @@
-package homewatch.constants;
+package homewatch.stubs;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.things.services.weather.Weather;

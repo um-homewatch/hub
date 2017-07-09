@@ -2,7 +2,7 @@ package homewatch.server;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.NgrokStubs;
+import homewatch.stubs.NgrokStubs;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;

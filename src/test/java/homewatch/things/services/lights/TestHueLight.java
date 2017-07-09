@@ -3,7 +3,7 @@ package homewatch.things.services.lights;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.LightStubs;
+import homewatch.stubs.LightStubs;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.ThingService;
 import org.junit.BeforeClass;

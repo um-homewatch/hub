@@ -2,8 +2,8 @@ package homewatch.server;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
-import homewatch.constants.LightStubs;
-import homewatch.constants.LockStubs;
+import homewatch.stubs.LightStubs;
+import homewatch.stubs.LockStubs;
 import homewatch.things.ServerRunner;
 import homewatch.things.discovery.DiscoveryService;
 import org.json.JSONObject;
