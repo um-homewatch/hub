@@ -3,7 +3,7 @@ package homewatch.server.controllers;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.server.pojos.ThingInfo;
+import homewatch.things.Thing;
 import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
 import spark.QueryParamsMap;
@@ -12,7 +12,7 @@ import spark.Request;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServiceHelper<T> {
+class ServiceHelper<T extends Thing> {
   private final ThingServiceFactory<T> serviceFactory;
 
   public ServiceHelper(ThingServiceFactory<T> serviceFactory) {

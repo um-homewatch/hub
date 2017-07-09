@@ -10,7 +10,6 @@ import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 public class RestThermostatService extends HttpThingService<Thermostat> {
   public RestThermostatService() {

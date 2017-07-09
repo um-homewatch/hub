@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.*;
+import homewatch.net.CoapUtils;
+import homewatch.net.ThingResponse;
 import homewatch.things.CoapThingService;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 class CoapLightService extends CoapThingService<Light> {
   CoapLightService() {

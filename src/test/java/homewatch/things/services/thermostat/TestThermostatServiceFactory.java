@@ -5,7 +5,6 @@ import homewatch.things.NetworkThingService;
 import homewatch.things.ThingService;
 import org.junit.Test;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import static org.hamcrest.CoreMatchers.is;

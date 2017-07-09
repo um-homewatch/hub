@@ -5,7 +5,6 @@ import homewatch.things.NetworkThingService;
 import homewatch.things.ThingService;
 import org.junit.Test;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,7 +16,7 @@ public class TestLightServiceFactory {
 
   @Test
   public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
-    String addr ="192.168.1.50";
+    String addr = "192.168.1.50";
     NetworkThingService<Light> lightService = serviceFactory.create(addr, 80, "rest");
 
     assertThat(lightService.getAddress(), is(addr));

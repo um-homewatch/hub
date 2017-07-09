@@ -24,27 +24,26 @@ import static org.junit.Assert.*;
 @PrepareForTest(CoapUtils.class)
 public class TestCoapLight {
   private static ThingService<Light> lightService;
-  private static String ADDRESS;
 
   @BeforeClass
   public static void setup() throws UnknownHostException, NetworkException {
-    ADDRESS = String.format("coap://%s/status", InetAddress.getLocalHost().getHostAddress());
+    String ADDRESS = String.format("coap://%s/status", InetAddress.getLocalHost().getHostAddress());
 
     lightService = new CoapLightService(InetAddress.getLocalHost().getHostName());
   }
 
-  private void stubGet(boolean power) throws NetworkException, IOException {
+  private void stubGet(boolean power) throws NetworkException {
     byte[] payload = ("{\"power\": " + power + "}").getBytes();
 
     PowerMockito.mockStatic(CoapUtils.class);
     PowerMockito.when(CoapUtils.get(Mockito.anyString())).thenReturn(new ThingResponse(payload, 205));
   }
 
-  private void stubPut(boolean power) throws NetworkException, IOException {
+  private void stubPut(boolean power) throws NetworkException {
     byte[] payload = ("{\"power\": " + power + "}").getBytes();
 
     PowerMockito.mockStatic(CoapUtils.class);
-    PowerMockito.when(CoapUtils.put(Mockito.anyString(), Matchers.<byte[]>any(), Mockito.anyInt())).thenReturn(new ThingResponse(payload, 205));
+    PowerMockito.when(CoapUtils.put(Mockito.anyString(), Matchers.any(), Mockito.anyInt())).thenReturn(new ThingResponse(payload, 205));
   }
 
   @Test

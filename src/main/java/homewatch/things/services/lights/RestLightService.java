@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.*;
+import homewatch.net.HttpUtils;
+import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 class RestLightService extends HttpThingService<Light> {
   RestLightService() {

@@ -5,8 +5,6 @@ import homewatch.things.NetworkThingService;
 import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
 
-import java.net.InetAddress;
-
 public class WeatherServiceFactory implements NetworkThingServiceFactory<Weather> {
   @Override
   public ThingService<Weather> create(String subtype) throws InvalidSubTypeException {

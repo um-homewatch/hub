@@ -1,7 +1,5 @@
 package homewatch.net;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import okhttp3.*;
 import org.json.JSONObject;

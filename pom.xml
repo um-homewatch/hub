@@ -14,13 +14,6 @@
         <powermock.version>1.6.6</powermock.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <build>
         <plugins>
             <plugin>
@@ -67,12 +60,17 @@
                     <instrumentation>
                         <ignoreTrivial>true</ignoreTrivial>
                         <exclude>homewatch.things/*DiscoveryService.class</exclude>
+                        <ignores>
+                            <ignore>homewatch.*.equals*</ignore>
+                            <ignore>homewatch.*.hashCode*</ignore>
+                            <ignore>homewatch.*.toString*</ignore>
+                        </ignores>
                     </instrumentation>
                     <formats>
                         <format>html</format>
                         <format>xml</format>
                     </formats>
-                    <check />
+                    <check/>
                 </configuration>
             </plugin>
         </plugins>
@@ -121,9 +119,9 @@
             <version>1.0.4</version>
         </dependency>
         <dependency>
-            <groupId>com.github.narkisr</groupId>
-            <artifactId>nmap4j</artifactId>
-            <version>058426acb1d0f6d1748f898ad6902bc7e2689fc6</version>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
         </dependency>
 
         <dependency>

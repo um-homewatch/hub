@@ -1,6 +1,9 @@
 package homewatch.things.services.thermostat;
 
-public class Thermostat {
+import homewatch.things.Thing;
+import homewatch.things.ThingServiceFactory;
+
+public class Thermostat implements Thing {
   //celsius
   private double targetTemperature;
 
@@ -18,5 +21,38 @@ public class Thermostat {
 
   public void setTargetTemperature(double targetTemperature) {
     this.targetTemperature = targetTemperature;
+  }
+
+  @Override
+  public ThingServiceFactory getFactory() {
+    return new ThermostatServiceFactory();
+  }
+
+  @Override
+  public String getStringRepresentation() {
+    return "thermostats";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Thermostat that = (Thermostat) o;
+
+    return Double.compare(that.targetTemperature, targetTemperature) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    long temp = Double.doubleToLongBits(targetTemperature);
+    return (int) (temp ^ (temp >>> 32));
+  }
+
+  @Override
+  public String toString() {
+    return "Thermostat{" +
+        "targetTemperature=" + targetTemperature +
+        '}';
   }
 }

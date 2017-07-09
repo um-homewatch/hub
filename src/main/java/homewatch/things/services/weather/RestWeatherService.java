@@ -3,12 +3,12 @@ package homewatch.things.services.weather;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.*;
+import homewatch.net.HttpUtils;
+import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 public class RestWeatherService extends HttpThingService<Weather> {
   RestWeatherService() {

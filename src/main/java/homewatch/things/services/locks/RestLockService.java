@@ -11,7 +11,6 @@ import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 class RestLockService extends HttpThingService<Lock> {
   RestLockService() {

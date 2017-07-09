@@ -1,7 +1,5 @@
 package homewatch.net;
 
-import java.io.IOException;
-
 public class ThingResponse {
   private final byte[] payload;
   private final int statusCode;

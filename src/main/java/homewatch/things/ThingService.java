@@ -4,7 +4,7 @@ import homewatch.exceptions.NetworkException;
 
 import java.util.Map;
 
-public abstract class ThingService<T> {
+public abstract class ThingService<T extends Thing> {
   public abstract T get() throws NetworkException;
 
   public abstract T put(T t) throws NetworkException;
@@ -17,7 +17,7 @@ public abstract class ThingService<T> {
 
   public abstract String getSubtype();
 
-  protected <NewClass> NewClass getAttribute(Map<String, ?> attributes, String attributeName, Class<NewClass> clazz) {
+  protected <C> C getAttribute(Map<String, ?> attributes, String attributeName, Class<C> clazz) {
     try {
       Object object = attributes.get(attributeName);
 

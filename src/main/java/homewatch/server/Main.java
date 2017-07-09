@@ -5,17 +5,14 @@ import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import org.xml.sax.SAXException;
 import spark.Response;
 import spark.Spark;
-
-import java.io.IOException;
 
 public class Main {
   private Main() {
   }
 
-  public static void main(String[] args) throws IOException, SAXException {
+  public static void main(String[] args) {
     //set all responses to json format
     Spark.before((request, response) -> response.header("Content-Type", "application/json"));
 

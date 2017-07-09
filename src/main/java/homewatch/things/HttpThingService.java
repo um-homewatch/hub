@@ -1,8 +1,6 @@
 package homewatch.things;
 
-import java.net.InetAddress;
-
-public abstract class HttpThingService<T> extends NetworkThingService<T> {
+public abstract class HttpThingService<T extends Thing> extends NetworkThingService<T> {
   protected HttpThingService() {
   }
 

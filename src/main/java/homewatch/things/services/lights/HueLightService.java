@@ -3,13 +3,13 @@ package homewatch.things.services.lights;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
-import homewatch.net.*;
+import homewatch.net.HttpUtils;
+import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.Map;
 
 public class HueLightService extends HttpThingService<Light> {
@@ -60,12 +60,12 @@ public class HueLightService extends HttpThingService<Light> {
   public void setAttributes(Map<String, ?> attributes) {
     super.setAttributes(attributes);
 
-    String lightID = this.getAttribute(attributes, "light_id", String.class);
+    String lightIDString = this.getAttribute(attributes, "light_id", String.class);
 
-    if (lightID == null) throw new IllegalArgumentException("missing light_id");
+    if (lightIDString == null) throw new IllegalArgumentException("missing light_id");
 
     try {
-      this.lightID = Integer.parseInt(lightID);
+      this.lightID = Integer.parseInt(lightIDString);
     } catch (NumberFormatException ex) {
       throw new IllegalArgumentException("light_id must be a number");
     }

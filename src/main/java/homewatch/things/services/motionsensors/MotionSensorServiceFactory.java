@@ -5,8 +5,6 @@ import homewatch.things.NetworkThingService;
 import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
 
-import java.net.InetAddress;
-
 public class MotionSensorServiceFactory implements NetworkThingServiceFactory<MotionSensor> {
   @Override
   public NetworkThingService<MotionSensor> create(String address, Integer port, String subtype) throws InvalidSubTypeException {

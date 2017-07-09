@@ -5,14 +5,15 @@ import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
-import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.NetworkThingServiceFactory;
+import homewatch.things.Thing;
+import homewatch.things.discovery.DiscoveryService;
 import spark.Request;
 import spark.Response;
 
 import java.io.IOException;
 
-public class DiscoveryController<T> {
+public class DiscoveryController<T extends Thing> {
   private final ObjectMapper objectMapper = JsonUtils.getOM();
   private final NetworkThingServiceFactory<T> httpThingService;
 

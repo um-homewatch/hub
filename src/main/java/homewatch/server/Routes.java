@@ -1,53 +1,61 @@
 package homewatch.server;
 
+import homewatch.constants.LoggerUtils;
 import homewatch.server.controllers.DiscoveryController;
 import homewatch.server.controllers.NgrokController;
-import homewatch.server.controllers.ServiceHelper;
 import homewatch.server.controllers.ThingController;
-import homewatch.things.services.lights.Light;
-import homewatch.things.services.lights.LightServiceFactory;
-import homewatch.things.services.locks.Lock;
-import homewatch.things.services.locks.LockServiceFactory;
-import homewatch.things.services.motionsensors.MotionSensor;
-import homewatch.things.services.motionsensors.MotionSensorServiceFactory;
-import homewatch.things.services.thermostat.Thermostat;
-import homewatch.things.services.thermostat.ThermostatServiceFactory;
-import homewatch.things.services.weather.Weather;
-import homewatch.things.services.weather.WeatherServiceFactory;
+import homewatch.things.NetworkThingServiceFactory;
+import homewatch.things.Thing;
+import homewatch.things.ThingServiceFactory;
 import spark.Spark;
 
-public class Routes {
-  public static void perform(){
-    Spark.get("/devices/lights/discover", new DiscoveryController<>(new LightServiceFactory())::get);
+class Routes {
+  private Routes() {
+  }
 
-    Spark.get("/devices/locks/discover", new DiscoveryController<>(new LockServiceFactory())::get);
-
-    ThingController<Light> lightsController = new ThingController<>(new ServiceHelper<>(new LightServiceFactory()), Light.class);
-    ThingController<Lock> locksController = new ThingController<>(new ServiceHelper<>(new LockServiceFactory()), Lock.class);
-    ThingController<Weather> weatherController = new ThingController<>(new ServiceHelper<>(new WeatherServiceFactory()), Weather.class);
-    ThingController<Thermostat> thermostatsController = new ThingController<>(new ServiceHelper<>(new ThermostatServiceFactory()), Thermostat.class);
-    ThingController<MotionSensor> motionsensorController = new ThingController<>(new ServiceHelper<>(new MotionSensorServiceFactory()), MotionSensor.class);
-
-    Spark.get("/devices/lights", lightsController::get);
-    Spark.put("/devices/lights", lightsController::put);
-
-    Spark.get("/devices/locks", locksController::get);
-    Spark.put("/devices/locks", locksController::put);
-
-    Spark.get("/devices/weather", weatherController::get);
-
-    Spark.get("/devices/thermostats", thermostatsController::get);
-    Spark.put("/devices/thermostats", thermostatsController::put);
-
-    Spark.get("/devices/motionsensors", motionsensorController::get);
+  public static void perform() {
+    discoveryControllers();
+    deviceControllers();
 
     Spark.get("/tunnel", NgrokController::get);
     Spark.options("/tunnel", CorsUtils::corsOptions);
+
     //enable cors for tunnel endpoint
     Spark.before("/tunnel", ((request, response) -> {
       response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
       response.header("Access-Control-Allow-Origin", "*");
       response.header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
     }));
+  }
+
+  private static void discoveryControllers() {
+    ClassDiscoverer.getThings().forEach(klass -> {
+      try {
+        Thing t = klass.newInstance();
+        ThingServiceFactory thingServiceFactory = t.getFactory();
+
+        if (thingServiceFactory instanceof NetworkThingServiceFactory) {
+          NetworkThingServiceFactory networkThingServiceFactory = (NetworkThingServiceFactory) t.getFactory();
+          Spark.get("/devices/" + t.getStringRepresentation() + "/discover", new DiscoveryController<>(networkThingServiceFactory)::get);
+        }
+      } catch (InstantiationException | IllegalAccessException e) {
+        LoggerUtils.logException(e);
+      }
+    });
+  }
+
+  private static void deviceControllers() {
+    ClassDiscoverer.getThings().forEach(klass -> {
+      try {
+        Thing t = klass.newInstance();
+        ThingServiceFactory thingServiceFactory = t.getFactory();
+        ThingController controller = new ThingController(thingServiceFactory, klass);
+
+        Spark.get("/devices/" + t.getStringRepresentation(), controller::get);
+        Spark.put("/devices/" + t.getStringRepresentation(), controller::put);
+      } catch (InstantiationException | IllegalAccessException e) {
+        LoggerUtils.logException(e);
+      }
+    });
   }
 }

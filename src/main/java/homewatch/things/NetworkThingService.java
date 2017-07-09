@@ -2,7 +2,7 @@ package homewatch.things;
 
 import java.util.Map;
 
-public abstract class NetworkThingService<T> extends ThingService<T> {
+public abstract class NetworkThingService<T extends Thing> extends ThingService<T> {
   private String address;
   private Integer port = null;
 
@@ -36,16 +36,16 @@ public abstract class NetworkThingService<T> extends ThingService<T> {
 
   @Override
   public void setAttributes(Map<String, ?> attributes) {
-    String address = this.getAttribute(attributes, "address", String.class);
-    String port = this.getAttribute(attributes, "port", String.class);
+    String addressString = this.getAttribute(attributes, "address", String.class);
+    String portString = this.getAttribute(attributes, "port", String.class);
 
-    if (address == null) {
+    if (addressString == null) {
       throw new IllegalArgumentException("missing address");
     }
 
     try {
-      this.address = address;
-      this.port = (port == null) ? null : Integer.parseInt(port);
+      this.address = addressString;
+      this.port = (portString == null) ? null : Integer.parseInt(portString);
     } catch (NumberFormatException ex) {
       throw new IllegalArgumentException("invalid port");
     }

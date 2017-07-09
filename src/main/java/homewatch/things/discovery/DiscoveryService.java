@@ -4,6 +4,7 @@ import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.NetworkThingService;
 import homewatch.things.NetworkThingServiceFactory;
+import homewatch.things.Thing;
 import org.apache.commons.net.util.SubnetUtils;
 
 import java.net.*;
@@ -12,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class DiscoveryService<T> {
+public class DiscoveryService<T extends Thing> {
   private final CompletionService<NetworkThingService<T>> completionService;
   private final List<NetworkThingService<T>> things;
   private final NetworkThingServiceFactory<T> serviceFactory;

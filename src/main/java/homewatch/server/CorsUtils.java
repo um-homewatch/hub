@@ -1,10 +1,13 @@
 package homewatch.server;
 
-import spark.Response;
 import spark.Request;
+import spark.Response;
 
-public class CorsUtils {
-  public static String corsOptions(Request request, Response response){
+class CorsUtils {
+  private CorsUtils() {
+  }
+
+  public static String corsOptions(Request request, Response response) {
     String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
     if (accessControlRequestHeaders != null) {
       response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);

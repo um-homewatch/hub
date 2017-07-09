@@ -5,8 +5,6 @@ import homewatch.things.NetworkThingService;
 import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
 
-import java.net.InetAddress;
-
 
 public class LightServiceFactory implements NetworkThingServiceFactory<Light> {
   @Override

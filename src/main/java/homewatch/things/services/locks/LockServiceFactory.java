@@ -5,8 +5,6 @@ import homewatch.things.NetworkThingService;
 import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
 
-import java.net.InetAddress;
-
 public class LockServiceFactory implements NetworkThingServiceFactory<Lock> {
   @Override
   public NetworkThingService<Lock> create(String address, Integer port, String subtype) throws InvalidSubTypeException {

@@ -1,11 +1,11 @@
-package homewatch.server.pojos;
+package homewatch.server.controllers;
 
 import spark.QueryParamsMap;
 
-public class ThingInfo {
+class ThingInfo {
   private final String subtype;
 
-  ThingInfo(String subtype) {
+  private ThingInfo(String subtype) {
     this.subtype = subtype;
   }
 

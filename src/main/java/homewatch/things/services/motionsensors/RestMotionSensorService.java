@@ -10,7 +10,6 @@ import homewatch.things.HttpThingService;
 import okhttp3.HttpUrl;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 class RestMotionSensorService extends HttpThingService<MotionSensor> {
   RestMotionSensorService() {

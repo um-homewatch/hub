@@ -7,10 +7,7 @@ import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.xml.sax.SAXException;
 import spark.Spark;
-
-import java.io.IOException;
 
 @Ignore
 @RunWith(PowerMockRunner.class)
@@ -18,11 +15,7 @@ import java.io.IOException;
 public class ServerRunner {
   @BeforeClass
   public static void setUpBaseClass() {
-    try {
-      Main.main(new String[1]);
-    } catch (IOException | SAXException e) {
-      e.printStackTrace();
-    }
+    Main.main(new String[1]);
   }
 
   @AfterClass

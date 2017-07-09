@@ -1,6 +1,6 @@
 package homewatch.things.services.weather;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.ThingService;
 import org.junit.Before;
@@ -22,7 +22,6 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(OWMWeatherService.class)
 public class TestOWMWeather {
-  private static final ObjectMapper OM = new ObjectMapper();
   private static final File fixture = new File("src/test/fixtures/owmweather.json");
   private static final Weather originalWeather = new Weather(7, 1.11, true, true);
   private ThingService<Weather> weatherService;
@@ -32,7 +31,7 @@ public class TestOWMWeather {
   public void setup() throws Exception {
     weatherService = spy(new OWMWeatherService());
 
-    doReturn(OM.readTree(fixture)).when(weatherService, "getWeatherData");
+    doReturn(JsonUtils.getOM().readTree(fixture)).when(weatherService, "getWeatherData");
   }
 
   @Test

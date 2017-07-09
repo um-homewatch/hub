@@ -1,21 +1,22 @@
 package homewatch.server.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
+import homewatch.things.Thing;
 import homewatch.things.ThingService;
+import homewatch.things.ThingServiceFactory;
 import spark.Request;
 import spark.Response;
 
 import java.io.IOException;
 
-public class ThingController<T> {
-  private final ObjectMapper objectMapper = new ObjectMapper();
+public class ThingController<T extends Thing> {
   private final ServiceHelper<T> serviceHelper;
   private final Class<T> klass;
 
-  public ThingController(ServiceHelper<T> serviceHelper, Class<T> klass) {
-    this.serviceHelper = serviceHelper;
+  public ThingController(ThingServiceFactory<T> thingServiceFactory, Class<T> klass) {
+    this.serviceHelper = new ServiceHelper<T>(thingServiceFactory);
     this.klass = klass;
   }
 
@@ -24,7 +25,7 @@ public class ThingController<T> {
       ThingService<T> thingService = serviceHelper.createService(req);
 
       res.status(200);
-      return objectMapper.writeValueAsString(thingService.get());
+      return JsonUtils.getOM().writeValueAsString(thingService.get());
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
@@ -34,12 +35,12 @@ public class ThingController<T> {
   public String put(Request req, Response res) throws NetworkException {
     try {
       ThingService<T> thingService = serviceHelper.createService(req);
-      T t = objectMapper.readValue(req.body(), this.klass);
+      T thing = JsonUtils.getOM().readValue(req.body(), this.klass);
 
-      T newT = thingService.put(t);
+      T newThing = thingService.put(thing);
 
       res.status(200);
-      return objectMapper.writeValueAsString(newT);
+      return JsonUtils.getOM().writeValueAsString(newThing);
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);

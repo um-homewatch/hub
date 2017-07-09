@@ -7,9 +7,11 @@ import spark.Spark;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 
-public class TokenSecurity {
+class TokenSecurity {
+  private TokenSecurity() {
+  }
+
   public static void perform() {
     try {
       String token = Files.toString(new File("./token"), Charsets.UTF_8).trim();

@@ -38,7 +38,7 @@ public class TestLightController extends ServerRunner {
   @BeforeClass
   public static void setup() throws IOException, SAXException {
     QUERY_STRING = new HashMap<>();
-    QUERY_STRING.put("address", "localhost");
+    QUERY_STRING.put("address", "127.0.0.1");
     QUERY_STRING.put("port", 8080);
     QUERY_STRING.put("subtype", "rest");
 
@@ -52,7 +52,7 @@ public class TestLightController extends ServerRunner {
   public void getRest() throws UnknownHostException, NetworkException, UnirestException {
     LightStubs.stubGetRest(wireMockRule, true);
 
-    boolean status = Unirest.get("http://localhost:4567/devices/lights")
+    boolean status = Unirest.get("http://127.0.0.1:4567/devices/lights")
         .queryString(QUERY_STRING)
         .asJson()
         .getBody()
