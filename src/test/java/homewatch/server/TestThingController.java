@@ -3,12 +3,17 @@ package homewatch.server;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import homewatch.constants.JsonUtils;
 import homewatch.things.ServerRunner;
+import homewatch.things.services.lights.Light;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
+import java.util.Random;
+
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+import static homewatch.constants.JsonUtils.getOM;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -46,5 +51,30 @@ public class TestThingController extends ServerRunner {
         .getStatus();
 
     assertThat(status, is(400));
+  }
+
+  @Test
+  public void errorUnknownHostGet() throws UnirestException {
+    int status = Unirest.get("http://localhost:4567/devices/lights")
+        .queryString("address", "ehuehuehe")
+        .queryString("subtype", "rest")
+        .asJson()
+        .getStatus();
+
+    assertThat(status, is(404));
+  }
+
+  @Test
+  public void errorUnknownHostPut() throws UnirestException {
+    String payload = String.format("{ \"on\": %b }", new Random().nextBoolean());
+
+    int status = Unirest.put("http://localhost:4567/devices/lights")
+        .queryString("address", "ehuehuehe")
+        .queryString("subtype", "rest")
+        .body(payload)
+        .asJson()
+        .getStatus();
+
+    assertThat(status, is(404));
   }
 }
