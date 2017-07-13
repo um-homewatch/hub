@@ -14,20 +14,12 @@ class Routes {
   }
 
   public static void perform() {
+    Spark.get("/tunnel", NgrokController::get);
     discoveryControllers();
     deviceControllers();
-
-    Spark.get("/tunnel", NgrokController::get);
-    Spark.options("/tunnel", CorsUtils::corsOptions);
-
-    //enable cors for tunnel endpoint
-    Spark.before("/tunnel", ((request, response) -> {
-      response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-      response.header("Access-Control-Allow-Origin", "*");
-      response.header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
-    }));
   }
 
+  @SuppressWarnings("unchecked")
   private static void discoveryControllers() {
     ClassDiscoverer.getThings().forEach(klass -> {
       try {
@@ -44,15 +36,15 @@ class Routes {
     });
   }
 
+  @SuppressWarnings("unchecked")
   private static void deviceControllers() {
     ClassDiscoverer.getThings().forEach(klass -> {
       try {
-        Thing t = klass.newInstance();
-        ThingServiceFactory thingServiceFactory = t.getFactory();
-        ThingController controller = new ThingController(thingServiceFactory, klass);
+        Thing thing = klass.newInstance();
+        ThingController controller = new ThingController(thing.getFactory(), klass);
 
-        Spark.get("/devices/" + t.getStringRepresentation(), controller::get);
-        Spark.put("/devices/" + t.getStringRepresentation(), controller::put);
+        Spark.get("/devices/" + thing.getStringRepresentation(), controller::get);
+        Spark.put("/devices/" + thing.getStringRepresentation(), controller::put);
       } catch (InstantiationException | IllegalAccessException e) {
         LoggerUtils.logException(e);
       }

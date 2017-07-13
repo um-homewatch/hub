@@ -1,8 +1,8 @@
 package homewatch.things.services.motionsensors;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import homewatch.stubs.MotionSensorStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.stubs.MotionSensorStubs;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

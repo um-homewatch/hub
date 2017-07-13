@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 public class HttpUtils {
-  static final MediaType MEDIATYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+  private static final MediaType MEDIATYPE_JSON = MediaType.parse("application/json; charset=utf-8");
 
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
 

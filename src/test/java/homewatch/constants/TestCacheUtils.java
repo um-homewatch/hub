@@ -27,7 +27,7 @@ public class TestCacheUtils {
 
     assertThat(foo, is("foo".getBytes()));
 
-    HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080")).getPayload().toString();
+    HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080"));
 
     wireMockRule.verify(1, getRequestedFor(urlPathEqualTo("/")));
   }

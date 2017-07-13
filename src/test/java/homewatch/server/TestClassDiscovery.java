@@ -17,7 +17,7 @@ import static org.hamcrest.core.Is.is;
 public class TestClassDiscovery {
   @Test
   public void testClasses() {
-    Set<Class<? extends Thing>> classes = Sets.newHashSet(Light.class, Weather.class, Thermostat.class, MotionSensor.class, Lock.class);
+    Set<Class> classes = Sets.newHashSet(Light.class, Weather.class, Thermostat.class, MotionSensor.class, Lock.class);
     Set<Class<? extends Thing>> scannedClasses = ClassDiscoverer.getThings();
 
     assertThat(scannedClasses, is(classes));

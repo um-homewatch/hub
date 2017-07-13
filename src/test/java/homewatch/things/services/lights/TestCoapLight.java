@@ -27,8 +27,6 @@ public class TestCoapLight {
 
   @BeforeClass
   public static void setup() throws UnknownHostException, NetworkException {
-    String ADDRESS = String.format("coap://%s/status", InetAddress.getLocalHost().getHostAddress());
-
     lightService = new CoapLightService(InetAddress.getLocalHost().getHostName());
   }
 

@@ -1,8 +1,8 @@
 package homewatch.things.services.thermostat;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import homewatch.stubs.ThermostatStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.stubs.ThermostatStubs;
 import homewatch.things.ThingService;
 import org.junit.BeforeClass;
 import org.junit.Rule;

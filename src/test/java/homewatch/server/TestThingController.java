@@ -3,9 +3,7 @@ package homewatch.server;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import homewatch.constants.JsonUtils;
 import homewatch.things.ServerRunner;
-import homewatch.things.services.lights.Light;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -13,7 +11,6 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import java.util.Random;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
-import static homewatch.constants.JsonUtils.getOM;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
