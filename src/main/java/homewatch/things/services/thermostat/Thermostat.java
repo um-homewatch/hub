@@ -24,7 +24,7 @@ public class Thermostat implements Thing {
   }
 
   @Override
-  public ThingServiceFactory getFactory() {
+  public ThingServiceFactory<Thermostat> getFactory() {
     return new ThermostatServiceFactory();
   }
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public interface Thing {
   @JsonIgnore
-  public ThingServiceFactory getFactory();
+  public ThingServiceFactory<? extends Thing> getFactory();
 
   @JsonIgnore
   public String getStringRepresentation();
