@@ -18,14 +18,9 @@ class Routes {
     deviceControllers();
 
     Spark.get("/tunnel", NgrokController::get);
-    Spark.options("/tunnel", CorsUtils::corsOptions);
 
-    //enable cors for tunnel endpoint
-    Spark.before("/tunnel", ((request, response) -> {
-      response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-      response.header("Access-Control-Allow-Origin", "*");
-      response.header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
-    }));
+    Spark.options("/tunnel", CorsUtils::corsOptions);
+    Spark.before("/tunnel", CorsUtils::corsBeforeFilter);
   }
 
   private static void discoveryControllers() {
