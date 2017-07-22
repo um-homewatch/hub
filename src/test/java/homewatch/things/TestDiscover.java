@@ -2,7 +2,7 @@ package homewatch.things;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.stubs.LightStubs;
-import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
 import homewatch.things.services.lights.Light;
 import homewatch.things.services.lights.LightServiceFactory;
 import org.junit.Rule;
@@ -23,7 +23,7 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(DiscoveryService.class)
+@PrepareForTest(NetworkThingDiscoveryService.class)
 @PowerMockIgnore("javax.net.ssl.*")
 public class TestDiscover {
   @Rule
@@ -33,11 +33,11 @@ public class TestDiscover {
   public void discoverRestLights() throws Exception {
     LightStubs.stubGetRest(wireMockRule, true);
 
-    DiscoveryService<Light> discoveryService = spy(new DiscoveryService<>(new LightServiceFactory(), "rest", 8080));
+    NetworkThingDiscoveryService<Light> networkThingDiscoveryService = spy(new NetworkThingDiscoveryService<>(new LightServiceFactory(), "rest", 8080));
 
-    doReturn(Collections.singletonList(InetAddress.getLocalHost().getHostAddress())).when(discoveryService, "getAddressList");
+    doReturn(Collections.singletonList(InetAddress.getLocalHost().getHostAddress())).when(networkThingDiscoveryService, "getAddressList");
 
-    List<NetworkThingService<Light>> lights = discoveryService.discovery();
+    List<ThingService<Light>> lights = networkThingDiscoveryService.perform();
 
     assertThat(lights.size(), is(1));
   }

@@ -46,7 +46,7 @@ public class Light implements Thing {
   @Override
   public String toString() {
     return "Light{" +
-        "on=" + on +
-        '}';
+            "on=" + on +
+            '}';
   }
 }

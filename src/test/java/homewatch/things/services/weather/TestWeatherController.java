@@ -4,8 +4,8 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
-import homewatch.stubs.WeatherStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.stubs.WeatherStubs;
 import homewatch.things.ServerRunner;
 import org.junit.Before;
 import org.junit.Rule;
@@ -51,10 +51,10 @@ public class TestWeatherController extends ServerRunner {
     mockOWM();
 
     String json = Unirest.get("http://localhost:4567/devices/weather")
-        .queryString("subtype", "owm")
-        .asJson()
-        .getBody()
-        .toString();
+            .queryString("subtype", "owm")
+            .asJson()
+            .getBody()
+            .toString();
 
     Weather weather = JsonUtils.getOM().readValue(json, Weather.class);
 
@@ -66,12 +66,12 @@ public class TestWeatherController extends ServerRunner {
     WeatherStubs.stubGetStatus(wireMockRule, originalWeather);
 
     String json = Unirest.get("http://localhost:4567/devices/weather")
-        .queryString("address", "localhost")
-        .queryString("port", 8080)
-        .queryString("subtype", "rest")
-        .asJson()
-        .getBody()
-        .toString();
+            .queryString("address", "localhost")
+            .queryString("port", 8080)
+            .queryString("subtype", "rest")
+            .asJson()
+            .getBody()
+            .toString();
 
     Weather weather = JsonUtils.getOM().readValue(json, Weather.class);
 

@@ -5,7 +5,7 @@ import com.mashape.unirest.http.Unirest;
 import homewatch.stubs.LightStubs;
 import homewatch.stubs.LockStubs;
 import homewatch.things.ServerRunner;
-import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,7 +26,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(DiscoveryService.class)
+@PrepareForTest(NetworkThingDiscoveryService.class)
 @PowerMockIgnore("javax.net.ssl.*")
 public class TestDiscover extends ServerRunner {
   @Rule
@@ -38,8 +38,8 @@ public class TestDiscover extends ServerRunner {
   public void setup() throws UnknownHostException {
     addresses = Collections.singletonList(InetAddress.getLocalHost().getHostName());
 
-    PowerMockito.stub(PowerMockito.method(DiscoveryService.class, "getAddressList"))
-        .toReturn(addresses);
+    PowerMockito.stub(PowerMockito.method(NetworkThingDiscoveryService.class, "getAddressList"))
+            .toReturn(addresses);
   }
 
   @Test
@@ -47,9 +47,9 @@ public class TestDiscover extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     JSONObject json = Unirest.get("http://localhost:4567/devices/lights/discover")
-        .queryString("subtype", "rest")
-        .queryString("port", 8080)
-        .asJson().getBody().getArray().getJSONObject(0);
+            .queryString("subtype", "rest")
+            .queryString("port", 8080)
+            .asJson().getBody().getArray().getJSONObject(0);
 
     assertThat(json.get("address"), is(addresses.get(0)));
   }
@@ -59,9 +59,9 @@ public class TestDiscover extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/devices/lights/discover")
-        .queryString("subtype", "foo")
-        .asJson()
-        .getStatus();
+            .queryString("subtype", "foo")
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }
@@ -71,8 +71,8 @@ public class TestDiscover extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/devices/lights/discover")
-        .asJson()
-        .getStatus();
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }

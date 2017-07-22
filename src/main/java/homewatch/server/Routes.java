@@ -9,6 +9,7 @@ import homewatch.things.Thing;
 import homewatch.things.ThingServiceFactory;
 import spark.Spark;
 
+@SuppressWarnings("unchecked")
 class Routes {
   private Routes() {
   }

@@ -4,8 +4,8 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
-import homewatch.stubs.MotionSensorStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.stubs.MotionSensorStubs;
 import homewatch.things.ServerRunner;
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,12 +35,12 @@ public class TestMotionSensorController extends ServerRunner {
     MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.hasMovement());
 
     String json = Unirest.get("http://localhost:4567/devices/motionsensors")
-        .queryString("address", "localhost")
-        .queryString("port", 8080)
-        .queryString("subtype", "rest")
-        .asJson()
-        .getBody()
-        .toString();
+            .queryString("address", "localhost")
+            .queryString("port", 8080)
+            .queryString("subtype", "rest")
+            .asJson()
+            .getBody()
+            .toString();
 
     MotionSensor motionsensor = JsonUtils.getOM().readValue(json, MotionSensor.class);
 

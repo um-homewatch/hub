@@ -1,8 +1,8 @@
 package homewatch.things.services.weather;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import homewatch.stubs.WeatherStubs;
 import homewatch.exceptions.NetworkException;
+import homewatch.stubs.WeatherStubs;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

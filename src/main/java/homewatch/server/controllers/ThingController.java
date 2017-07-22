@@ -16,7 +16,7 @@ public class ThingController<T extends Thing> {
   private final Class<T> klass;
 
   public ThingController(ThingServiceFactory<T> thingServiceFactory, Class<T> klass) {
-    this.serviceHelper = new ServiceHelper<T>(thingServiceFactory);
+    this.serviceHelper = new ServiceHelper<>(thingServiceFactory);
     this.klass = klass;
   }
 
