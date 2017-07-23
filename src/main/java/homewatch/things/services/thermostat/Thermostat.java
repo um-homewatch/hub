@@ -24,7 +24,7 @@ public class Thermostat implements Thing {
   }
 
   @Override
-  public ThingServiceFactory getFactory() {
+  public ThingServiceFactory<Thermostat> getFactory() {
     return new ThermostatServiceFactory();
   }
 
@@ -52,7 +52,7 @@ public class Thermostat implements Thing {
   @Override
   public String toString() {
     return "Thermostat{" +
-            "targetTemperature=" + targetTemperature +
-            '}';
+        "targetTemperature=" + targetTemperature +
+        '}';
   }
 }

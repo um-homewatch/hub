@@ -5,6 +5,7 @@ import okhttp3.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 public class HttpUtils {
@@ -33,10 +34,10 @@ public class HttpUtils {
 
   private static OkHttpClient timeoutHttpClient(int connectionTimeout, int socketTimeout) {
     return new OkHttpClient.Builder()
-            .connectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
-            .writeTimeout(socketTimeout, TimeUnit.MILLISECONDS)
-            .readTimeout(socketTimeout, TimeUnit.MILLISECONDS)
-            .build();
+        .connectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
+        .writeTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+        .readTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+        .build();
   }
 
   private static ThingResponse internalPut(HttpUrl url, JSONObject jsonBody, OkHttpClient httpClient) throws NetworkException {
@@ -50,6 +51,8 @@ public class HttpUtils {
       analyzeStatusCode(response);
 
       return new ThingResponse(response.body().bytes(), response.code());
+    } catch (UnknownHostException e) {
+      throw new NetworkException(e, 404);
     } catch (IOException e) {
       throw new NetworkException(e, 500);
     }
@@ -64,6 +67,8 @@ public class HttpUtils {
       analyzeStatusCode(response);
 
       return new ThingResponse(response.body().bytes(), response.code());
+    } catch (UnknownHostException e) {
+      throw new NetworkException(e, 404);
     } catch (IOException e) {
       throw new NetworkException(e, 500);
     }

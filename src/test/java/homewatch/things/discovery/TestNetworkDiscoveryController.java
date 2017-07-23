@@ -1,11 +1,10 @@
-package homewatch.server;
+package homewatch.things.discovery;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import homewatch.stubs.LightStubs;
 import homewatch.stubs.LockStubs;
 import homewatch.things.ServerRunner;
-import homewatch.things.discovery.NetworkThingDiscoveryService;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,6 +16,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
@@ -26,20 +26,20 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(NetworkThingDiscoveryService.class)
+@PrepareForTest(NetworkInterfaceUtils.class)
 @PowerMockIgnore("javax.net.ssl.*")
-public class TestDiscover extends ServerRunner {
+public class TestNetworkDiscoveryController extends ServerRunner {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(options().port(8080).bindAddress("0.0.0.0"));
 
   private List<String> addresses;
 
   @Before
-  public void setup() throws UnknownHostException {
+  public void setup() throws UnknownHostException, SocketException {
     addresses = Collections.singletonList(InetAddress.getLocalHost().getHostName());
 
-    PowerMockito.stub(PowerMockito.method(NetworkThingDiscoveryService.class, "getAddressList"))
-            .toReturn(addresses);
+    PowerMockito.mockStatic(NetworkInterfaceUtils.class);
+    PowerMockito.when(NetworkInterfaceUtils.getAddressesInNetwork()).thenReturn(addresses);
   }
 
   @Test
@@ -47,9 +47,9 @@ public class TestDiscover extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     JSONObject json = Unirest.get("http://localhost:4567/devices/lights/discover")
-            .queryString("subtype", "rest")
-            .queryString("port", 8080)
-            .asJson().getBody().getArray().getJSONObject(0);
+        .queryString("subtype", "rest")
+        .queryString("port", 8080)
+        .asJson().getBody().getArray().getJSONObject(0);
 
     assertThat(json.get("address"), is(addresses.get(0)));
   }
@@ -59,9 +59,9 @@ public class TestDiscover extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/devices/lights/discover")
-            .queryString("subtype", "foo")
-            .asJson()
-            .getStatus();
+        .queryString("subtype", "foo")
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
@@ -71,8 +71,8 @@ public class TestDiscover extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/devices/lights/discover")
-            .asJson()
-            .getStatus();
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }

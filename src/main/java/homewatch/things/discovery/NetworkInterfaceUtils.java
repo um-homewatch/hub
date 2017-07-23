@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 class NetworkInterfaceUtils {
+  private NetworkInterfaceUtils() {
+  }
+
   static List<String> getAddressesInNetwork() throws SocketException {
     List<String> addresses = new LinkedList<>();
     NetworkInterface networkInterface = getNetworkInterface();

@@ -19,7 +19,7 @@ public class Lock implements Thing {
   }
 
   @Override
-  public ThingServiceFactory getFactory() {
+  public ThingServiceFactory<Lock> getFactory() {
     return new LockServiceFactory();
   }
 
@@ -46,7 +46,7 @@ public class Lock implements Thing {
   @Override
   public String toString() {
     return "Lock{" +
-            "locked=" + locked +
-            '}';
+        "locked=" + locked +
+        '}';
   }
 }

@@ -42,7 +42,7 @@ public class Weather implements Thing {
   }
 
   @Override
-  public ThingServiceFactory getFactory() {
+  public ThingServiceFactory<Weather> getFactory() {
     return new WeatherServiceFactory();
   }
 
@@ -80,10 +80,10 @@ public class Weather implements Thing {
   @Override
   public String toString() {
     return "Weather{" +
-            "temperature=" + temperature +
-            ", windSpeed=" + windSpeed +
-            ", raining=" + raining +
-            ", cloudy=" + cloudy +
-            '}';
+        "temperature=" + temperature +
+        ", windSpeed=" + windSpeed +
+        ", raining=" + raining +
+        ", cloudy=" + cloudy +
+        '}';
   }
 }

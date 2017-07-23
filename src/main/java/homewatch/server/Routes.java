@@ -19,9 +19,6 @@ class Routes {
     deviceControllers();
 
     Spark.get("/tunnel", NgrokController::get);
-
-    Spark.options("/tunnel", CorsUtils::corsOptions);
-    Spark.before("/tunnel", CorsUtils::corsBeforeFilter);
   }
 
   private static void discoveryControllers() {
@@ -32,7 +29,8 @@ class Routes {
 
         if (thingServiceFactory instanceof NetworkThingServiceFactory) {
           NetworkThingServiceFactory networkThingServiceFactory = (NetworkThingServiceFactory) t.getFactory();
-          Spark.get("/devices/" + t.getStringRepresentation() + "/discover", new DiscoveryController<>(networkThingServiceFactory)::get);
+          DiscoveryController discoveryController = new DiscoveryController<>(networkThingServiceFactory);
+          Spark.get("/devices/" + t.getStringRepresentation() + "/discover", discoveryController::get);
         }
       } catch (InstantiationException | IllegalAccessException e) {
         LoggerUtils.logException(e);

@@ -19,7 +19,7 @@ public class Light implements Thing {
   }
 
   @Override
-  public ThingServiceFactory getFactory() {
+  public ThingServiceFactory<Light> getFactory() {
     return new LightServiceFactory();
   }
 
@@ -46,7 +46,7 @@ public class Light implements Thing {
   @Override
   public String toString() {
     return "Light{" +
-            "on=" + on +
-            '}';
+        "on=" + on +
+        '}';
   }
 }

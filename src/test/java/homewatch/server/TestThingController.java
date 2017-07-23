@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
+import java.util.Random;
+
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -20,8 +22,8 @@ public class TestThingController extends ServerRunner {
   @Test
   public void errorInvalidArgument() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/devices/lights")
-            .asJson()
-            .getStatus();
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
@@ -29,10 +31,10 @@ public class TestThingController extends ServerRunner {
   @Test
   public void errorInvalidSubTypeGet() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/devices/lights")
-            .queryString("address", "192.168.1.1")
-            .queryString("subtype", "cenas")
-            .asJson()
-            .getStatus();
+        .queryString("address", "192.168.1.1")
+        .queryString("subtype", "cenas")
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
   }
@@ -40,11 +42,36 @@ public class TestThingController extends ServerRunner {
   @Test
   public void errorInvalidSubTypePut() throws UnirestException {
     int status = Unirest.put("http://localhost:4567/devices/lights")
-            .queryString("address", "192.168.1.1")
-            .queryString("subtype", "cenas")
-            .asJson()
-            .getStatus();
+        .queryString("address", "192.168.1.1")
+        .queryString("subtype", "cenas")
+        .asJson()
+        .getStatus();
 
     assertThat(status, is(400));
+  }
+
+  @Test
+  public void errorUnknownHostGet() throws UnirestException {
+    int status = Unirest.get("http://localhost:4567/devices/lights")
+        .queryString("address", "ehuehuehe")
+        .queryString("subtype", "rest")
+        .asJson()
+        .getStatus();
+
+    assertThat(status, is(404));
+  }
+
+  @Test
+  public void errorUnknownHostPut() throws UnirestException {
+    String payload = String.format("{ \"on\": %b }", new Random().nextBoolean());
+
+    int status = Unirest.put("http://localhost:4567/devices/lights")
+        .queryString("address", "ehuehuehe")
+        .queryString("subtype", "rest")
+        .body(payload)
+        .asJson()
+        .getStatus();
+
+    assertThat(status, is(404));
   }
 }
