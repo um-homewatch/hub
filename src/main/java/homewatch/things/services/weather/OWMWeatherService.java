@@ -3,6 +3,7 @@ package homewatch.things.services.weather;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
+import homewatch.exceptions.ReadOnlyDeviceException;
 import homewatch.net.HttpCachingUtils;
 import homewatch.things.ThingService;
 import okhttp3.HttpUrl;
@@ -10,7 +11,6 @@ import okhttp3.HttpUrl;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 class OWMWeatherService extends ThingService<Weather> {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
@@ -29,7 +29,7 @@ class OWMWeatherService extends ThingService<Weather> {
 
   @Override
   public Weather put(Weather weather) throws NetworkException {
-    throw new UnsupportedOperationException();
+    throw new ReadOnlyDeviceException();
   }
 
   @Override

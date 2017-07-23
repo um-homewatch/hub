@@ -3,7 +3,6 @@ package homewatch.net;
 import homewatch.exceptions.NetworkException;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
-import org.eclipse.californium.core.coap.CoAP;
 
 public class CoapUtils {
   public static final int JSON_FORMAT = 50;

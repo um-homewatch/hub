@@ -1,7 +1,6 @@
 package homewatch.things.services.thermostat;
 
 import homewatch.things.Thing;
-import homewatch.things.ThingServiceFactory;
 
 public class Thermostat implements Thing {
   //celsius

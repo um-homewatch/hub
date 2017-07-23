@@ -2,7 +2,6 @@ package homewatch.things.services.motionsensors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import homewatch.things.Thing;
-import homewatch.things.ThingServiceFactory;
 
 public class MotionSensor implements Thing {
   @JsonProperty

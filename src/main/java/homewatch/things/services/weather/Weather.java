@@ -2,7 +2,6 @@ package homewatch.things.services.weather;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import homewatch.things.Thing;
-import homewatch.things.ThingServiceFactory;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather implements Thing {

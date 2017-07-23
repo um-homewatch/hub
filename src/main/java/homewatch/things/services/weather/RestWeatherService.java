@@ -3,6 +3,7 @@ package homewatch.things.services.weather;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
+import homewatch.exceptions.ReadOnlyDeviceException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
@@ -37,7 +38,7 @@ public class RestWeatherService extends HttpThingService<Weather> {
 
   @Override
   public Weather put(Weather weather) throws NetworkException {
-    throw new UnsupportedOperationException();
+    throw new ReadOnlyDeviceException();
   }
 
   @Override

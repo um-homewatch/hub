@@ -1,7 +1,6 @@
 package homewatch.things.services.lights;
 
 import homewatch.things.Thing;
-import homewatch.things.ThingServiceFactory;
 
 public class Light implements Thing {
   private final boolean on;

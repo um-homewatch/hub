@@ -2,7 +2,6 @@ package homewatch.things.services.locks;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;

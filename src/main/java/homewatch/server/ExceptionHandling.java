@@ -5,6 +5,7 @@ import homewatch.constants.JsonUtils;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
+import homewatch.exceptions.ReadOnlyDeviceException;
 import spark.Response;
 import spark.Spark;
 
@@ -14,8 +15,8 @@ class ExceptionHandling {
 
   public static void perform() {
     Spark.exception(IllegalArgumentException.class, (exception, req, res) -> resolveException(exception, res, 400));
-
     Spark.exception(InvalidSubTypeException.class, (exception, req, res) -> resolveException(exception, res, 400));
+    Spark.exception(ReadOnlyDeviceException.class, (exception, req, res) -> resolveException(exception, res, 404));
 
     Spark.exception(NetworkException.class, (exception, req, res) -> {
       NetworkException networkException = (NetworkException) exception;

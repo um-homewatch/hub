@@ -1,7 +1,6 @@
 package homewatch.things.services.locks;
 
 import homewatch.things.Thing;
-import homewatch.things.ThingServiceFactory;
 
 public class Lock implements Thing {
   private final boolean locked;

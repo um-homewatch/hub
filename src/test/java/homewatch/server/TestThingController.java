@@ -74,4 +74,30 @@ public class TestThingController extends ServerRunner {
 
     assertThat(status, is(404));
   }
+
+  @Test
+  public void errorEmptyBodyPut() throws UnirestException {
+    String payload = String.format("{ \"on\": %b }", new Random().nextBoolean());
+
+    int status = Unirest.put("http://localhost:4567/devices/lights")
+        .queryString("address", "localhost")
+        .queryString("subtype", "rest")
+        .asJson()
+        .getStatus();
+
+    assertThat(status, is(400));
+  }
+
+  @Test
+  public void errorReadOnlyDevicePut() throws UnirestException {
+    String payload = String.format("{ \"on\": %b }", new Random().nextBoolean());
+
+    int status = Unirest.put("http://localhost:4567/devices/weather")
+        .queryString("subtype", "owm")
+        .body(payload)
+        .asJson()
+        .getStatus();
+
+    assertThat(status, is(404));
+  }
 }

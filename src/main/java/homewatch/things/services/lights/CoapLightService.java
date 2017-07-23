@@ -2,7 +2,6 @@ package homewatch.things.services.lights;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.CoapUtils;
 import homewatch.net.ThingResponse;

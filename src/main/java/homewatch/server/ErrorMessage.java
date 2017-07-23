@@ -13,4 +13,8 @@ class ErrorMessage {
   public String getMessage() {
     return e.getMessage();
   }
+
+  public String getExceptionMessage() {
+    return e.getClass().getSimpleName();
+  }
 }

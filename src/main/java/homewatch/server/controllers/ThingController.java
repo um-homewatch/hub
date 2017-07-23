@@ -35,7 +35,7 @@ public class ThingController<T extends Thing> {
   public String put(Request req, Response res) throws NetworkException {
     try {
       ThingService<T> thingService = serviceHelper.createService(req);
-      T thing = JsonUtils.getOM().readValue(req.body(), this.klass);
+      T thing = this.bodyToThing(req.body());
 
       T newThing = thingService.put(thing);
 
@@ -44,6 +44,14 @@ public class ThingController<T extends Thing> {
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
+    }
+  }
+
+  private T bodyToThing(String body) throws NetworkException {
+    try {
+      return JsonUtils.getOM().readValue(body, this.klass);
+    } catch (IOException e) {
+      throw new NetworkException(e, 400);
     }
   }
 }

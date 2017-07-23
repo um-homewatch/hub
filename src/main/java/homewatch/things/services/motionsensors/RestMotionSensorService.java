@@ -2,8 +2,8 @@ package homewatch.things.services.motionsensors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
-import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.NetworkException;
+import homewatch.exceptions.ReadOnlyDeviceException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
@@ -37,7 +37,7 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
 
   @Override
   public MotionSensor put(MotionSensor motionsensor) throws NetworkException {
-    throw new UnsupportedOperationException();
+    throw new ReadOnlyDeviceException();
   }
 
   @Override
