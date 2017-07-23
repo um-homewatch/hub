@@ -19,8 +19,6 @@ class Routes {
     deviceControllers();
 
     Spark.get("/tunnel", NgrokController::get);
-    Spark.options("/tunnel", CorsUtils::corsOptions);
-    Spark.before("/tunnel", CorsUtils::corsBeforeFilter);
   }
 
   private static void discoveryControllers() {
