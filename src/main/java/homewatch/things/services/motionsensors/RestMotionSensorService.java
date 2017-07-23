@@ -45,7 +45,6 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
     try {
       return HttpUtils.get(this.baseUrl()).getStatusCode() == 200;
     } catch (NetworkException e) {
-      LoggerUtils.logException(e);
       return false;
     }
   }

@@ -56,7 +56,6 @@ class CoapLightService extends CoapThingService<Light> {
 
       return true;
     } catch (NetworkException e) {
-      LoggerUtils.logException(e);
       return false;
     }
   }

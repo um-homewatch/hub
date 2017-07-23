@@ -37,6 +37,7 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -110,7 +111,7 @@
         <dependency>
             <groupId>org.eclipse.californium</groupId>
             <artifactId>californium-core</artifactId>
-            <version>1.0.4</version>
+            <version>1.0.6</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>

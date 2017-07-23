@@ -11,13 +11,11 @@ import java.util.concurrent.TimeUnit;
 public class HttpUtils {
   private static final MediaType MEDIATYPE_JSON = MediaType.parse("application/json; charset=utf-8");
 
-  private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
-
   private HttpUtils() {
   }
 
   public static ThingResponse put(HttpUrl url, JSONObject jsonBody) throws NetworkException {
-    return internalPut(url, jsonBody, HTTP_CLIENT);
+    return internalPut(url, jsonBody,  new OkHttpClient());
   }
 
   public static ThingResponse put(HttpUrl url, JSONObject jsonBody, int connectionTimeout, int socketTimeout) throws NetworkException {
@@ -25,7 +23,7 @@ public class HttpUtils {
   }
 
   public static ThingResponse get(HttpUrl url) throws NetworkException {
-    return internalGet(url, HTTP_CLIENT);
+    return internalGet(url,  new OkHttpClient());
   }
 
   public static ThingResponse get(HttpUrl url, int connectionTimeout, int socketTimeout) throws NetworkException {

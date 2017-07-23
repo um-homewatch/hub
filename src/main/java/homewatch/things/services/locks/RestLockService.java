@@ -55,7 +55,6 @@ class RestLockService extends HttpThingService<Lock> {
     try {
       return HttpUtils.get(this.baseUrl()).getStatusCode() == 200;
     } catch (NetworkException e) {
-      LoggerUtils.logException(e);
       return false;
     }
   }

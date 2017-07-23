@@ -1,5 +1,7 @@
 package homewatch.things;
 
+import homewatch.exceptions.NetworkException;
+
 public abstract class CoapThingService<T extends Thing> extends NetworkThingService<T> {
   protected CoapThingService() {
   }

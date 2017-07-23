@@ -62,12 +62,16 @@ public class NetworkThingDiscoveryService<T extends Thing> implements DiscoveryS
 
   private void pingAddress(String address) {
     this.completionService.submit(() -> {
-      String hostname = InetAddress.getByName(address).getHostName();
-      NetworkThingService<T> thingService = this.serviceFactory.create(hostname, this.port, subtype);
+      try {
+        String hostname = InetAddress.getByName(address).getHostName();
+        NetworkThingService<T> thingService = this.serviceFactory.create(hostname, this.port, subtype);
 
-      boolean on = thingService.ping();
+        boolean on = thingService.ping();
 
-      return on ? thingService : null;
+        return on ? thingService : null;
+      } catch (Exception e) {
+        return null;
+      }
     });
   }
 }

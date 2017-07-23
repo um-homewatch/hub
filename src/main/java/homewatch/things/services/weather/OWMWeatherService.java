@@ -38,7 +38,6 @@ class OWMWeatherService extends ThingService<Weather> {
       get();
       return true;
     } catch (NetworkException e) {
-      Logger.getGlobal().info("FAILED PING REASON:" + e);
       return false;
     }
   }
