@@ -9,17 +9,20 @@ import homewatch.things.Thing;
 import homewatch.things.ThingServiceFactory;
 import spark.Spark;
 
+@SuppressWarnings("unchecked")
 class Routes {
   private Routes() {
   }
 
   public static void perform() {
-    Spark.get("/tunnel", NgrokController::get);
     discoveryControllers();
     deviceControllers();
+
+    Spark.get("/tunnel", NgrokController::get);
+    Spark.options("/tunnel", CorsUtils::corsOptions);
+    Spark.before("/tunnel", CorsUtils::corsBeforeFilter);
   }
 
-  @SuppressWarnings("unchecked")
   private static void discoveryControllers() {
     ClassDiscoverer.getThings().forEach(klass -> {
       try {
@@ -28,7 +31,8 @@ class Routes {
 
         if (thingServiceFactory instanceof NetworkThingServiceFactory) {
           NetworkThingServiceFactory networkThingServiceFactory = (NetworkThingServiceFactory) t.getFactory();
-          Spark.get("/devices/" + t.getStringRepresentation() + "/discover", new DiscoveryController<>(networkThingServiceFactory)::get);
+          DiscoveryController discoveryController = new DiscoveryController<>(networkThingServiceFactory);
+          Spark.get("/devices/" + t.getStringRepresentation() + "/discover", discoveryController::get);
         }
       } catch (InstantiationException | IllegalAccessException e) {
         LoggerUtils.logException(e);
@@ -36,15 +40,15 @@ class Routes {
     });
   }
 
-  @SuppressWarnings("unchecked")
   private static void deviceControllers() {
     ClassDiscoverer.getThings().forEach(klass -> {
       try {
-        Thing thing = klass.newInstance();
-        ThingController controller = new ThingController(thing.getFactory(), klass);
+        Thing t = klass.newInstance();
+        ThingServiceFactory thingServiceFactory = t.getFactory();
+        ThingController controller = new ThingController(thingServiceFactory, klass);
 
-        Spark.get("/devices/" + thing.getStringRepresentation(), controller::get);
-        Spark.put("/devices/" + thing.getStringRepresentation(), controller::put);
+        Spark.get("/devices/" + t.getStringRepresentation(), controller::get);
+        Spark.put("/devices/" + t.getStringRepresentation(), controller::put);
       } catch (InstantiationException | IllegalAccessException e) {
         LoggerUtils.logException(e);
       }

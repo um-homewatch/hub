@@ -24,10 +24,10 @@ public class TestCacheUtils {
         aResponse().withBody("foo")));
 
     byte[] foo = HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080")).getPayload();
+    int status = HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080")).getStatusCode();
 
     assertThat(foo, is("foo".getBytes()));
-
-    HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080"));
+    assertThat(status, is(200));
 
     wireMockRule.verify(1, getRequestedFor(urlPathEqualTo("/")));
   }

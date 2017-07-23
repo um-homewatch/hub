@@ -1,6 +1,8 @@
 package homewatch.things.services.lights;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.stubs.LightStubs;
 import homewatch.things.ThingService;
@@ -8,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -29,6 +32,8 @@ public class TestHueLight {
   public static void setup() throws IOException {
     lightService = new HueLightService(InetAddress.getLocalHost().getHostName(), PORT);
     lightService.setLightID(1);
+
+    JsonNode HUE_RESPONSE = JsonUtils.getOM().readTree(new File("src/test/fixtures/hue/get.json"));
   }
 
   @Test

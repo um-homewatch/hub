@@ -1,8 +1,10 @@
 package homewatch.things.services.lights;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.stubs.LightStubs;
 import homewatch.things.ServerRunner;
@@ -13,6 +15,7 @@ import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -41,6 +44,8 @@ public class TestLightController extends ServerRunner {
 
     JSON = new JSONObject();
     JSON.put("on", false);
+
+    JsonNode GET_HUE = JsonUtils.getOM().readTree(new File("src/test/fixtures/hue/get.json"));
   }
 
   @Test

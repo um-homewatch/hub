@@ -7,7 +7,7 @@ import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.exceptions.NetworkException;
 import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.Thing;
-import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
 import spark.Request;
 import spark.Response;
 
@@ -29,16 +29,16 @@ public class DiscoveryController<T extends Thing> {
       if (subtype == null)
         throw new IllegalArgumentException("missing subtype query param");
 
-      DiscoveryService<T> discoveryService;
+      NetworkThingDiscoveryService<T> networkThingDiscoveryService;
 
       if (port == null)
-        discoveryService = new DiscoveryService<>(httpThingService, subtype);
+        networkThingDiscoveryService = new NetworkThingDiscoveryService<>(httpThingService, subtype);
       else
-        discoveryService = new DiscoveryService<>(httpThingService, subtype, port);
+        networkThingDiscoveryService = new NetworkThingDiscoveryService<>(httpThingService, subtype, port);
 
       res.status(200);
 
-      return objectMapper.writeValueAsString(discoveryService.discovery());
+      return objectMapper.writeValueAsString(networkThingDiscoveryService.perform());
     } catch (IOException e) {
       LoggerUtils.logException(e);
       throw new NetworkException(e.getMessage(), 500);
