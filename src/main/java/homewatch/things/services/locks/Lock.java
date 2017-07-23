@@ -19,7 +19,7 @@ public class Lock implements Thing {
   }
 
   @Override
-  public ThingServiceFactory<Lock> getFactory() {
+  public LockServiceFactory getFactory() {
     return new LockServiceFactory();
   }
 

@@ -19,7 +19,7 @@ public class Light implements Thing {
   }
 
   @Override
-  public ThingServiceFactory<Light> getFactory() {
+  public LightServiceFactory getFactory() {
     return new LightServiceFactory();
   }
 

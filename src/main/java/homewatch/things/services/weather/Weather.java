@@ -42,7 +42,7 @@ public class Weather implements Thing {
   }
 
   @Override
-  public ThingServiceFactory<Weather> getFactory() {
+  public WeatherServiceFactory getFactory() {
     return new WeatherServiceFactory();
   }
 

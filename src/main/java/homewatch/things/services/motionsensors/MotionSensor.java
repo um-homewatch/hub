@@ -21,7 +21,7 @@ public class MotionSensor implements Thing {
   }
 
   @Override
-  public ThingServiceFactory<MotionSensor> getFactory() {
+  public MotionSensorServiceFactory getFactory() {
     return new MotionSensorServiceFactory();
   }
 
