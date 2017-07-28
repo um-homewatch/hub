@@ -6,8 +6,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
+import homewatch.server.ServerRunner;
 import homewatch.stubs.ThermostatStubs;
-import homewatch.things.ServerRunner;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -50,10 +50,10 @@ public class TestThermostatController extends ServerRunner {
     ThermostatStubs.stubGetStatus(wireMockRule, thermostat);
 
     double targetTemperature = Unirest.get("http://localhost:4567/devices/thermostats").queryString(QUERY_STRING)
-        .asJson()
-        .getBody()
-        .getObject()
-        .getDouble("targetTemperature");
+            .asJson()
+            .getBody()
+            .getObject()
+            .getDouble("targetTemperature");
 
     assertThat(targetTemperature, is(thermostat.getTargetTemperature()));
   }
@@ -64,12 +64,12 @@ public class TestThermostatController extends ServerRunner {
     ThermostatStubs.stubPutStatus(wireMockRule, thermostat);
 
     double targetTemperature = Unirest.put("http://localhost:4567/devices/thermostats")
-        .queryString(QUERY_STRING)
-        .body(JsonUtils.getOM().writeValueAsString(thermostat))
-        .asJson()
-        .getBody()
-        .getObject()
-        .getDouble("targetTemperature");
+            .queryString(QUERY_STRING)
+            .body(JsonUtils.getOM().writeValueAsString(thermostat))
+            .asJson()
+            .getBody()
+            .getObject()
+            .getDouble("targetTemperature");
 
 
     assertThat(targetTemperature, is(thermostat.getTargetTemperature()));

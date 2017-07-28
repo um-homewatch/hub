@@ -3,7 +3,6 @@ package homewatch.server;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import homewatch.things.ServerRunner;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -22,8 +21,8 @@ public class TestThingController extends ServerRunner {
   @Test
   public void errorInvalidArgument() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/devices/lights")
-        .asJson()
-        .getStatus();
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }
@@ -31,10 +30,10 @@ public class TestThingController extends ServerRunner {
   @Test
   public void errorInvalidSubTypeGet() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/devices/lights")
-        .queryString("address", "192.168.1.1")
-        .queryString("subtype", "cenas")
-        .asJson()
-        .getStatus();
+            .queryString("address", "192.168.1.1")
+            .queryString("subtype", "cenas")
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }
@@ -42,10 +41,10 @@ public class TestThingController extends ServerRunner {
   @Test
   public void errorInvalidSubTypePut() throws UnirestException {
     int status = Unirest.put("http://localhost:4567/devices/lights")
-        .queryString("address", "192.168.1.1")
-        .queryString("subtype", "cenas")
-        .asJson()
-        .getStatus();
+            .queryString("address", "192.168.1.1")
+            .queryString("subtype", "cenas")
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }
@@ -53,10 +52,10 @@ public class TestThingController extends ServerRunner {
   @Test
   public void errorUnknownHostGet() throws UnirestException {
     int status = Unirest.get("http://localhost:4567/devices/lights")
-        .queryString("address", "ehuehuehe")
-        .queryString("subtype", "rest")
-        .asJson()
-        .getStatus();
+            .queryString("address", "ehuehuehe")
+            .queryString("subtype", "rest")
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(404));
   }
@@ -66,11 +65,11 @@ public class TestThingController extends ServerRunner {
     String payload = String.format("{ \"on\": %b }", new Random().nextBoolean());
 
     int status = Unirest.put("http://localhost:4567/devices/lights")
-        .queryString("address", "ehuehuehe")
-        .queryString("subtype", "rest")
-        .body(payload)
-        .asJson()
-        .getStatus();
+            .queryString("address", "ehuehuehe")
+            .queryString("subtype", "rest")
+            .body(payload)
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(404));
   }
@@ -80,10 +79,10 @@ public class TestThingController extends ServerRunner {
     String payload = String.format("{ \"on\": %b }", new Random().nextBoolean());
 
     int status = Unirest.put("http://localhost:4567/devices/lights")
-        .queryString("address", "localhost")
-        .queryString("subtype", "rest")
-        .asJson()
-        .getStatus();
+            .queryString("address", "localhost")
+            .queryString("subtype", "rest")
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }
@@ -93,10 +92,10 @@ public class TestThingController extends ServerRunner {
     String payload = String.format("{ \"on\": %b }", new Random().nextBoolean());
 
     int status = Unirest.put("http://localhost:4567/devices/weather")
-        .queryString("subtype", "owm")
-        .body(payload)
-        .asJson()
-        .getStatus();
+            .queryString("subtype", "owm")
+            .body(payload)
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(404));
   }

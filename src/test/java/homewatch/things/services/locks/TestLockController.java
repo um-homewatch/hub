@@ -5,7 +5,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import homewatch.exceptions.NetworkException;
 import homewatch.stubs.LockStubs;
-import homewatch.things.ServerRunner;
+import homewatch.server.ServerRunner;
 import org.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -48,10 +48,10 @@ public class TestLockController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     boolean status = Unirest.get("http://localhost:4567/devices/locks").queryString(QUERY_STRING)
-        .asJson()
-        .getBody()
-        .getObject()
-        .getBoolean("locked");
+            .asJson()
+            .getBody()
+            .getObject()
+            .getBoolean("locked");
 
     assertThat(status, is(true));
   }
@@ -62,10 +62,10 @@ public class TestLockController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/devices/locks").queryString(QUERY_STRING).body(JSON)
-        .asJson()
-        .getBody()
-        .getObject()
-        .getBoolean("locked");
+            .asJson()
+            .getBody()
+            .getObject()
+            .getBoolean("locked");
 
     assertThat(status, is(false));
   }

@@ -1,6 +1,5 @@
-package homewatch.things;
+package homewatch.server;
 
-import homewatch.server.Main;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -15,8 +14,6 @@ import java.nio.file.Files;
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.net.ssl.*")
 public class ServerRunner {
-  protected static File TOKEN_FILE = new File("./token");
-
   @BeforeClass
   public static void setUpBaseClass() {
     Main.main(new String[1]);
@@ -25,15 +22,5 @@ public class ServerRunner {
   @AfterClass
   public static void tearDown() {
     Spark.stop();
-  }
-
-  @Before
-  @After
-  public void cleanup() {
-    try {
-      Files.delete(TOKEN_FILE.toPath());
-    } catch (IOException e) {
-      // do nothing
-    }
   }
 }

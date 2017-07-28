@@ -6,7 +6,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.stubs.NgrokStubs;
-import homewatch.things.ServerRunner;
 import okhttp3.HttpUrl;
 import org.junit.Rule;
 import org.junit.Test;

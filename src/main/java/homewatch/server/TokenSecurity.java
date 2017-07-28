@@ -1,17 +1,11 @@
 package homewatch.server;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import homewatch.constants.LoggerUtils;
 import spark.Spark;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.SecureRandom;
 
 class TokenSecurity {
-  static final String ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  private static File TOKEN_FILE = new File("./token");
+  private static final String ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   private static String TOKEN;
 
   private TokenSecurity() {
@@ -19,22 +13,12 @@ class TokenSecurity {
 
   public static void perform() {
     secureRoutes();
-    readTokenFromFS();
     setupTokenCreationRoute();
-  }
-
-  private static void readTokenFromFS() {
-    try {
-      TOKEN = Files.toString(TOKEN_FILE, Charsets.UTF_8);
-    } catch (IOException e) {
-      LoggerUtils.logInfo("Couldn't detect a secure token! Hub unclaimed");
-    }
   }
 
   private static void setupTokenCreationRoute() {
     Spark.get("/token", (request, response) -> {
       TOKEN = generateRandomToken(1024);
-      Files.write(TOKEN.getBytes(), TOKEN_FILE);
 
       return TOKEN;
     });

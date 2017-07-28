@@ -21,7 +21,7 @@ public class TestCacheUtils {
   //make request twice, but only one actually consumes the http resource
   public void testCachingGet() throws ExecutionException {
     wireMockRule.stubFor(get(urlPathEqualTo("/")).willReturn(
-        aResponse().withBody("foo")));
+            aResponse().withBody("foo")));
 
     byte[] foo = HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080")).getPayload();
     int status = HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080")).getStatusCode();

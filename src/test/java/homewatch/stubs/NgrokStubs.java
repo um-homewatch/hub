@@ -14,9 +14,9 @@ public class NgrokStubs {
     JsonNode json = JsonUtils.getOM().readTree(new File("src/test/fixtures/ngrok.json"));
 
     wireMockRule.stubFor(get(urlPathEqualTo("/api/tunnels/homewatch-hub"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withHeader("Content-Type", "application/json")
-            .withBody(json.toString())));
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(json.toString())));
   }
 }

@@ -51,7 +51,7 @@ public class Thermostat implements Thing {
   @Override
   public String toString() {
     return "Thermostat{" +
-        "targetTemperature=" + targetTemperature +
-        '}';
+            "targetTemperature=" + targetTemperature +
+            '}';
   }
 }

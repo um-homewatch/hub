@@ -15,9 +15,9 @@ public class WeatherStubs {
     json.put("cloudy", weather.isRaining());
 
     wireMockRule.stubFor(get(urlPathEqualTo("/status"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withHeader("Content-Type", "application/json")
-            .withBody(json.toString())));
+            .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(json.toString())));
   }
 }
