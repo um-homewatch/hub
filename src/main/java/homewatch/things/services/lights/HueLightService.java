@@ -1,5 +1,6 @@
 package homewatch.things.services.lights;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class HueLightService extends HttpThingService<Light> {
+  @JsonProperty("light_id")
   private int lightID;
 
   HueLightService() {
