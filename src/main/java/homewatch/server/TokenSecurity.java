@@ -29,7 +29,7 @@ class TokenSecurity {
       String requestToken = request.headers("Authorization");
 
       if (TOKEN != null && isInvalidToken(requestToken))
-        Spark.halt(401, "{ \"message\": \"Bad tunnel token!\"}");
+        throw Spark.halt(401, "{ \"message\": \"Bad tunnel token!\"}");
     });
   }
 

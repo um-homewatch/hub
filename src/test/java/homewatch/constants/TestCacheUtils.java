@@ -2,7 +2,6 @@ package homewatch.constants;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import homewatch.net.HttpCachingUtils;
-import okhttp3.HttpUrl;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -23,8 +22,8 @@ public class TestCacheUtils {
     wireMockRule.stubFor(get(urlPathEqualTo("/")).willReturn(
             aResponse().withBody("foo")));
 
-    byte[] foo = HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080")).getPayload();
-    int status = HttpCachingUtils.get(HttpUrl.parse("http://localhost:8080")).getStatusCode();
+    byte[] foo = HttpCachingUtils.get("http://localhost:8080").getPayload();
+    int status = HttpCachingUtils.get("http://localhost:8080").getStatusCode();
 
     assertThat(foo, is("foo".getBytes()));
     assertThat(status, is(200));

@@ -7,7 +7,6 @@ import homewatch.exceptions.ReadOnlyDeviceException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
-import okhttp3.HttpUrl;
 
 import java.io.IOException;
 
@@ -59,8 +58,8 @@ class RestMotionSensorService extends HttpThingService<MotionSensor> {
     return "rest";
   }
 
-  private HttpUrl baseUrl() {
-    return HttpUrl.parse(this.getUrl() + "/status");
+  private String baseUrl() {
+    return this.getUrl() + "/status";
   }
 
   private MotionSensor responseToMotionSensor(ThingResponse thingResponse) throws IOException {

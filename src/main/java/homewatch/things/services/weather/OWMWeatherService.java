@@ -6,7 +6,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.exceptions.ReadOnlyDeviceException;
 import homewatch.net.HttpCachingUtils;
 import homewatch.things.ThingService;
-import okhttp3.HttpUrl;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 class OWMWeatherService extends ThingService<Weather> {
   private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=3e7e26039e4050a3edaaf374adb887de";
-  private static final HttpUrl REGION_URL = HttpUrl.parse("http://freegeoip.net/json/");
+  private static final String REGION_URL = "http://freegeoip.net/json/";
 
   @Override
   public Weather get() throws NetworkException {
@@ -51,7 +50,7 @@ class OWMWeatherService extends ThingService<Weather> {
     String region = JsonUtils.getOM().readTree(HttpCachingUtils.get(REGION_URL).getPayload()).get("region_name").asText();
     String url = String.format(BASE_URL, region);
 
-    return JsonUtils.getOM().readTree(HttpCachingUtils.get(HttpUrl.parse(url)).getPayload());
+    return JsonUtils.getOM().readTree(HttpCachingUtils.get(url).getPayload());
   }
 
   @Override

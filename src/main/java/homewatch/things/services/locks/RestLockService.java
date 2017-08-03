@@ -6,7 +6,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
-import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -68,8 +67,8 @@ class RestLockService extends HttpThingService<Lock> {
     return "rest";
   }
 
-  private HttpUrl baseUrl() {
-    return HttpUrl.parse(this.getUrl() + "/status");
+  private String baseUrl() {
+    return this.getUrl() + "/status";
   }
 
   private Lock responseToLock(ThingResponse thingResponse) throws IOException {

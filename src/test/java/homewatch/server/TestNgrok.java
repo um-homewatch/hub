@@ -6,7 +6,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.stubs.NgrokStubs;
-import okhttp3.HttpUrl;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -26,7 +25,7 @@ public class TestNgrok extends ServerRunner {
   public void testGetTunnel() throws NetworkException, IOException {
     NgrokStubs.stubGetStatus(wireMockRule);
 
-    ThingResponse thingResponse = HttpUtils.get(HttpUrl.parse("http://localhost:4567/tunnel"));
+    ThingResponse thingResponse = HttpUtils.get("http://localhost:4567/tunnel");
 
     String url = JsonUtils.getOM().readTree(thingResponse.getPayload()).get("url").asText();
 

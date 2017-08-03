@@ -2,9 +2,9 @@ package homewatch.things.discovery;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.mashape.unirest.http.Unirest;
+import homewatch.server.ServerRunner;
 import homewatch.stubs.LightStubs;
 import homewatch.stubs.LockStubs;
-import homewatch.server.ServerRunner;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;
