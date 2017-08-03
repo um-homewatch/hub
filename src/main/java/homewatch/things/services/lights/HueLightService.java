@@ -7,7 +7,6 @@ import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
-import okhttp3.HttpUrl;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class HueLightService extends HttpThingService<Light> {
   @Override
   public Light get() throws NetworkException {
     try {
-      ThingResponse response = HttpUtils.get(HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID)));
+      ThingResponse response = HttpUtils.get(this.lightUrl());
 
       return this.jsonToLight(JsonUtils.getOM().readTree(response.getPayload()));
     } catch (IOException e) {
@@ -53,7 +52,7 @@ public class HueLightService extends HttpThingService<Light> {
     JSONObject json = new JSONObject();
     json.put("on", light.isOn());
 
-    HttpUtils.put(HttpUrl.parse(String.format("%s/%d/state", this.baseUrl(), lightID)), json);
+    HttpUtils.put(this.lightUrl() + "/state", json);
 
     return light;
   }
@@ -76,7 +75,7 @@ public class HueLightService extends HttpThingService<Light> {
   @Override
   public boolean ping() {
     try {
-      HttpUrl url = HttpUrl.parse(String.format("%s/%d", this.baseUrl(), lightID));
+      String url = String.format("%s/%d", this.baseUrl(), lightID);
 
       return HttpUtils.get(url).getStatusCode() == 200;
     } catch (NetworkException e) {
@@ -94,8 +93,12 @@ public class HueLightService extends HttpThingService<Light> {
     return "hue";
   }
 
-  private HttpUrl baseUrl() {
-    return HttpUrl.parse(this.getUrl() + "/api/newdeveloper/lights");
+  private String baseUrl() {
+    return this.getUrl() + "/api/newdeveloper/lights";
+  }
+
+  private String lightUrl() {
+    return String.format("%s/%d", this.baseUrl(), lightID);
   }
 
   private Light jsonToLight(JsonNode json) {

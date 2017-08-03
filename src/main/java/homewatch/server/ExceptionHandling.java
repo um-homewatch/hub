@@ -18,10 +18,7 @@ class ExceptionHandling {
     Spark.exception(InvalidSubTypeException.class, (exception, req, res) -> resolveException(exception, res, 400));
     Spark.exception(ReadOnlyDeviceException.class, (exception, req, res) -> resolveException(exception, res, 404));
 
-    Spark.exception(NetworkException.class, (exception, req, res) -> {
-      NetworkException networkException = (NetworkException) exception;
-      resolveException(exception, res, networkException.getStatusCode());
-    });
+    Spark.exception(NetworkException.class, (exception, req, res) -> resolveException(exception, res, exception.getStatusCode()));
 
     Spark.exception(Exception.class, (exception, req, res) -> resolveException(exception, res, 500));
   }

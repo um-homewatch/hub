@@ -7,7 +7,6 @@ import homewatch.exceptions.ReadOnlyDeviceException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
 import homewatch.things.HttpThingService;
-import okhttp3.HttpUrl;
 
 import java.io.IOException;
 
@@ -60,8 +59,8 @@ public class RestWeatherService extends HttpThingService<Weather> {
     return "rest";
   }
 
-  private HttpUrl getBaseUrl() {
-    return HttpUrl.parse(this.getUrl() + "/status");
+  private String getBaseUrl() {
+    return this.getUrl() + "/status";
   }
 
   private Weather jsonToWeather(JsonNode json) {

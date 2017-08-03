@@ -4,17 +4,16 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import homewatch.exceptions.NetworkException;
-import okhttp3.HttpUrl;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class HttpCachingUtils {
-  private static final LoadingCache<HttpUrl, ThingResponse> cachedResponses = CacheBuilder.newBuilder()
+  private static final LoadingCache<String, ThingResponse> cachedResponses = CacheBuilder.newBuilder()
           .expireAfterAccess(10, TimeUnit.MINUTES)
-          .build(new CacheLoader<HttpUrl, ThingResponse>() {
+          .build(new CacheLoader<String, ThingResponse>() {
             @Override
-            public ThingResponse load(HttpUrl url) throws NetworkException {
+            public ThingResponse load(String url) throws NetworkException {
               return HttpUtils.get(url);
             }
           });
@@ -22,7 +21,7 @@ public class HttpCachingUtils {
   private HttpCachingUtils() {
   }
 
-  public static ThingResponse get(HttpUrl url) throws ExecutionException {
+  public static ThingResponse get(String url) throws ExecutionException {
     return cachedResponses.get(url);
   }
 }

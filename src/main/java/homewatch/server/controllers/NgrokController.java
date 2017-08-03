@@ -5,7 +5,6 @@ import homewatch.constants.JsonUtils;
 import homewatch.exceptions.NetworkException;
 import homewatch.net.HttpUtils;
 import homewatch.net.ThingResponse;
-import okhttp3.HttpUrl;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
@@ -18,7 +17,7 @@ public class NgrokController {
 
   public static String get(Request req, Response res) throws NetworkException {
     try {
-      ThingResponse thingResponse = HttpUtils.get(HttpUrl.parse("http://localhost:4040/api/tunnels/homewatch-hub"));
+      ThingResponse thingResponse = HttpUtils.get("http://localhost:4040/api/tunnels/homewatch-hub");
 
       return convertResponse(thingResponse);
     } catch (IOException e) {
