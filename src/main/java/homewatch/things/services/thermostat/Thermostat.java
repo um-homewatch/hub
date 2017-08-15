@@ -18,10 +18,6 @@ public class Thermostat implements Thing {
     return targetTemperature;
   }
 
-  public void setTargetTemperature(double targetTemperature) {
-    this.targetTemperature = targetTemperature;
-  }
-
   @Override
   public ThermostatServiceFactory getFactory() {
     return new ThermostatServiceFactory();
@@ -51,7 +47,7 @@ public class Thermostat implements Thing {
   @Override
   public String toString() {
     return "Thermostat{" +
-            "targetTemperature=" + targetTemperature +
-            '}';
+        "targetTemperature=" + targetTemperature +
+        '}';
   }
 }
