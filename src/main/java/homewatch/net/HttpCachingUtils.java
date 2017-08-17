@@ -10,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 public class HttpCachingUtils {
   private static final LoadingCache<String, ThingResponse> cachedResponses = CacheBuilder.newBuilder()
-      .expireAfterAccess(10, TimeUnit.MINUTES)
-      .build(new CacheLoader<String, ThingResponse>() {
-        @Override
-        public ThingResponse load(String url) throws NetworkException {
-          return HttpUtils.get(url);
-        }
-      });
+          .expireAfterAccess(10, TimeUnit.MINUTES)
+          .build(new CacheLoader<String, ThingResponse>() {
+            @Override
+            public ThingResponse load(String url) throws NetworkException {
+              return HttpUtils.get(url);
+            }
+          });
 
   private HttpCachingUtils() {
   }

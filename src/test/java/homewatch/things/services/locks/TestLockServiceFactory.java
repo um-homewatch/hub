@@ -1,7 +1,6 @@
 package homewatch.things.services.locks;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.NetworkThingService;
 import homewatch.things.ThingService;
 import org.junit.Test;
 
@@ -17,10 +16,8 @@ public class TestLockServiceFactory {
   @Test
   public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    NetworkThingService<Lock> lockService = serviceFactory.create(addr, 80, "rest");
+    ThingService<Lock> lockService = serviceFactory.create("rest");
 
-    assertThat(lockService.getAddress(), is(addr));
-    assertThat(lockService.getPort(), is(80));
     assertTrue(lockService instanceof RestLockService);
     assertThat(lockService.getType(), is("Things::Lock"));
     assertThat(lockService.getSubtype(), is("rest"));

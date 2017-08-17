@@ -1,7 +1,6 @@
 package homewatch.things.services.lights;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.NetworkThingService;
 import homewatch.things.ThingService;
 import org.junit.Test;
 
@@ -17,10 +16,8 @@ public class TestLightServiceFactory {
   @Test
   public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    NetworkThingService<Light> lightService = serviceFactory.create(addr, 80, "rest");
+    ThingService<Light> lightService = serviceFactory.create("rest");
 
-    assertThat(lightService.getAddress(), is(addr));
-    assertThat(lightService.getPort(), is(80));
     assertTrue(lightService instanceof RestLightService);
     assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubtype(), is("rest"));
@@ -29,10 +26,8 @@ public class TestLightServiceFactory {
   @Test
   public void testCoapCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    NetworkThingService<Light> lightService = serviceFactory.create(addr, 80, "coap");
+    ThingService<Light> lightService = serviceFactory.create("coap");
 
-    assertThat(lightService.getAddress(), is(addr));
-    assertThat(lightService.getPort(), is(80));
     assertTrue(lightService instanceof CoapLightService);
     assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubtype(), is("coap"));
@@ -41,10 +36,8 @@ public class TestLightServiceFactory {
   @Test
   public void testHueCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    NetworkThingService<Light> lightService = serviceFactory.create(addr, 80, "hue");
+    ThingService<Light> lightService = serviceFactory.create("hue");
 
-    assertThat(lightService.getAddress(), is(addr));
-    assertThat(lightService.getPort(), is(80));
     assertTrue(lightService instanceof HueLightService);
     assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubtype(), is("hue"));

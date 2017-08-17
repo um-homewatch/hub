@@ -20,8 +20,8 @@ public class TestTokenSecurity extends ServerRunner {
   @Test
   public void testTokenSize() throws UnirestException, IOException {
     String body = Unirest.get("http://localhost:4567/token")
-        .asString()
-        .getBody();
+            .asString()
+            .getBody();
 
     assertThat(body.length(), is(1024));
   }
@@ -32,12 +32,12 @@ public class TestTokenSecurity extends ServerRunner {
     String token = Unirest.get("http://localhost:4567/token").asString().getBody();
 
     int status = Unirest.get("http://localhost:4567/devices/lights")
-        .header("Authorization", token)
-        .queryString("address", "127.0.0.1")
-        .queryString("port", 8080)
-        .queryString("subtype", "rest")
-        .asString()
-        .getStatus();
+            .header("Authorization", token)
+            .queryString("address", "127.0.0.1")
+            .queryString("port", 8080)
+            .queryString("subtype", "rest")
+            .asString()
+            .getStatus();
 
     assertThat(status, is(200));
   }
@@ -49,12 +49,12 @@ public class TestTokenSecurity extends ServerRunner {
     String token = "THIS-IS-WRONG-TOKEN";
 
     int status = Unirest.get("http://localhost:4567/devices/lights")
-        .header("Authorization", token)
-        .queryString("address", "127.0.0.1")
-        .queryString("port", 8080)
-        .queryString("subtype", "rest")
-        .asString()
-        .getStatus();
+            .header("Authorization", token)
+            .queryString("address", "127.0.0.1")
+            .queryString("port", 8080)
+            .queryString("subtype", "rest")
+            .asString()
+            .getStatus();
 
     assertThat(status, is(401));
   }

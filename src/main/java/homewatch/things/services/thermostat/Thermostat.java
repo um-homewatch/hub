@@ -4,7 +4,7 @@ import homewatch.things.Thing;
 
 public class Thermostat implements Thing {
   //celsius
-  private double targetTemperature;
+  private final double targetTemperature;
 
   public Thermostat() {
     this.targetTemperature = 0;
@@ -47,7 +47,7 @@ public class Thermostat implements Thing {
   @Override
   public String toString() {
     return "Thermostat{" +
-        "targetTemperature=" + targetTemperature +
-        '}';
+            "targetTemperature=" + targetTemperature +
+            '}';
   }
 }

@@ -4,7 +4,6 @@ import homewatch.constants.LoggerUtils;
 import homewatch.server.controllers.DiscoveryController;
 import homewatch.server.controllers.NgrokController;
 import homewatch.server.controllers.ThingController;
-import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.Thing;
 import homewatch.things.ThingServiceFactory;
 import spark.Spark;
@@ -27,11 +26,11 @@ class Routes {
         Thing t = klass.newInstance();
         ThingServiceFactory thingServiceFactory = t.getFactory();
 
-        if (thingServiceFactory instanceof NetworkThingServiceFactory) {
-          NetworkThingServiceFactory networkThingServiceFactory = (NetworkThingServiceFactory) t.getFactory();
-          DiscoveryController discoveryController = new DiscoveryController<>(networkThingServiceFactory);
-          Spark.get("/devices/" + t.getStringRepresentation() + "/discover", discoveryController::get);
-        }
+
+        ThingServiceFactory networkThingServiceFactory = t.getFactory();
+        DiscoveryController discoveryController = new DiscoveryController<>(networkThingServiceFactory);
+        Spark.get("/devices/" + t.getStringRepresentation() + "/discover", discoveryController::get);
+
       } catch (InstantiationException | IllegalAccessException e) {
         LoggerUtils.logException(e);
       }

@@ -47,9 +47,9 @@ public class TestNetworkDiscoveryController extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     JSONObject json = Unirest.get("http://localhost:4567/devices/lights/discover")
-        .queryString("subtype", "rest")
-        .queryString("port", 8080)
-        .asJson().getBody().getArray().getJSONObject(0);
+            .queryString("subtype", "rest")
+            .queryString("port", 8080)
+            .asJson().getBody().getArray().getJSONObject(0);
 
     assertThat(json.get("address"), is(addresses.get(0)));
   }
@@ -59,9 +59,9 @@ public class TestNetworkDiscoveryController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/devices/lights/discover")
-        .queryString("subtype", "foo")
-        .asJson()
-        .getStatus();
+            .queryString("subtype", "foo")
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }
@@ -71,8 +71,8 @@ public class TestNetworkDiscoveryController extends ServerRunner {
     LockStubs.stubGetStatus(wireMockRule, true);
 
     int status = Unirest.get("http://localhost:4567/devices/lights/discover")
-        .asJson()
-        .getStatus();
+            .asJson()
+            .getStatus();
 
     assertThat(status, is(400));
   }

@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Map;
 
-public class HueLightService extends HttpThingService<Light> {
+class HueLightService extends HttpThingService<Light> {
   @JsonProperty("light_id")
   private int lightID;
 

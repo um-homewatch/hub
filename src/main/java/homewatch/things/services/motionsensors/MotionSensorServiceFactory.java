@@ -1,21 +1,10 @@
 package homewatch.things.services.motionsensors;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.NetworkThingService;
-import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
+import homewatch.things.ThingServiceFactory;
 
-public class MotionSensorServiceFactory implements NetworkThingServiceFactory<MotionSensor> {
-  @Override
-  public NetworkThingService<MotionSensor> create(String address, Integer port, String subtype) throws InvalidSubTypeException {
-    switch (subtype) {
-      case "rest":
-        return new RestMotionSensorService(address, port);
-      default:
-        throw new InvalidSubTypeException();
-    }
-  }
-
+public class MotionSensorServiceFactory implements ThingServiceFactory<MotionSensor> {
   @Override
   public ThingService<MotionSensor> create(String subtype) throws InvalidSubTypeException {
     switch (subtype) {

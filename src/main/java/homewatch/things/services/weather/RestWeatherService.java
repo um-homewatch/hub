@@ -10,7 +10,7 @@ import homewatch.things.HttpThingService;
 
 import java.io.IOException;
 
-public class RestWeatherService extends HttpThingService<Weather> {
+class RestWeatherService extends HttpThingService<Weather> {
   RestWeatherService() {
     super();
   }

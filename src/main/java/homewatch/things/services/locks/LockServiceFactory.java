@@ -1,21 +1,10 @@
 package homewatch.things.services.locks;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.NetworkThingService;
-import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
+import homewatch.things.ThingServiceFactory;
 
-public class LockServiceFactory implements NetworkThingServiceFactory<Lock> {
-  @Override
-  public NetworkThingService<Lock> create(String address, Integer port, String subtype) throws InvalidSubTypeException {
-    switch (subtype) {
-      case "rest":
-        return new RestLockService(address, port);
-      default:
-        throw new InvalidSubTypeException();
-    }
-  }
-
+public class LockServiceFactory implements ThingServiceFactory<Lock> {
   @Override
   public ThingService<Lock> create(String subtype) throws InvalidSubTypeException {
     switch (subtype) {

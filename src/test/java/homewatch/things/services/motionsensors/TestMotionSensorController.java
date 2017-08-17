@@ -35,12 +35,12 @@ public class TestMotionSensorController extends ServerRunner {
     MotionSensorStubs.stubGetStatus(wireMockRule, originalMotionSensor.hasMovement());
 
     String json = Unirest.get("http://localhost:4567/devices/motionsensors")
-        .queryString("address", "localhost")
-        .queryString("port", 8080)
-        .queryString("subtype", "rest")
-        .asJson()
-        .getBody()
-        .toString();
+            .queryString("address", "localhost")
+            .queryString("port", 8080)
+            .queryString("subtype", "rest")
+            .asJson()
+            .getBody()
+            .toString();
 
     MotionSensor motionsensor = JsonUtils.getOM().readValue(json, MotionSensor.class);
 

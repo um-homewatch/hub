@@ -3,9 +3,9 @@ package homewatch.things.discovery;
 import homewatch.constants.LoggerUtils;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.NetworkThingService;
-import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.Thing;
 import homewatch.things.ThingService;
+import homewatch.things.ThingServiceFactory;
 
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -17,11 +17,11 @@ import java.util.concurrent.*;
 public class NetworkThingDiscoveryService<T extends Thing> implements DiscoveryService<T> {
   private final CompletionService<NetworkThingService<T>> completionService;
   private final List<ThingService<T>> things;
-  private final NetworkThingServiceFactory<T> serviceFactory;
+  private final ThingServiceFactory<T> serviceFactory;
   private final String subtype;
   private Integer port = null;
 
-  public NetworkThingDiscoveryService(NetworkThingServiceFactory<T> serviceFactory, String subtype) throws InvalidSubTypeException {
+  public NetworkThingDiscoveryService(ThingServiceFactory<T> serviceFactory, String subtype) throws InvalidSubTypeException {
     if (!serviceFactory.isSubType(subtype))
       throw new InvalidSubTypeException();
     ExecutorService executorService = Executors.newCachedThreadPool();
@@ -31,7 +31,7 @@ public class NetworkThingDiscoveryService<T extends Thing> implements DiscoveryS
     this.things = new LinkedList<>();
   }
 
-  public NetworkThingDiscoveryService(NetworkThingServiceFactory<T> serviceFactory, String subtype, int port) throws InvalidSubTypeException {
+  public NetworkThingDiscoveryService(ThingServiceFactory<T> serviceFactory, String subtype, int port) throws InvalidSubTypeException {
     this(serviceFactory, subtype);
     this.port = port;
   }
@@ -64,7 +64,10 @@ public class NetworkThingDiscoveryService<T extends Thing> implements DiscoveryS
     this.completionService.submit(() -> {
       try {
         String hostname = InetAddress.getByName(address).getHostName();
-        NetworkThingService<T> thingService = this.serviceFactory.create(hostname, this.port, subtype);
+
+        NetworkThingService<T> thingService = (NetworkThingService<T>) this.serviceFactory.create(subtype);
+        thingService.setAddress(hostname);
+        thingService.setPort(this.port);
 
         boolean on = thingService.ping();
 

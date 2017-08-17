@@ -1,26 +1,11 @@
 package homewatch.things.services.lights;
 
 import homewatch.exceptions.InvalidSubTypeException;
-import homewatch.things.NetworkThingService;
-import homewatch.things.NetworkThingServiceFactory;
 import homewatch.things.ThingService;
+import homewatch.things.ThingServiceFactory;
 
 
-public class LightServiceFactory implements NetworkThingServiceFactory<Light> {
-  @Override
-  public NetworkThingService<Light> create(String address, Integer port, String subtype) throws InvalidSubTypeException {
-    switch (subtype) {
-      case "hue":
-        return new HueLightService(address, port);
-      case "rest":
-        return new RestLightService(address, port);
-      case "coap":
-        return new CoapLightService(address, port);
-      default:
-        throw new InvalidSubTypeException();
-    }
-  }
-
+public class LightServiceFactory implements ThingServiceFactory<Light> {
   @Override
   public ThingService<Light> create(String subtype) throws InvalidSubTypeException {
     switch (subtype) {

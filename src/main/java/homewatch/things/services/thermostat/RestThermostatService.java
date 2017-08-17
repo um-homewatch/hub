@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class RestThermostatService extends HttpThingService<Thermostat> {
+class RestThermostatService extends HttpThingService<Thermostat> {
   public RestThermostatService() {
     super();
   }
