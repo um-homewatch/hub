@@ -40,7 +40,7 @@ public class NetworkThingDiscoveryService<T extends Thing> extends DiscoveryServ
     this.port = port;
   }
 
-  public void setAttributes(Map<String, ?> attributes){
+  public void setAttributes(Map<String, ?> attributes) {
     String portString = this.getAttribute(attributes, "port", String.class);
 
     try {

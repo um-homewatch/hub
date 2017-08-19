@@ -5,7 +5,6 @@ import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
 import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.discovery.NetworkThingDiscoveryService;
-import homewatch.things.services.locks.Lock;
 
 public class MotionSensorServiceFactory implements ThingServiceFactory<MotionSensor> {
   @Override

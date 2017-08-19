@@ -29,7 +29,7 @@ public class DiscoveryController<T extends Thing> {
         throw new IllegalArgumentException("missing subtype query param");
 
       DiscoveryService discoveryService = this.thingServiceFactory.createDiscoveryService(subtype);
-      if (discoveryService == null){
+      if (discoveryService == null) {
         throw new IllegalArgumentException("device subtype has no discovery candidate at the moment");
       }
       discoveryService.setAttributes(QueryStringUtils.convertQueryMap(req.queryMap()));

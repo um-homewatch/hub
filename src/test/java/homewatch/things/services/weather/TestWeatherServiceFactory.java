@@ -1,6 +1,5 @@
 package homewatch.things.services.weather;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
 import homewatch.things.discovery.DiscoveryService;
@@ -10,9 +9,7 @@ import org.junit.Test;
 import java.net.UnknownHostException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestWeatherServiceFactory {
   private static final WeatherServiceFactory serviceFactory = new WeatherServiceFactory();

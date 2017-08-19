@@ -5,8 +5,6 @@ import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
 import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.discovery.NetworkThingDiscoveryService;
-import homewatch.things.services.locks.Lock;
-import homewatch.things.services.thermostat.Thermostat;
 
 public class WeatherServiceFactory implements ThingServiceFactory<Weather> {
   @Override

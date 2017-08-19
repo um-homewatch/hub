@@ -5,7 +5,6 @@ import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
 import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.discovery.NetworkThingDiscoveryService;
-import homewatch.things.services.lights.Light;
 
 public class LockServiceFactory implements ThingServiceFactory<Lock> {
   @Override

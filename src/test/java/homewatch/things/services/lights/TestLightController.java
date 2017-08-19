@@ -53,11 +53,11 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, true);
 
     boolean status = Unirest.get("http://127.0.0.1:4567/devices/lights")
-            .queryString(QUERY_STRING)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .queryString(QUERY_STRING)
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(true));
   }
@@ -68,10 +68,10 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetRest(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/devices/lights").queryString(QUERY_STRING).body(JSON)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(false));
   }
@@ -81,14 +81,14 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubGetHue(wireMockRule, true);
 
     boolean status = Unirest.get("http://localhost:4567/devices/lights")
-            .queryString("subtype", "hue")
-            .queryString("address", "localhost")
-            .queryString("port", 8080)
-            .queryString("light_id", 1)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .queryString("subtype", "hue")
+        .queryString("address", "localhost")
+        .queryString("port", 8080)
+        .queryString("light_id", 1)
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(true));
   }
@@ -98,15 +98,15 @@ public class TestLightController extends ServerRunner {
     LightStubs.stubPutHue(wireMockRule, false);
 
     boolean status = Unirest.put("http://localhost:4567/devices/lights")
-            .queryString("subtype", "hue")
-            .queryString("address", "localhost")
-            .queryString("port", 8080)
-            .queryString("light_id", 1)
-            .body(JSON)
-            .asJson()
-            .getBody()
-            .getObject()
-            .getBoolean("on");
+        .queryString("subtype", "hue")
+        .queryString("address", "localhost")
+        .queryString("port", 8080)
+        .queryString("light_id", 1)
+        .body(JSON)
+        .asJson()
+        .getBody()
+        .getObject()
+        .getBoolean("on");
 
     assertThat(status, is(false));
   }

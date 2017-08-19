@@ -4,7 +4,6 @@ import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
 import homewatch.things.discovery.DiscoveryService;
 import homewatch.things.discovery.NetworkThingDiscoveryService;
-import homewatch.things.services.locks.Lock;
 import org.junit.Test;
 
 import java.net.UnknownHostException;

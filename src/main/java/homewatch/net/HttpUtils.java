@@ -20,8 +20,6 @@ public class HttpUtils {
   }
 
   public static ThingResponse put(String url, JSONObject jsonBody) throws NetworkException {
-    Client client = new Client();
-
     return internalPut(url, jsonBody, new Client());
   }
 
@@ -55,8 +53,6 @@ public class HttpUtils {
     } catch (UnknownHostException | ConnectException e) {
       throw new NetworkException(e, 404);
     } catch (IOException | ClientHandlerException e) {
-      int statusCode = (e.getCause() instanceof UnknownHostException) ? 404 : 500;
-
       throw new NetworkException(e, exceptionStatus(e));
     }
   }

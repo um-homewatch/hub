@@ -47,7 +47,7 @@ public class MotionSensor implements Thing {
   @Override
   public String toString() {
     return "MotionSensor{" +
-            "movement=" + movement +
-            '}';
+        "movement=" + movement +
+        '}';
   }
 }

@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 class QueryStringUtils {
+  private QueryStringUtils() {
+  }
+
   public static Map<String, String> convertQueryMap(QueryParamsMap queryMap) {
     Map<String, String[]> mapStringArray = queryMap.toMap();
     Map<String, String> map = new HashMap<>();

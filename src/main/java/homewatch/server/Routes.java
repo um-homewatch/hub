@@ -24,13 +24,10 @@ class Routes {
     ClassDiscoverer.getThings().forEach(klass -> {
       try {
         Thing t = klass.newInstance();
-        ThingServiceFactory thingServiceFactory = t.getFactory();
-
-
         ThingServiceFactory networkThingServiceFactory = t.getFactory();
         DiscoveryController discoveryController = new DiscoveryController<>(networkThingServiceFactory);
-        Spark.get("/devices/" + t.getStringRepresentation() + "/discover", discoveryController::get);
 
+        Spark.get("/devices/" + t.getStringRepresentation() + "/discover", discoveryController::get);
       } catch (InstantiationException | IllegalAccessException e) {
         LoggerUtils.logException(e);
       }

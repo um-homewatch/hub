@@ -6,11 +6,7 @@ import homewatch.exceptions.NetworkException;
 import homewatch.things.Thing;
 import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
-import spark.QueryParamsMap;
 import spark.Request;
-
-import java.util.HashMap;
-import java.util.Map;
 
 class ServiceHelper<T extends Thing> {
   private final ThingServiceFactory<T> serviceFactory;
