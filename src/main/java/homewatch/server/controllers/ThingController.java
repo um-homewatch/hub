@@ -22,7 +22,7 @@ public class ThingController<T extends Thing> {
 
   public String get(Request req, Response res) throws NetworkException {
     try {
-      ThingService<T> thingService = serviceHelper.createService(req);
+      ThingService<T> thingService = serviceHelper.createThingService(req);
 
       res.status(200);
       return JsonUtils.getOM().writeValueAsString(thingService.get());
@@ -34,7 +34,7 @@ public class ThingController<T extends Thing> {
 
   public String put(Request req, Response res) throws NetworkException {
     try {
-      ThingService<T> thingService = serviceHelper.createService(req);
+      ThingService<T> thingService = serviceHelper.createThingService(req);
       T thing = this.bodyToThing(req.body());
 
       T newThing = thingService.put(thing);

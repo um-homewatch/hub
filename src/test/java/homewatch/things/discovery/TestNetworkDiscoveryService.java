@@ -42,7 +42,8 @@ public class TestNetworkDiscoveryService {
   @Test
   public void discoverRestLights() throws Exception {
     LightStubs.stubGetRest(wireMockRule, true);
-    NetworkThingDiscoveryService<Light> networkThingDiscoveryService = new NetworkThingDiscoveryService<>(new LightServiceFactory(), "rest", 8080);
+    NetworkThingDiscoveryService<Light> networkThingDiscoveryService = new NetworkThingDiscoveryService<>(new LightServiceFactory(), "rest");
+    networkThingDiscoveryService.setPort(8080);
 
     List<ThingService<Light>> lights = networkThingDiscoveryService.perform();
 

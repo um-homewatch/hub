@@ -2,6 +2,9 @@ package homewatch.things.services.thermostat;
 
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
+import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
+import homewatch.things.services.locks.Lock;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -16,16 +19,18 @@ public class TestThermostatServiceFactory {
   @Test
   public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    ThingService<Thermostat> thermostatService = serviceFactory.create("rest");
+    ThingService<Thermostat> thermostatService = serviceFactory.createThingService("rest");
+    DiscoveryService<Thermostat> discoveryService = serviceFactory.createDiscoveryService("rest");
 
     assertTrue(thermostatService instanceof RestThermostatService);
+    assertTrue(discoveryService instanceof NetworkThingDiscoveryService);
     assertThat(thermostatService.getType(), is("Things::Thermostat"));
     assertThat(thermostatService.getSubtype(), is("rest"));
   }
 
   @Test
   public void testRestCreateEmpty() throws UnknownHostException, InvalidSubTypeException {
-    ThingService<Thermostat> thermostatService = serviceFactory.create("rest");
+    ThingService<Thermostat> thermostatService = serviceFactory.createThingService("rest");
 
     assertTrue(thermostatService instanceof RestThermostatService);
   }

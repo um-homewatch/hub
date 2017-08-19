@@ -2,6 +2,8 @@ package homewatch.things.services.lights;
 
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
+import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -16,9 +18,11 @@ public class TestLightServiceFactory {
   @Test
   public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    ThingService<Light> lightService = serviceFactory.create("rest");
+    ThingService<Light> lightService = serviceFactory.createThingService("rest");
+    DiscoveryService<Light> discoveryService = serviceFactory.createDiscoveryService("rest");
 
     assertTrue(lightService instanceof RestLightService);
+    assertTrue(discoveryService instanceof NetworkThingDiscoveryService);
     assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubtype(), is("rest"));
   }
@@ -26,9 +30,11 @@ public class TestLightServiceFactory {
   @Test
   public void testCoapCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    ThingService<Light> lightService = serviceFactory.create("coap");
+    ThingService<Light> lightService = serviceFactory.createThingService("coap");
+    DiscoveryService<Light> discoveryService = serviceFactory.createDiscoveryService("coap");
 
     assertTrue(lightService instanceof CoapLightService);
+    assertTrue(discoveryService instanceof NetworkThingDiscoveryService);
     assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubtype(), is("coap"));
   }
@@ -36,16 +42,18 @@ public class TestLightServiceFactory {
   @Test
   public void testHueCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    ThingService<Light> lightService = serviceFactory.create("hue");
+    ThingService<Light> lightService = serviceFactory.createThingService("hue");
+    DiscoveryService<Light> discoveryService = serviceFactory.createDiscoveryService("hue");
 
     assertTrue(lightService instanceof HueLightService);
+    assertTrue(discoveryService instanceof NetworkThingDiscoveryService);
     assertThat(lightService.getType(), is("Things::Light"));
     assertThat(lightService.getSubtype(), is("hue"));
   }
 
   @Test
   public void testRestCreateEmpty() throws UnknownHostException, InvalidSubTypeException {
-    ThingService<Light> lightService = serviceFactory.create("rest");
+    ThingService<Light> lightService = serviceFactory.createThingService("rest");
 
     assertTrue(lightService instanceof RestLightService);
   }

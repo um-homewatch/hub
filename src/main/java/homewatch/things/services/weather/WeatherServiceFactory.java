@@ -3,15 +3,31 @@ package homewatch.things.services.weather;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
+import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
+import homewatch.things.services.locks.Lock;
+import homewatch.things.services.thermostat.Thermostat;
 
 public class WeatherServiceFactory implements ThingServiceFactory<Weather> {
   @Override
-  public ThingService<Weather> create(String subtype) throws InvalidSubTypeException {
+  public ThingService<Weather> createThingService(String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "owm":
         return new OWMWeatherService();
       case "rest":
         return new RestWeatherService();
+      default:
+        throw new InvalidSubTypeException();
+    }
+  }
+
+  @Override
+  public DiscoveryService<Weather> createDiscoveryService(String subtype) throws InvalidSubTypeException {
+    switch (subtype) {
+      case "owm":
+        return null;
+      case "rest":
+        return new NetworkThingDiscoveryService<>(this, subtype);
       default:
         throw new InvalidSubTypeException();
     }

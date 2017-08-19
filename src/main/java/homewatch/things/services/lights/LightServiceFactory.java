@@ -3,11 +3,13 @@ package homewatch.things.services.lights;
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
 import homewatch.things.ThingServiceFactory;
+import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
 
 
 public class LightServiceFactory implements ThingServiceFactory<Light> {
   @Override
-  public ThingService<Light> create(String subtype) throws InvalidSubTypeException {
+  public ThingService<Light> createThingService(String subtype) throws InvalidSubTypeException {
     switch (subtype) {
       case "hue":
         return new HueLightService();
@@ -15,6 +17,20 @@ public class LightServiceFactory implements ThingServiceFactory<Light> {
         return new RestLightService();
       case "coap":
         return new CoapLightService();
+      default:
+        throw new InvalidSubTypeException();
+    }
+  }
+
+  @Override
+  public DiscoveryService<Light> createDiscoveryService(String subtype) throws InvalidSubTypeException {
+    switch (subtype) {
+      case "hue":
+        return new NetworkThingDiscoveryService<>(this, subtype);
+      case "rest":
+        return new NetworkThingDiscoveryService<>(this, subtype);
+      case "coap":
+        return new NetworkThingDiscoveryService<>(this, subtype);
       default:
         throw new InvalidSubTypeException();
     }

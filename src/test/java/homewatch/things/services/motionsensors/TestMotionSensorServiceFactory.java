@@ -2,6 +2,9 @@ package homewatch.things.services.motionsensors;
 
 import homewatch.exceptions.InvalidSubTypeException;
 import homewatch.things.ThingService;
+import homewatch.things.discovery.DiscoveryService;
+import homewatch.things.discovery.NetworkThingDiscoveryService;
+import homewatch.things.services.locks.Lock;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -16,16 +19,18 @@ public class TestMotionSensorServiceFactory {
   @Test
   public void testRestCreate() throws UnknownHostException, InvalidSubTypeException {
     String addr = "192.168.1.50";
-    ThingService<MotionSensor> motionsensorService = serviceFactory.create("rest");
+    ThingService<MotionSensor> motionsensorService = serviceFactory.createThingService("rest");
+    DiscoveryService<MotionSensor> discoveryService = serviceFactory.createDiscoveryService("rest");
 
     assertTrue(motionsensorService instanceof RestMotionSensorService);
+    assertTrue(discoveryService instanceof NetworkThingDiscoveryService);
     assertThat(motionsensorService.getType(), is("Things::MotionSensor"));
     assertThat(motionsensorService.getSubtype(), is("rest"));
   }
 
   @Test
   public void testRestCreateEmpty() throws UnknownHostException, InvalidSubTypeException {
-    ThingService<MotionSensor> motionsensorService = serviceFactory.create("rest");
+    ThingService<MotionSensor> motionsensorService = serviceFactory.createThingService("rest");
 
     assertTrue(motionsensorService instanceof RestMotionSensorService);
   }
