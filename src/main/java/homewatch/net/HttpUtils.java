@@ -45,9 +45,11 @@ public class HttpUtils {
 
   private static ThingResponse internalPut(String url, JSONObject jsonBody, Client httpClient) throws NetworkException {
     try {
-      WebResource webResource = httpClient.resource(url);
+      WebResource.Builder webResource = httpClient.resource(url).accept(MEDIATYPE_JSON).type(MEDIATYPE_JSON);
 
-      ClientResponse response = webResource.accept(MEDIATYPE_JSON).put(ClientResponse.class, jsonBody.toString());
+      System.out.println(jsonBody.toString());
+
+      ClientResponse response = webResource.put(ClientResponse.class, jsonBody.toString());
 
       return analyzeStatusCode(response);
     } catch (UnknownHostException | ConnectException e) {
@@ -59,9 +61,9 @@ public class HttpUtils {
 
   private static ThingResponse internalGet(String url, Client httpClient) throws NetworkException {
     try {
-      WebResource webResource = httpClient.resource(url);
+      WebResource.Builder webResource = httpClient.resource(url).accept(MEDIATYPE_JSON);
 
-      ClientResponse response = webResource.accept(MEDIATYPE_JSON).get(ClientResponse.class);
+      ClientResponse response = webResource.get(ClientResponse.class);
 
       return analyzeStatusCode(response);
     } catch (UnknownHostException | ConnectException e) {
