@@ -47,8 +47,6 @@ public class HttpUtils {
     try {
       WebResource.Builder webResource = httpClient.resource(url).accept(MEDIATYPE_JSON).type(MEDIATYPE_JSON);
 
-      System.out.println(jsonBody.toString());
-
       ClientResponse response = webResource.put(ClientResponse.class, jsonBody.toString());
 
       return analyzeStatusCode(response);
