@@ -14,6 +14,9 @@ class ExceptionHandling {
   }
 
   public static void perform() {
+    Spark.notFound((req,res) -> resolveException("not found", res, 404));
+    Spark.internalServerError((req,res) -> resolveException("not found", res, 500));
+
     Spark.exception(IllegalArgumentException.class, (exception, req, res) -> resolveException(exception, res, 400));
     Spark.exception(InvalidSubTypeException.class, (exception, req, res) -> resolveException(exception, res, 400));
     Spark.exception(ReadOnlyDeviceException.class, (exception, req, res) -> resolveException(exception, res, 404));
@@ -21,11 +24,23 @@ class ExceptionHandling {
     Spark.exception(Exception.class, (exception, req, res) -> resolveException(exception, res, 500));
   }
 
-  private static void resolveException(Exception exception, Response res, int statusCode) {
+  private static String resolveException(Exception exception, Response res, int statusCode) {
+    String body = exceptionToString(exception);
+
     res.header("Content-Type", "application/json");
     res.status(statusCode);
-    res.body(exceptionToString(exception));
+    res.body(body);
     LoggerUtils.logException(exception);
+
+    return body;
+  }
+
+  private static String resolveException(String exception, Response res, int statusCode) {
+    res.header("Content-Type", "application/json");
+    res.status(statusCode);
+    res.body(exception);
+
+    return exception;
   }
 
   private static String exceptionToString(Exception e) {
