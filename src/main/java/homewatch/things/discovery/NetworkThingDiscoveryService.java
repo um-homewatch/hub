@@ -18,17 +18,12 @@ import java.util.concurrent.*;
 public class NetworkThingDiscoveryService<T extends Thing> extends DiscoveryService<T> {
   private final CompletionService<NetworkThingService<T>> completionService;
   private final List<ThingService<T>> things;
-  private final ThingServiceFactory<T> serviceFactory;
-  private final String subtype;
   private Integer port = null;
 
-  public NetworkThingDiscoveryService(ThingServiceFactory<T> serviceFactory, String subtype) throws InvalidSubTypeException {
-    if (!serviceFactory.isSubType(subtype))
-      throw new InvalidSubTypeException();
+  public NetworkThingDiscoveryService(ThingServiceFactory<T> thingServiceFactory, String subtype) throws InvalidSubTypeException {
+    super(thingServiceFactory, subtype);
     ExecutorService executorService = Executors.newCachedThreadPool();
     this.completionService = new ExecutorCompletionService<>(executorService);
-    this.serviceFactory = serviceFactory;
-    this.subtype = subtype;
     this.things = new LinkedList<>();
   }
 
@@ -79,7 +74,7 @@ public class NetworkThingDiscoveryService<T extends Thing> extends DiscoveryServ
       try {
         String hostname = InetAddress.getByName(address).getHostName();
 
-        NetworkThingService<T> thingService = (NetworkThingService<T>) this.serviceFactory.createThingService(subtype);
+        NetworkThingService<T> thingService = (NetworkThingService<T>) this.thingServiceFactory.createThingService(subtype);
         thingService.setAddress(hostname);
         thingService.setPort(this.port);
 
