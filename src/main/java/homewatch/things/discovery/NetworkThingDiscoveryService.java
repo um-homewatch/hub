@@ -22,7 +22,7 @@ public class NetworkThingDiscoveryService<T extends Thing> extends DiscoveryServ
 
   public NetworkThingDiscoveryService(ThingServiceFactory<T> thingServiceFactory, String subtype) throws InvalidSubTypeException {
     super(thingServiceFactory, subtype);
-    ExecutorService executorService = Executors.newCachedThreadPool();
+    ExecutorService executorService = Executors.newFixedThreadPool(100);
     this.completionService = new ExecutorCompletionService<>(executorService);
     this.things = new LinkedList<>();
   }
@@ -63,9 +63,9 @@ public class NetworkThingDiscoveryService<T extends Thing> extends DiscoveryServ
 
   private void addTasks(int numberOfTasks) throws InterruptedException, ExecutionException {
     for (int i = 0; i < numberOfTasks; i++) {
-      Future<NetworkThingService<T>> future = completionService.take();
-
-      if (future.get() != null) this.things.add(future.get());
+      Future<NetworkThingService<T>> future = completionService.poll(250, TimeUnit.MILLISECONDS);
+      System.out.println(i);
+      if (future != null && future.get() != null) this.things.add(future.get());
     }
   }
 
